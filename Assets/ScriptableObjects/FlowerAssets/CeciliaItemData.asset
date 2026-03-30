@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d09b2ddfdfabac4aa025c1ae62d199a, type: 3}
   m_Name: CeciliaItemData
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItemData
-  itemName: Cecillia
+  itemName: Cecilia
   itemImage: {fileID: 21300000, guid: 54ee1717f896ee742bce4916b407bd3a, type: 3}
   itemDescription: A beautiful flower with a name that suits its appearance. It only
     grows where harsh winds blow, and is just as intangible as the true heart of
