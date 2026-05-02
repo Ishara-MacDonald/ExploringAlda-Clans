@@ -1,9 +1,14 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
+
+public enum TPPoint
+{
+    Home,
+    Hill,
+    Lake
+}
 
 public class PlayerInventory : InventorySystem
 {
-
     private InputAction inventoryAction;
     private bool isInventoryOpen;
 

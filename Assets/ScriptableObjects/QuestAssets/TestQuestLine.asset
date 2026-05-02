@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52104e96d7202a9469a5169a9857dd90, type: 3}
+  m_Name: TestQuestLine
+  m_EditorClassIdentifier: Assembly-CSharp::QuestLine
+  questLineName: Oh no! Flower trouble!
+  quests:
+  - questName: Flowers for decoration
+    questDescription: 'Get some flowers '
+    objectives:
+    - name: Find a flower
+      type: 0
+      description: Look around the area and find a flower.

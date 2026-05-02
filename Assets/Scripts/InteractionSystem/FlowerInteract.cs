@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FlowerInteract : Interactable
@@ -11,7 +12,6 @@ public class FlowerInteract : Interactable
 
     public override void Interact(GameObject interactor)
     {
-        Debug.Log("Picked up flower!");
         interactor.GetComponent<PlayerInventory>().AddItem(item);
         Destroy(gameObject);
     }

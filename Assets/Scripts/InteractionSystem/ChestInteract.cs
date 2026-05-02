@@ -3,6 +3,7 @@ using UnityEngine;
 public class ChestInteract : Interactable
 {
 
+    [SerializeField] private InventoryItemData item;
     private void Awake()
     {
         type = InteractionType.Inventory;
@@ -20,6 +21,6 @@ public class ChestInteract : Interactable
 
     public override void Interact(GameObject interactor)
     {
-        Debug.Log("Opening Chest!");
+        CheckQuest();
     }
 }

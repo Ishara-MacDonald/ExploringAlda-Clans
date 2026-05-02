@@ -24,7 +24,7 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowItem(InventoryItemData item)
     {
-        itemInfoUI.SetInventorySlotUI(item);
+        itemInfoUI.SetItemInfoUI(item);
     }
 
     public void OnCloseInventory()

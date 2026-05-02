@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FlowerSpawner : MonoBehaviour
@@ -7,7 +8,6 @@ public class FlowerSpawner : MonoBehaviour
     [SerializeField] private int radius;
 
     [SerializeField] private int spawnCooldown;
-    [SerializeField] private float countDown;
 
     [SerializeField] private int maxFlowers;
     private int currentAmountFlowers;
@@ -16,22 +16,41 @@ public class FlowerSpawner : MonoBehaviour
 
     void Start()
     {
-        Instantiate(Flower, GetNewPosition(), transform.rotation, transform);
-        Instantiate(Flower, GetNewPosition(), transform.rotation, transform);
-        Instantiate(Flower, GetNewPosition(), transform.rotation, transform);
-        Instantiate(Flower, GetNewPosition(), transform.rotation, transform);
+        currentAmountFlowers = transform.childCount;
         isWaitingForSpawn = false;
     }
 
     void Update()
     {
+        if (!isWaitingForSpawn)
+        {
+            currentAmountFlowers = transform.childCount;
+            if (currentAmountFlowers < maxFlowers)
+            {
+                isWaitingForSpawn = true;
+                StartCoroutine(DelayFlowerSpawn());
+            }
+        }
+    }
 
+    IEnumerator DelayFlowerSpawn()
+    {
+        yield return new WaitForSeconds(spawnCooldown);
+        SpawnFlower();
+        isWaitingForSpawn = false;
+    }
+
+    private void SpawnFlower()
+    {
+        Instantiate(Flower, GetNewPosition(), transform.rotation, transform);
+        currentAmountFlowers++;
     }
 
     private Vector3 GetNewPosition()
     {
         float randX = Random.Range(radius * -1, radius) + transform.position.x;
         float randZ = Random.Range(radius * -1, radius) + transform.position.z;
-        return new(randX, transform.position.y, randZ);
+        float heightAtPoint = Terrain.activeTerrain.SampleHeight(new Vector3(randX, transform.position.y, randZ));
+        return new(randX, heightAtPoint, randZ);
     }
 }

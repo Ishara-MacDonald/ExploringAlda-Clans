@@ -12,7 +12,6 @@ public class InventorySystem : MonoBehaviour
 
     public List<InventorySlot> GetSlots()
     {
-        Debug.Log(slots);
         return slots;
     }
 
