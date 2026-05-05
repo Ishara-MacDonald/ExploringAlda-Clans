@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestLine
   questLineName: Oh no! Flower trouble!
   quests:
-  - questName: Flowers for decoration
-    questDescription: 'Get some flowers '
+  - questName: 
+    questDescription: 
     objectives:
-    - name: Find a flower
-      type: 0
-      description: Look around the area and find a flower.
+    - name: 
+      type: 2
+      description: 

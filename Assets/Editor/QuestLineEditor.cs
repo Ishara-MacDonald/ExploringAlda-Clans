@@ -8,83 +8,74 @@ using UnityEngine.UIElements;
 [CustomPropertyDrawer(typeof(QuestObjective))]
 public class QuestLineEditor : PropertyDrawer
 {
-    #region 
-    SerializedProperty quests;
-    SerializedProperty objectiveName;
     SerializedProperty objectiveType;
-    SerializedProperty objectiveDescription;
-    SerializedProperty _property;
-    #endregion
+    private PropertyField questObjectiveDetails;
 
-    private PropertyField questObjectiveType;
+    #region QuestType Groups
+    VisualElement collectGroup;
+    VisualElement interactableGroup;
+    VisualElement locateGroup;
+    #endregion
 
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
-        SerializedProperty nameProperty = property.FindPropertyRelative("name");
-        SerializedProperty descriptionProperty = property.FindPropertyRelative("description");
         objectiveType = property.FindPropertyRelative("type");
-        // Create property container element.
+        PropertyField type = new(objectiveType);
+
+        type.RegisterValueChangeCallback((changeEvent) => CheckForType());
+
+        collectGroup = new();
+        collectGroup.Add(new PropertyField(property.FindPropertyRelative("itemData")));
+        collectGroup.Add(new PropertyField(property.FindPropertyRelative("gatherAmount")));
+
+        interactableGroup = new();
+        interactableGroup.Add(new PropertyField(property.FindPropertyRelative("interactable")));
+
+        locateGroup = new();
+        locateGroup.Add(new PropertyField(property.FindPropertyRelative("position")));
+        locateGroup.Add(new PropertyField(property.FindPropertyRelative("range")));
+
+        questObjectiveDetails = new PropertyField();
+        questObjectiveDetails.Add(collectGroup);
+        questObjectiveDetails.Add(interactableGroup);
+        questObjectiveDetails.Add(locateGroup);
         VisualElement root = new();
-        // Create property fields.
-        var name = new PropertyField(nameProperty);
-        var description = new PropertyField(descriptionProperty);
-        var type = new PropertyField(objectiveType);
-        type.RegisterValueChangeCallback((changeEvent) => CheckForHide());
 
-        questObjectiveType = new PropertyField();
-
-        // Add fields to the container.
-        root.Add(name);
-        root.Add(description);
+        root.Add(new PropertyField(property.FindPropertyRelative("name")));
+        root.Add(new PropertyField(property.FindPropertyRelative("description")));
 
         root.Add(type);
-        root.Add(questObjectiveType);
+        root.Add(questObjectiveDetails);
+
+        ToggleButtonGroup grouptest = new();
 
         return root;
     }
 
-    private void CheckForHide()
+    private void CheckForType()
     {
         QuestObjectiveType enumType = (QuestObjectiveType)objectiveType.enumValueIndex;
         switch (enumType)
         {
             case QuestObjectiveType.Collect:
                 {
-                    TextField textField = new()
-                    {
-                        label = "ajdaosjiod"
-                    };
-                    Label label = new()
-                    {
-                        text = "hi"
-                    };
-                    questObjectiveType.Add(label);
-                    Button button = new();
-                    Button aaa = new();
-                    questObjectiveType.Add(button);
-                    questObjectiveType.Add(textField);
-                    questObjectiveType.Add(aaa);
+                    collectGroup.style.display = DisplayStyle.Flex;
+                    interactableGroup.style.display = DisplayStyle.None;
+                    locateGroup.style.display = DisplayStyle.None;
                     break;
                 }
             case QuestObjectiveType.Interact:
                 {
-                    Button button = new();
-                    Button aaa = new();
-                    questObjectiveType.Add(button);
-                    questObjectiveType.Add(aaa);
+                    collectGroup.style.display = DisplayStyle.None;
+                    interactableGroup.style.display = DisplayStyle.Flex;
+                    locateGroup.style.display = DisplayStyle.None;
                     break;
                 }
             case QuestObjectiveType.Locate:
                 {
-                    Button button = new();
-                    Button aaa = new();
-                    questObjectiveType.Add(button);
-                    questObjectiveType.Add(aaa);
-                    break;
-                }
-            default:
-                {
-                    Debug.Log("aaaaa");
+                    collectGroup.style.display = DisplayStyle.None;
+                    interactableGroup.style.display = DisplayStyle.None;
+                    locateGroup.style.display = DisplayStyle.Flex;
                     break;
                 }
         }

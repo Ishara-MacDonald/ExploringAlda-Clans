@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuestSystemUI : MonoBehaviour
@@ -6,26 +7,28 @@ public class QuestSystemUI : MonoBehaviour
     [SerializeField] private Transform content;
 
     [SerializeField] private QuestInfoUI questInfoUI;
-    private List<QuestProgress> questsProgress;
+    private List<QuestProgress> questsProgresses;
 
     void Awake()
     {
-        questsProgress = new();
+        questsProgresses = new();
     }
 
     public void OnOpenQuestList(List<QuestProgress> quests)
     {
-        if (quests == null || quests.Count == 0 || quests.Count == questsProgress.Count) { return; }
+        QuestProgress changedQuest = questsProgresses.Find((progress) => progress.IsChanged);
+        bool isQuestsSame = quests.Count == questsProgresses.Count && changedQuest is null;
+        if (quests == null || quests.Count == 0 || isQuestsSame) { return; }
 
         foreach (QuestProgress questProgress in quests)
         {
-            if (questsProgress.Contains(questProgress)) continue;
+            if (questsProgresses.Contains(questProgress)) continue;
             GameObject questPreview = Instantiate((GameObject)Resources.Load("UI/QuestPreview"), content.position, content.rotation, content);
             questPreview.GetComponent<QuestPreviewUI>().SetQuestPreviewUI(questProgress);
-            questsProgress.Add(questProgress);
+            questsProgresses.Add(questProgress);
         }
 
-        ShowQuestLine(questsProgress[0]);
+        ShowQuestLine(questsProgresses[0]);
     }
 
     public void ShowQuestLine(QuestProgress line)

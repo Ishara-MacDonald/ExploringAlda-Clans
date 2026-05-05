@@ -8,12 +8,9 @@ public class PlayerQuestList : MonoBehaviour
     [SerializeField] private QuestSystem questSystem;
     private InputAction questListAction;
 
-    private bool isQuestListOpen;
-
     void Awake()
     {
         questSystem = new();
-        isQuestListOpen = false;
         questListAction = InputSystem.actions.FindAction("Quests");
     }
 
@@ -22,22 +19,20 @@ public class PlayerQuestList : MonoBehaviour
     private void OnEnable()
     {
         questListAction.Enable();
-        questListAction.started += OnQuestListOpen;
+        questListAction.performed += OnQuestListOpen;
     }
 
     private void OnDisable()
     {
-        questListAction.started -= OnQuestListOpen;
+        questListAction.performed -= OnQuestListOpen;
         questListAction.Disable();
     }
+
     private void OnQuestListOpen(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
-            if (isQuestListOpen) GameManager.manager.CloseQuestList();
-            else GameManager.manager.OpenQuestList(questSystem);
-
-            isQuestListOpen = !isQuestListOpen;
+            GameManager.manager.OnQuestListToggle();
         }
     }
 }

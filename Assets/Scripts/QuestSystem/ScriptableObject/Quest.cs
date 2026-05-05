@@ -12,7 +12,6 @@ public class Quest
     public string QuestName => questName;
     public string QuestDescription => questDescription;
 
-
     public QuestObjective GetObjective()
     {
         return objectives[0];

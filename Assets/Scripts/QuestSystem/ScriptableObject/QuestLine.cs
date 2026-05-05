@@ -6,13 +6,8 @@ public class QuestLine : ScriptableObject
 {
     [SerializeField] private string questLineName;
     [SerializeField] private List<Quest> quests;
-    private bool started;
 
-    void Awake()
-    {
-        quests = new();
-        started = false;
-    }
+    public string QuestLineName => questLineName;
 
     public Quest GetQuest(int index)
     {

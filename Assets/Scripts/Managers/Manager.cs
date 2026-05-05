@@ -4,6 +4,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager manager;
+    public static bool questUIOpen = false;
+    public static bool inventoryUIOpen = false;
+
+
     [SerializeField] private InventoryUI inventory;
     [SerializeField] private DialogueUI dialogue;
     [SerializeField] private QuestSystemUI questListUI;
@@ -15,11 +19,12 @@ public class GameManager : MonoBehaviour
         manager = this;
         mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
         questSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerQuestList>().GetQuestSystem;
-        InMenu(false);
+        InMenu();
     }
 
-    private void InMenu(bool isInMenu)
+    private void InMenu()
     {
+        bool isInMenu = questUIOpen || inventoryUIOpen;
         Cursor.visible = isInMenu;
         Cursor.lockState = isInMenu ? CursorLockMode.None : CursorLockMode.Locked;
         mainCamera.enabled = !isInMenu;
@@ -30,28 +35,20 @@ public class GameManager : MonoBehaviour
     {
         questSystem.AddQuestLine(questLine);
     }
-    public void ToggleQuestList()
-    {
-        bool isQuestActive = questListUI.gameObject.activeSelf;
-        questListUI.gameObject.SetActive(true);
-        questListUI.OnOpenQuestList(questSystem.GetQuests());
-        InMenu(isQuestActive);
-    }
 
-    public void OpenQuestList(QuestSystem questSystem)
+    public void OnQuestListToggle()
     {
-        questListUI.gameObject.SetActive(true);
-        if (inventory.gameObject.activeSelf) inventory.gameObject.SetActive(false);
-        questListUI.OnOpenQuestList(questSystem.GetQuests());
-        InMenu(true);
-    }
+        questUIOpen = !questUIOpen;
+        if (questUIOpen && inventoryUIOpen)
+        {
+            CloseInventory();
+        }
+        questListUI.gameObject.SetActive(questUIOpen);
+        if (questUIOpen)
+            questListUI.OnOpenQuestList(questSystem.GetQuests());
 
-    public void CloseQuestList()
-    {
-        questListUI.gameObject.SetActive(false);
-        InMenu(false);
+        InMenu();
     }
-
 
     public void ShowQuestDetails(QuestProgress questLine)
     {
@@ -62,10 +59,14 @@ public class GameManager : MonoBehaviour
     #region Inventory
     public void OpenInventory(InventorySystem system)
     {
-        if (questListUI.gameObject.activeSelf) questListUI.gameObject.SetActive(false);
+        if (questUIOpen)
+        {
+            OnQuestListToggle();
+        }
         inventory.gameObject.SetActive(true);
         inventory.OnOpenInventory(system);
-        InMenu(true);
+        inventoryUIOpen = true;
+        InMenu();
     }
 
     public void ShowItemDetails(InventoryItemData item)
@@ -77,7 +78,8 @@ public class GameManager : MonoBehaviour
     {
         inventory.OnCloseInventory();
         inventory.gameObject.SetActive(false);
-        InMenu(false);
+        inventoryUIOpen = false;
+        InMenu();
     }
     #endregion
 

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
+    public static event Action<InventoryItemData> pickUpItem;
     [SerializeField] List<InventorySlot> slots;
 
     void Awake()
@@ -22,6 +24,8 @@ public class InventorySystem : MonoBehaviour
             slots.Add(new InventorySlot(item));
         else
             foundSlot.AddAmount(1);
+
+        pickUpItem?.Invoke(item);
     }
 
     public void RemoveAmount(InventoryItemData item, int amount)
