@@ -1,18 +1,21 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class FlowerInteract : Interactable
 {
-    [SerializeField] private InventoryItemData item;
+    public static event Action<ItemDataSO> pickedUp;
+    [SerializeField] private ItemDataSO item;
 
     private void Awake()
     {
         type = InteractionType.PickUp;
+        SetAction("Pick up");
     }
 
     public override void Interact(GameObject interactor)
     {
-        interactor.GetComponent<PlayerInventory>().AddItem(item);
-        Destroy(gameObject);
+        Debug.Log("hiii");
+        pickedUp?.Invoke(item);
     }
 }

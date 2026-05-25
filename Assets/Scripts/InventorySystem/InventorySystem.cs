@@ -4,37 +4,26 @@ using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
-    public static event Action<InventoryItemData> pickUpItem;
-    [SerializeField] List<InventorySlot> slots;
+    public static event Action<ItemDataSO> PickedUpItem;
+    [SerializeField] protected List<InventorySlot> slots;
 
-    void Awake()
+    public List<InventorySlot> InventorySlots => slots;
+
+    public bool HasItem(ItemDataSO item)
     {
-        slots = new();
+        return slots.Find((slot) => slot.GetItem.Equals(item)) is not null;
     }
 
-    public List<InventorySlot> GetSlots()
+    public void AddItem(ItemDataSO item)
     {
-        return slots;
-    }
-
-    public void AddItem(InventoryItemData item)
-    {
-        InventorySlot foundSlot = slots.Find(slot => slot.GetItem.name == item.name);
+        Debug.Log("Add Item");
+        InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
         if (foundSlot == null)
             slots.Add(new InventorySlot(item));
         else
             foundSlot.AddAmount(1);
+        Debug.Log(slots.Count);
 
-        pickUpItem?.Invoke(item);
-    }
-
-    public void RemoveAmount(InventoryItemData item, int amount)
-    {
-
-    }
-
-    public void RemoveItem(InventoryItemData item)
-    {
-
+        PickedUpItem?.Invoke(item);
     }
 }

@@ -19,7 +19,7 @@ public class QuestObjective
     #endregion
 
     #region Gather
-    [SerializeField] private InventoryItemData itemData;
+    [SerializeField] private ItemDataSO itemData;
     [SerializeField] private int gatherAmount;
     #endregion
 
@@ -29,12 +29,15 @@ public class QuestObjective
     #endregion
 
     #region Interact Quest
-    [SerializeField] private Interactable interactable;
+    [SerializeField] private string interactable;
     #endregion
 
     public string Name => name;
     public string Description => description;
-    public InventoryItemData Item => itemData;
     public QuestObjectiveType Type => type;
+
+    public ItemDataSO Item => itemData;
     public int Amount => gatherAmount;
+
+    public string GetInteractable => interactable;
 }

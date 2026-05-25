@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class QuestSystemUI : MonoBehaviour
@@ -17,18 +16,30 @@ public class QuestSystemUI : MonoBehaviour
     public void OnOpenQuestList(List<QuestProgress> quests)
     {
         QuestProgress changedQuest = questsProgresses.Find((progress) => progress.IsChanged);
-        bool isQuestsSame = quests.Count == questsProgresses.Count && changedQuest is null;
-        if (quests == null || quests.Count == 0 || isQuestsSame) { return; }
+        if (quests.Count == questsProgresses.Count && changedQuest is null) { return; }
 
-        foreach (QuestProgress questProgress in quests)
+        if (quests.Count == 0 || quests == null) ShowDefault();
+        else
         {
-            if (questsProgresses.Contains(questProgress)) continue;
-            GameObject questPreview = Instantiate((GameObject)Resources.Load("UI/QuestPreview"), content.position, content.rotation, content);
-            questPreview.GetComponent<QuestPreviewUI>().SetQuestPreviewUI(questProgress);
-            questsProgresses.Add(questProgress);
-        }
+            foreach (QuestProgress questProgress in quests)
+            {
+                if (questsProgresses.Contains(questProgress)) continue;
 
-        ShowQuestLine(questsProgresses[0]);
+                GameObject questPreview = Instantiate((GameObject)Resources.Load("UI/QuestPreview"), content.position, content.rotation, content);
+                QuestPreviewUI previewUI = questPreview.GetComponent<QuestPreviewUI>();
+                previewUI.SetQuestPreviewUI(questProgress);
+                questsProgresses.Add(questProgress);
+            }
+
+            ShowQuestLine(questsProgresses[0]);
+        }
+    }
+
+    public void ShowDefault()
+    {
+        questInfoUI.ShowDefault();
+        foreach (Transform child in content)
+            Destroy(child.gameObject);
     }
 
     public void ShowQuestLine(QuestProgress line)

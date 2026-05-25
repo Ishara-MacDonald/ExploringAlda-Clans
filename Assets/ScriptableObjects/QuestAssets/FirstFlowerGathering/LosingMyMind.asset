@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52104e96d7202a9469a5169a9857dd90, type: 3}
+  m_Name: LosingMyMind
+  m_EditorClassIdentifier: Assembly-CSharp::QuestLine
+  questLineName: A Herbalist's Job
+  questAchievement: Quest Completed
+  questSubAchievement: Finished 'Flower for the Picking'
+  quests:
+  - questName: Flower for the Picking
+    questDescription: What's a herbalist without their herbs?
+    objectives:
+    - name: Gather cecilias
+      type: 0
+      description: It's about time I pick up some herbs. Let's start off with some
+        common cecilias.
+      itemData: {fileID: 11400000, guid: 1e39cd2b87756d847af03855e3a182b6, type: 2}
+      gatherAmount: 2
+      position: {fileID: 0}
+      range: 0
+      interactable: 
+    - name: Plant the cecilias in a plot
+      type: 2
+      description: Those are some pretty flowers! Let's put them in the plot next
+        to my house.
+      itemData: {fileID: 0}
+      gatherAmount: 0
+      position: {fileID: 0}
+      range: 0
+      interactable: 

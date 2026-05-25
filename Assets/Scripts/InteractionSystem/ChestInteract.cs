@@ -1,26 +1,16 @@
 using UnityEngine;
 
+[RequireComponent(typeof(ChestContext))]
 public class ChestInteract : Interactable
 {
-
-    [SerializeField] private InventoryItemData item;
+    [SerializeField] private ItemDataSO item;
     private void Awake()
     {
         type = InteractionType.Inventory;
+        SetAction("Open");
     }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
     public override void Interact(GameObject interactor)
     {
-        CheckQuest();
+        GetComponent<ChestContext>().OnInteraction();
     }
 }

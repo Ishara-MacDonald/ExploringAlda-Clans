@@ -414,7 +414,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5607413557743997254}
         m_TargetAssemblyTypeName: InventorySlotUI, Assembly-CSharp
-        m_MethodName: ShowItemDetails
+        m_MethodName: OnClickItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -518,7 +518,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public class InventorySlot
 {
-    [SerializeField] private InventoryItemData item;
+    [SerializeField] private ItemDataSO item;
     [SerializeField] private int amount;
 
-    public InventoryItemData GetItem => item;
+    public ItemDataSO GetItem => item;
     public int GetAmount => amount;
 
-    public InventorySlot(InventoryItemData _item)
+    public InventorySlot(ItemDataSO _item)
     {
         item = _item;
         amount = 1;

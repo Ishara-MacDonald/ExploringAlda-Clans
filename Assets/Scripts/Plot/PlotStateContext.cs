@@ -1,32 +1,23 @@
-
 using UnityEngine;
 
 public class PlotStateContext : MonoBehaviour
 {
+    private bool isGrowing = false;
+    [SerializeField] private GameObject growingGrass;
 
     void Awake()
     {
-    }
-
-    void Update()
-    {
-    }
-
-
-    public PlotStateContext()
-    {
-
-    }
-
-    public string GetInteractionName()
-    {
-        return "hi";
+        growingGrass.SetActive(isGrowing);
     }
 
     public void OnInteraction()
     {
-        Debug.Log("Set Next State");
-        // stateMachine.SetNextState();
+        if (!isGrowing) isGrowing = true;
+        UpdatePlot();
     }
 
+    private void UpdatePlot()
+    {
+        growingGrass.SetActive(isGrowing);
+    }
 }

@@ -13,19 +13,26 @@ public class PlayerInventory : InventorySystem
 
     void Awake()
     {
+        slots = new();
         inventoryAction = InputSystem.actions.FindAction("Inventory");
     }
 
     private void OnEnable()
     {
         inventoryAction.Enable();
+
         inventoryAction.started += OnInventoryOpen;
+        OverworldItem.ItemPickUp += AddItem;
+        FlowerInteract.pickedUp += AddItem;
     }
 
     private void OnDisable()
     {
         inventoryAction.started -= OnInventoryOpen;
         inventoryAction.Disable();
+
+        OverworldItem.ItemPickUp -= AddItem;
+        FlowerInteract.pickedUp -= AddItem;
     }
 
     private void OnInventoryOpen(InputAction.CallbackContext context)

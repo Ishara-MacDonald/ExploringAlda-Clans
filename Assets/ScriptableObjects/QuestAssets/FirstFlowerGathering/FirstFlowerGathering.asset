@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: FirstFlowerGathering
   m_EditorClassIdentifier: Assembly-CSharp::QuestLine
   questLineName: A Herbalist's Job
+  questAchievement: Quest Completed
+  questSubAchievement: Finished 'Flower for the Picking'
   quests:
   - questName: Flower for the Picking
     questDescription: What's a herbalist without their herbs?
@@ -25,4 +27,13 @@ MonoBehaviour:
       gatherAmount: 2
       position: {fileID: 0}
       range: 0
-      interactable: {fileID: 0}
+      interactable: 
+    - name: Plant the cecilias in a plot
+      type: 2
+      description: Those are some pretty flowers! Let's put them in the plot next
+        to my house.
+      itemData: {fileID: 11400000, guid: 1e39cd2b87756d847af03855e3a182b6, type: 2}
+      gatherAmount: 2
+      position: {fileID: 0}
+      range: 111
+      interactable: House Plot

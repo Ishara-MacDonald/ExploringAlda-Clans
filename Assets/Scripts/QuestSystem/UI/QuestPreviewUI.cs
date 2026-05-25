@@ -8,6 +8,8 @@ public class QuestPreviewUI : MonoBehaviour
     private QuestProgress progress;
     [SerializeField] private TextMeshProUGUI title;
 
+    public QuestProgress Progress => progress;
+
     public void SetQuestPreviewUI(QuestProgress _progress)
     {
         progress = _progress;

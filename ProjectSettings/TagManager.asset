@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Interactable
   - FreeLookCamera
+  - camera
+  - Drag
+  - Pestle
+  - Mortar
   layers:
   - Default
   - TransparentFX
@@ -15,9 +19,9 @@ TagManager:
   - UI
   - Nature
   - Ground
-  - 
+  - InvisibleWalls
   - Glow
-  - 
+  - Draggables
   - 
   - 
   - 

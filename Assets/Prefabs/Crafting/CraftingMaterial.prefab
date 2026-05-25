@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &964371235108872371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401492658680560835}
+  - component: {fileID: 4070854721303001608}
+  - component: {fileID: 7882389955766535277}
+  - component: {fileID: 2451776272996775733}
+  m_Layer: 10
+  m_Name: CraftingMaterial
+  m_TagString: Drag
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401492658680560835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964371235108872371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!136 &4070854721303001608
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964371235108872371}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7882389955766535277
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964371235108872371}
+  serializedVersion: 5
+  m_Mass: 13
+  m_LinearDamping: 7.5
+  m_AngularDamping: 4
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2451776272996775733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964371235108872371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9ff6e4ce5cbe84f8dcbd35c9fb13c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CraftingMaterial

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,25 +7,42 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private InventorySystem currentSystem;
     [SerializeField] private Transform content;
     [SerializeField] private ItemInfoUI itemInfoUI;
-    private List<InventorySlotUI> slots;
+    [SerializeField] private bool isSimple = false;
+    [SerializeField] private GameObject inventoryDisplay;
+
+    void OnEnable()
+    {
+        InventorySlotUI.ItemInventoryInteracted += InteractItem;
+    }
+
+    void OnDisable()
+    {
+        InventorySlotUI.ItemInventoryInteracted -= InteractItem;
+    }
 
     public void OnOpenInventory(InventorySystem newSystem)
     {
         currentSystem = newSystem;
-        slots = new();
-        List<InventorySlot> invSlots = currentSystem.GetSlots();
+        List<InventorySlot> invSlots = currentSystem.InventorySlots;
+        Debug.Log(invSlots);
         if (invSlots == null || invSlots.Count == 0) { return; }
         foreach (InventorySlot invSlot in invSlots)
         {
             GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
             uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
         }
-        ShowItem(invSlots[0].GetItem);
+        if (!isSimple) InteractItem(invSlots[0].GetItem, 0);
     }
 
-    public void ShowItem(InventoryItemData item)
+    public void InteractItem(ItemDataSO item, int _)
     {
-        itemInfoUI.SetItemInfoUI(item);
+        if (!isSimple) itemInfoUI.SetItemInfoUI(item);
+    }
+
+    public void ToggleInventoryDisplay()
+    {
+        bool isActive = inventoryDisplay.activeSelf;
+        inventoryDisplay.SetActive(!isActive);
     }
 
     public void OnCloseInventory()

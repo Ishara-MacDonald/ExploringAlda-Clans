@@ -17,4 +17,9 @@ public class Quest
         return objectives[0];
     }
 
+    public QuestObjective GetNextObjective(int nextIndex)
+    {
+        if (nextIndex >= objectives.Count) return null;
+        return objectives[nextIndex];
+    }
 }

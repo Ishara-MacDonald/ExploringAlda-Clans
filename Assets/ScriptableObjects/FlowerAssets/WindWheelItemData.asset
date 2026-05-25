@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItemData
   itemName: Wind Wheel
   itemImage: {fileID: 21300000, guid: 8ae3827a39210e145ad4d471dfe2940a, type: 3}
+  renderer: {fileID: 701206372493324261, guid: ed3d190b2317db44d9fab3680d1a5500, type: 3}
   itemDescription: A plant that adores the wind. To the proud children of the wind,
     or the citizens of Mondstadt, the Windwheel Asters are "the visible winds."

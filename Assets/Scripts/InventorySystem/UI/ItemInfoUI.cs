@@ -7,9 +7,9 @@ public class ItemInfoUI : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI nameTxt;
     [SerializeField] private TextMeshProUGUI descriptionTxt;
-    public void SetItemInfoUI(InventoryItemData item)
+    public void SetItemInfoUI(ItemDataSO item)
     {
-        image.sprite = item.itemImage;
+        image.sprite = item.itemSprite;
         nameTxt.SetText(item.itemName);
         descriptionTxt.SetText(item.itemDescription);
     }

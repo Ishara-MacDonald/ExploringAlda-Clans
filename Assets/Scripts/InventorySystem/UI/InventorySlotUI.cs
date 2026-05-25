@@ -7,18 +7,22 @@ using UnityEngine.UI;
 [Serializable]
 public class InventorySlotUI : MonoBehaviour
 {
-    private InventoryItemData item;
+    public static event Action<ItemDataSO, int> ItemInventoryInteracted;
+    private ItemDataSO item;
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI amountTxt;
-    public void SetInventorySlotUI(InventoryItemData _item, int _amount)
+    private int amount;
+
+    public void SetInventorySlotUI(ItemDataSO _item, int _amount)
     {
         item = _item;
-        image.sprite = item.itemImage;
+        image.sprite = item.itemSprite;
+        amount = _amount;
         amountTxt.SetText(_amount.ToString());
     }
 
-    public void ShowItemDetails()
+    public void OnClickItem()
     {
-        GameManager.manager.ShowItemDetails(item);
+        ItemInventoryInteracted?.Invoke(item, amount);
     }
 }

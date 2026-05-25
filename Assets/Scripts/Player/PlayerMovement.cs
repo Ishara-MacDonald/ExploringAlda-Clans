@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isMovementEnabled;
     private bool isSprintEnabled;
     private bool isGliding;
-    private bool isRayCastGrounded;
 
     #region Speeds
     [Header("Speeds")]
@@ -42,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private int moveSpeed;
     #endregion
 
+    public bool IsMovementEnabled => isMovementEnabled;
     private bool IsGrounded => characterController.isGrounded || Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundedBuffer, groundLayer);
     private bool IsMoving => moveAction.ReadValue<Vector2>().x != 0 || moveAction.ReadValue<Vector2>().y != 0;
 
@@ -106,6 +106,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetMovementEnabled(bool newValue)
+    {
+        isMovementEnabled = newValue;
+    }
+
     private void OnSprintToggle(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -124,6 +129,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    private void OnToggleGliding()
+    {
+        isGliding = !isGliding;
     }
 
     private void HandleCharacterRotation()
@@ -154,11 +164,6 @@ public class PlayerMovement : MonoBehaviour
         {
             OnToggleGliding();
         }
-    }
-
-    private void OnToggleGliding()
-    {
-        isGliding = !isGliding;
     }
 
     private int HandleMovementSpeed()

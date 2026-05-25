@@ -19,4 +19,9 @@ public class QuestSystem
     {
         questsProgress.Add(new QuestProgress(questLine));
     }
+
+    public void RemoveQuestLine(QuestProgress questLine)
+    {
+        questsProgress.Remove(questLine);
+    }
 }

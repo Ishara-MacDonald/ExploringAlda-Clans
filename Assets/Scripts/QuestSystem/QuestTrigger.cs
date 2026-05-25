@@ -10,6 +10,7 @@ public class QuestTrigger
 
     public void OnQuestTrigger()
     {
+        if (line == null) return;
         GameManager.manager.OnQuestTrigger(line);
     }
 
