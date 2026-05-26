@@ -16,13 +16,11 @@ public class InventorySystem : MonoBehaviour
 
     public void AddItem(ItemDataSO item)
     {
-        Debug.Log("Add Item");
         InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
         if (foundSlot == null)
             slots.Add(new InventorySlot(item));
         else
             foundSlot.AddAmount(1);
-        Debug.Log(slots.Count);
 
         PickedUpItem?.Invoke(item);
     }

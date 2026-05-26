@@ -122,6 +122,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Quests",
+                    "type": "Button",
+                    "id": "5cbe7384-c18a-452f-9f39-904fd767c9b3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -513,7 +522,7 @@
                 {
                     "name": "",
                     "id": "ffa5c4a9-f1c7-41de-8f58-6533b5827a6b",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -551,6 +560,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TP Lake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c8d3ba9-d58d-4629-aba8-aab4abf119b3",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quests",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

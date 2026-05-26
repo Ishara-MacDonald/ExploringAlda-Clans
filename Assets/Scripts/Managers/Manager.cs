@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CraftingSystemUI craftingUI;
 
     [SerializeField] private QuestSystem questSystem;
-    [SerializeField] private CraftingSystem craftingSystem;
     [SerializeField] private PopUpBanner popupBanner;
+    private CraftingSystem craftingSystem;
     private GameObject player;
     private GameObject playerCam;
     private GameObject tempCam;

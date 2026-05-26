@@ -11,17 +11,18 @@ public class CraftingSystem
 
     public CraftingSystem()
     {
+        if (craftingSystem != null) return;
         craftingSystem = this;
         craftingItems = new();
 
         CraftingTable.ContextOpened += OnCraftingTableOpen;
         CraftingSystemUI.CloseCraftingSystem += OnCraftingTableClose;
+        InventorySlotUI.ItemInventoryInteracted += AddItem;
     }
 
     private void OnCraftingTableOpen(CraftingTable craftingTable)
     {
         currentTable = craftingTable;
-        InventorySlotUI.ItemInventoryInteracted += AddItem;
     }
 
     private void OnCraftingTableClose()

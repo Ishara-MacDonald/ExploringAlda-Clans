@@ -9,7 +9,6 @@ public class CraftingMaterial : MonoBehaviour
 
     public void SetItem(ItemDataSO _item)
     {
-        Debug.Log("hi");
         item = _item;
         Instantiate(item.worldObject, transform.position, transform.rotation, transform);
         CapsuleCollider savedCollider = item.worldObject.GetComponent<CapsuleCollider>();

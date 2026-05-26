@@ -24,7 +24,6 @@ public class InventoryUI : MonoBehaviour
     {
         currentSystem = newSystem;
         List<InventorySlot> invSlots = currentSystem.InventorySlots;
-        Debug.Log(invSlots);
         if (invSlots == null || invSlots.Count == 0) { return; }
         foreach (InventorySlot invSlot in invSlots)
         {
