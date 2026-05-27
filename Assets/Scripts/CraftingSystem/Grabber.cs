@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public class Grabber : MonoBehaviour
 {
     private GameObject selectedObject = null;
-    [SerializeField] private LayerMask isDraggable;
+    [SerializeField] private LayerMask draggableLayer;
+    [SerializeField] private LayerMask putBackLayer;
     [SerializeField] private LayerMask isContainable;
     public Vector2 mousePosition;
     [SerializeField] private GameObject test;
@@ -17,7 +18,7 @@ public class Grabber : MonoBehaviour
         {
             if (selectedObject == null)
             {
-                RaycastHit hit = GetHit(isDraggable);
+                RaycastHit hit = GetHit(draggableLayer);
                 if (hit.collider != null)
                 {
                     if (hit.collider.CompareTag("Drag"))
@@ -31,12 +32,32 @@ public class Grabber : MonoBehaviour
                         Cursor.visible = false;
                         selectedObject.GetComponent<Pestle>().OnGrab();
                     }
+                    else if (hit.collider.CompareTag("Mortar"))
+                    {
+                        if (hit.collider.GetComponent<Grinder>().OnGrab())
+                        {
+                            selectedObject = hit.collider.gameObject;
+                            // Cursor.visible = false;
+                        }
+                    }
                     return;
                 }
             }
             else
             {
                 if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().OnLetGo();
+                else if (selectedObject.CompareTag("Mortar"))
+                {
+                    RaycastHit hit = GetHit(putBackLayer);
+                    if (hit.collider != null)
+                    {
+                        selectedObject.GetComponent<Grinder>().OnSetUse(hit.collider.gameObject);
+                    }
+                    else
+                    {
+                        selectedObject.GetComponent<Grinder>().PutBackEmpty();
+                    }
+                }
                 selectedObject = null;
                 Cursor.visible = true;
             }
@@ -53,7 +74,8 @@ public class Grabber : MonoBehaviour
                 RaycastHit hit = GetHit(isContainable);
 
                 Vector3 newPosition = hit.point;
-                newPosition.y += .25f;
+                if (!selectedObject.CompareTag("Mortar"))
+                    newPosition.y += .25f;
                 selectedObject.transform.position = newPosition;
             }
         }

@@ -6,10 +6,11 @@ using UnityEngine.InputSystem;
 public class Pestle : MonoBehaviour
 {
     private static readonly int IsGrindingHash = Animator.StringToHash("isGrinding");
-    private static readonly int IsGrabbingHash = Animator.StringToHash("isGrabbing");
     public static event Action Grinded;
     private bool isGrabbed = false;
     private bool isGrinding = false;
+
+    public bool IsBeingUsed => isGrabbed || isGrinding;
 
     private IEnumerator grindCoroutine;
 
@@ -37,14 +38,13 @@ public class Pestle : MonoBehaviour
 
     public void OnGrab()
     {
-        animator.SetBool(IsGrabbingHash, true);
+        transform.rotation = Quaternion.Euler(-30, 0, 30);
         isGrabbed = true;
     }
 
     public void OnLetGo()
     {
         isGrabbed = false;
-        animator.SetBool(IsGrabbingHash, false);
         if (!isGrinding)
             PutBack();
     }
@@ -60,9 +60,18 @@ public class Pestle : MonoBehaviour
         if (!isGrabbed) PutBack();
     }
 
-    private void PutBack()
+    public void PutBack()
     {
+        transform.tag = "Pestle";
+        transform.parent = pestleLocation;
         transform.SetPositionAndRotation(pestleLocation.position, pestleLocation.rotation);
+    }
+
+    public void ToGrinder(Grinder grinder)
+    {
+        transform.parent = grinder.gameObject.transform;
+        transform.SetPositionAndRotation(grinder.gameObject.transform.position, Quaternion.Euler(-30, 0, 30));
+        transform.tag = "Untagged";
     }
 
     public bool CanMove()

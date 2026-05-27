@@ -3,7 +3,11 @@ using UnityEngine;
 public class Grinder : MonoBehaviour
 {
     [SerializeField] private Transform materials;
+    [SerializeField] private Pestle pestle;
     private CraftingMaterial material;
+    private bool isGrabbed = false;
+    private bool isUsed = false;
+    private Transform parent;
 
     void OnEnable()
     {
@@ -31,5 +35,41 @@ public class Grinder : MonoBehaviour
     {
         if (material == null) return;
         Debug.Log(material.ItemName + " grinded!");
+    }
+
+    public bool OnGrab()
+    {
+        if (!pestle.IsBeingUsed)
+        {
+            isGrabbed = true;
+            gameObject.GetComponent<Collider>().enabled = false;
+            pestle.ToGrinder(this);
+            return true;
+        }
+        else return false;
+    }
+
+    public void OnSetUse(GameObject locationObj)
+    {
+        parent = locationObj.transform;
+
+        if (locationObj.TryGetComponent<CraftingGear>(out var gear))
+        {
+            gear.PutBack(GearType.mortarPestle, gameObject);
+        }
+        else
+        {
+            pestle.PutBack();
+            transform.parent = parent;
+        }
+
+        transform.localPosition = new(0, 0, 0);
+        gameObject.GetComponent<Collider>().enabled = true;
+    }
+
+    public void PutBackEmpty()
+    {
+        gameObject.GetComponent<Collider>().enabled = true;
+        transform.localPosition = new(0, 0, 0);
     }
 }
