@@ -21,8 +21,10 @@ public class Grinder : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (!isUsed) return;
         if (material == null && other.CompareTag("Drag"))
         {
+            if (other.transform == null) return;
             other.GetComponent<Rigidbody>().useGravity = false;
             other.transform.SetParent(materials);
             other.transform.position = new(materials.position.x, materials.position.y + 0.1f, materials.position.z);
@@ -55,10 +57,12 @@ public class Grinder : MonoBehaviour
 
         if (locationObj.TryGetComponent<CraftingGear>(out var gear))
         {
+            isUsed = false;
             gear.PutBack(GearType.mortarPestle, gameObject);
         }
         else
         {
+            isUsed = true;
             pestle.PutBack();
             transform.parent = parent;
         }

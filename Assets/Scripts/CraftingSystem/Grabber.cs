@@ -24,6 +24,7 @@ public class Grabber : MonoBehaviour
                     if (hit.collider.CompareTag("Drag"))
                     {
                         selectedObject = hit.collider.gameObject;
+                        selectedObject.GetComponent<Collider>().enabled = false;
                         Cursor.visible = false;
                     }
                     else if (hit.collider.CompareTag("Pestle"))
@@ -57,6 +58,10 @@ public class Grabber : MonoBehaviour
                     {
                         selectedObject.GetComponent<Grinder>().PutBackEmpty();
                     }
+                }
+                else
+                {
+                    selectedObject.GetComponent<Collider>().enabled = true;
                 }
                 selectedObject = null;
                 Cursor.visible = true;
