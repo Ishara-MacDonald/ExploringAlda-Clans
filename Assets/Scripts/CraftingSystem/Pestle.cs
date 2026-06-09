@@ -46,7 +46,7 @@ public class Pestle : MonoBehaviour
     {
         isGrabbed = false;
         if (!isGrinding)
-            PutBack();
+            MoveOriginalSpot();
     }
 
     private IEnumerator Grinding(float grindTime)
@@ -57,10 +57,10 @@ public class Pestle : MonoBehaviour
         Grinded?.Invoke();
         isGrinding = false;
         animator.SetBool(IsGrindingHash, false);
-        if (!isGrabbed) PutBack();
+        if (!isGrabbed) MoveOriginalSpot();
     }
 
-    public void PutBack()
+    public void MoveOriginalSpot()
     {
         transform.tag = "Pestle";
         transform.parent = pestleLocation;

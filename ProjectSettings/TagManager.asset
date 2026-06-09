@@ -11,6 +11,8 @@ TagManager:
   - Pestle
   - Mortar
   - CraftStation
+  - CraftingGear
+  - CraftingBench
   layers:
   - Default
   - TransparentFX

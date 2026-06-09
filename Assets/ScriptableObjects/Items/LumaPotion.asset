@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73174ed231a870e42a19c6b8a18df1c5, type: 3}
+  m_Name: LumaPotion
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  itemName: LumaPotion
+  worldObject: {fileID: 7320966978615179870, guid: 3154bc308c936444ca980cd9f4b3cf21, type: 3}
+  itemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemDescription: A flower with a glowing bud.

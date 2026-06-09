@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73174ed231a870e42a19c6b8a18df1c5, type: 3}
+  m_Name: LumaBud
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  itemName: LumaBud
+  worldObject: {fileID: 7320966978615179870, guid: 48e8be6966983f148a65cd2366e13bb1, type: 3}
+  itemSprite: {fileID: 21300000, guid: 5aa856952acdd344cb9388db16bd9774, type: 3}
+  itemDescription: A glowing bud.

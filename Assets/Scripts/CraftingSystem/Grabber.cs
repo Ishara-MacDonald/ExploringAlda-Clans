@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,8 +9,7 @@ public class Grabber : MonoBehaviour
     [SerializeField] private LayerMask draggableLayer;
     [SerializeField] private LayerMask putBackLayer;
     [SerializeField] private LayerMask isContainable;
-    public Vector2 mousePosition;
-    [SerializeField] private GameObject test;
+    private Vector2 mousePosition;
 
     void Update()
     {
@@ -33,9 +33,9 @@ public class Grabber : MonoBehaviour
                         Cursor.visible = false;
                         selectedObject.GetComponent<Pestle>().OnGrab();
                     }
-                    else if (hit.collider.CompareTag("Mortar"))
+                    else if (hit.collider.CompareTag("CraftingGear"))
                     {
-                        if (hit.collider.GetComponent<Grinder>().OnGrab())
+                        if (hit.collider.GetComponent<CraftingGear>().OnGrab())
                         {
                             selectedObject = hit.collider.gameObject;
                             // Cursor.visible = false;
@@ -47,16 +47,16 @@ public class Grabber : MonoBehaviour
             else
             {
                 if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().OnLetGo();
-                else if (selectedObject.CompareTag("Mortar"))
+                else if (selectedObject.CompareTag("CraftingGear"))
                 {
                     RaycastHit hit = GetHit(putBackLayer);
                     if (hit.collider != null)
                     {
-                        selectedObject.GetComponent<Grinder>().OnSetUse(hit.collider.gameObject);
+                        selectedObject.GetComponent<CraftingGear>().OnMove(hit.collider.gameObject);
                     }
                     else
                     {
-                        selectedObject.GetComponent<Grinder>().PutBackEmpty();
+                        selectedObject.GetComponent<CraftingGear>().OnPutBack();
                     }
                 }
                 else
@@ -68,8 +68,17 @@ public class Grabber : MonoBehaviour
             }
         }
 
+
         if (selectedObject != null)
         {
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                if (selectedObject.CompareTag("CraftingGear"))
+                {
+                    selectedObject.GetComponent<CraftingGear>().OnUse();
+                }
+                return;
+            }
             bool canMove = true;
             if (selectedObject.CompareTag("Pestle"))
                 canMove = selectedObject.GetComponent<Pestle>().CanMove();
@@ -79,7 +88,7 @@ public class Grabber : MonoBehaviour
                 RaycastHit hit = GetHit(isContainable);
 
                 Vector3 newPosition = hit.point;
-                if (!selectedObject.CompareTag("Mortar"))
+                if (!selectedObject.CompareTag("CraftingGear"))
                     newPosition.y += .25f;
                 selectedObject.transform.position = newPosition;
             }

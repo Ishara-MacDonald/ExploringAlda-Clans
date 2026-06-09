@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum GearType
@@ -5,17 +6,29 @@ public enum GearType
     mortarPestle
 }
 
-public class CraftingGear : MonoBehaviour
+public abstract class CraftingGear : MonoBehaviour
 {
-    [SerializeField] private Transform locationMortarPestle;
+    public static event Action<CraftingGear> OnUseGear;
 
-    public void PutBack(GearType gearType, GameObject gameObject)
+    public void MoveOriginalSpot(GearType gearType, Transform originalSpot)
     {
+        Debug.Log("hi");
+        Debug.Log(originalSpot);
         switch (gearType)
         {
             case GearType.mortarPestle:
-                gameObject.transform.parent = locationMortarPestle;
+                transform.parent = originalSpot;
                 break;
         }
     }
+
+    public void InvokeOnUse(GearType type)
+    {
+        OnUseGear?.Invoke(this);
+    }
+
+    public abstract bool OnGrab();
+    public abstract void OnUse();
+    public abstract void OnMove(GameObject locationObj);
+    public abstract void OnPutBack();
 }

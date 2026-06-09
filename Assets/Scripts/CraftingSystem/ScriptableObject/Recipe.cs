@@ -4,10 +4,10 @@ using UnityEngine;
 public class Recipe : ScriptableObject
 {
     [SerializeField] private string recipeName;
-    [SerializeField] private CraftingComponent[] components;
-    [SerializeField] private ItemDataSO[] craftedItems;
+    [SerializeField] private ItemDataSO[] input;
+    [SerializeField] private ItemDataSO[] output;
 
     public string RecipeName => recipeName;
-    public CraftingComponent[] Components => components;
-    public ItemDataSO[] CraftedItems => craftedItems;
+    public ItemDataSO[] Components => input;
+    public ItemDataSO[] CraftedItems => output;
 }

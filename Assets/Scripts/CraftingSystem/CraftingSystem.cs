@@ -1,6 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+public enum CraftingMethod
+{
+    Picking,
+    Grinding
+}
+
 [Serializable]
 public class CraftingSystem
 {
@@ -8,6 +14,7 @@ public class CraftingSystem
 
     private CraftingTable currentTable;
     private readonly List<ItemDataSO> craftingItems;
+    private CraftingMethod currentMethod;
 
     public CraftingSystem()
     {
@@ -17,11 +24,11 @@ public class CraftingSystem
 
         CraftingTable.ContextOpened += OnCraftingTableOpen;
         CraftingSystemUI.CloseCraftingSystem += OnCraftingTableClose;
-        InventorySlotUI.ItemInventoryInteracted += AddItem;
     }
 
     private void OnCraftingTableOpen(CraftingTable craftingTable)
     {
+        InventorySlotUI.ItemInventoryInteracted += AddItem;
         currentTable = craftingTable;
     }
 

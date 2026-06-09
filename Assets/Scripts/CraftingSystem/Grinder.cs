@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
-public class Grinder : MonoBehaviour
+public class Grinder : CraftingGear
 {
+    [SerializeField] private Transform originalSpot;
     [SerializeField] private Transform materials;
     [SerializeField] private Pestle pestle;
+    [SerializeField] private GearType type;
     private CraftingMaterial material;
     private bool isGrabbed = false;
     private bool isUsed = false;
@@ -27,7 +30,10 @@ public class Grinder : MonoBehaviour
             if (other.transform == null) return;
             other.GetComponent<Rigidbody>().useGravity = false;
             other.transform.SetParent(materials);
-            other.transform.position = new(materials.position.x, materials.position.y + 0.1f, materials.position.z);
+            other.transform.position = new(materials.position.x, materials.position.y, materials.position.z);
+            other.attachedRigidbody.useGravity = false;
+            other.attachedRigidbody.isKinematic = true;
+            other.GetComponent<Collider>().enabled = false;
             other.tag = "Untagged";
             material = other.gameObject.GetComponent<CraftingMaterial>();
         }
@@ -39,7 +45,7 @@ public class Grinder : MonoBehaviour
         Debug.Log(material.ItemName + " grinded!");
     }
 
-    public bool OnGrab()
+    public override bool OnGrab()
     {
         if (!pestle.IsBeingUsed)
         {
@@ -51,19 +57,24 @@ public class Grinder : MonoBehaviour
         else return false;
     }
 
-    public void OnSetUse(GameObject locationObj)
+    public override void OnUse()
+    {
+        InvokeOnUse(type);
+    }
+
+    public override void OnMove(GameObject locationObj)
     {
         parent = locationObj.transform;
 
-        if (locationObj.TryGetComponent<CraftingGear>(out var gear))
+        if (locationObj.CompareTag("CraftingBench"))
         {
             isUsed = false;
-            gear.PutBack(GearType.mortarPestle, gameObject);
+            MoveOriginalSpot(type, originalSpot);
         }
         else
         {
             isUsed = true;
-            pestle.PutBack();
+            pestle.MoveOriginalSpot();
             transform.parent = parent;
         }
 
@@ -71,7 +82,7 @@ public class Grinder : MonoBehaviour
         gameObject.GetComponent<Collider>().enabled = true;
     }
 
-    public void PutBackEmpty()
+    public override void OnPutBack()
     {
         gameObject.GetComponent<Collider>().enabled = true;
         transform.localPosition = new(0, 0, 0);
