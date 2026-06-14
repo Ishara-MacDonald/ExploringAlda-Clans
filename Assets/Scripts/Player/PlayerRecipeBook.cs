@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class PlayerRecipeBook : MonoBehaviour
 {
-    [SerializeField] private Dictionary<int, Recipe> recipeBook;
+    [SerializeField] private DictionarySerializer<CraftingMethod, List<Recipe>> serializedRecipeBook;
+    private Dictionary<CraftingMethod, List<Recipe>> recipeBook;
 
     void Awake()
     {
-        recipeBook = new();
+        recipeBook = serializedRecipeBook.ToDictionary();
     }
 
-
-
-
-
+    public List<Recipe> GetRecipes(CraftingMethod method)
+    {
+        return recipeBook[method];
+    }
 }

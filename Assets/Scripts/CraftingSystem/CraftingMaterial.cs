@@ -6,6 +6,7 @@ public class CraftingMaterial : MonoBehaviour
     private ItemDataSO item;
 
     public string ItemName => item.itemName;
+    public ItemDataSO ItemData => item;
 
     public void SetItem(ItemDataSO _item)
     {

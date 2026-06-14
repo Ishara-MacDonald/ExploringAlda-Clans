@@ -6,13 +6,16 @@ using UnityEngine;
 public class CraftingTable : MonoBehaviour
 {
     private bool isCrafting = false;
+    [Header("Crafting Table")]
+    [SerializeField] private GameObject constraints;
     [SerializeField] private CinemachineClearShot craftingCamera;
     [SerializeField] private GameObject craftingMaterialPrefab;
-    [SerializeField] private GameObject bookPage;
     [SerializeField] private GameObject materialSpawnPoint;
+
+    [Header("Materials")]
     [SerializeField] private GameObject materials;
-    [SerializeField] private GameObject constraints;
-    [SerializeField] private GameObject mortarPestle;
+    [SerializeField] private GameObject bookPage;
+    [SerializeField] private GameObject craftingStation;
     public static event Action<CraftingTable> ContextOpened;
 
     void Awake()
@@ -47,10 +50,15 @@ public class CraftingTable : MonoBehaviour
         newItem.GetComponent<CraftingMaterial>().SetItem(item);
     }
 
+    public void MaterialsBackToBench(ItemDataSO item)
+    {
+
+    }
+
     private void ToggleCollisions(bool newValue)
     {
         constraints.SetActive(newValue);
-        mortarPestle.SetActive(newValue);
+        craftingStation.SetActive(newValue);
         materials.SetActive(newValue);
         GetComponent<Grabber>().enabled = newValue;
     }

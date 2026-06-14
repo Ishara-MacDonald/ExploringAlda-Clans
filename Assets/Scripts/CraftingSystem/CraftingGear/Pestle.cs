@@ -29,7 +29,6 @@ public class Pestle : MonoBehaviour
         {
             if (!isGrinding && Mouse.current.rightButton.wasPressedThisFrame)
             {
-                Debug.Log("start grinding");
                 grindCoroutine = Grinding(grindTime);
                 StartCoroutine(grindCoroutine);
             }

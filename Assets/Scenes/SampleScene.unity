@@ -209,13 +209,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dbb562f5a2b37b48afc4516338fb8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftingContext
+  constraints: {fileID: 1839939757}
   craftingCamera: {fileID: 51440561}
   craftingMaterialPrefab: {fileID: 964371235108872371, guid: 7f6012a80f1d590429dfe5431d5cb940, type: 3}
-  bookPage: {fileID: 684872593}
   materialSpawnPoint: {fileID: 82025282}
   materials: {fileID: 82025282}
-  constraints: {fileID: 1839939757}
-  mortarPestle: {fileID: 694195599}
+  bookPage: {fileID: 684872593}
+  craftingStation: {fileID: 694195599}
 --- !u!114 &21628273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +237,7 @@ MonoBehaviour:
   isContainable:
     serializedVersion: 2
     m_Bits: 256
+  longPressTime: 0.5
 --- !u!1 &24146826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,7 +1112,8 @@ MonoBehaviour:
   originalSpot: {fileID: 419108555}
   materials: {fileID: 257656946}
   pestle: {fileID: 1270243194}
-  type: 0
+  method: 1
+  benchMaterials: {fileID: 82025283}
 --- !u!65 &66640229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1159,7 +1161,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.643, y: 0.062, z: -0.093}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1156834273}
@@ -1593,6 +1595,7 @@ GameObject:
   - component: {fileID: 101044964}
   - component: {fileID: 101044969}
   - component: {fileID: 101044970}
+  - component: {fileID: 101044972}
   - component: {fileID: 101044971}
   m_Layer: 2
   m_Name: Player
@@ -1790,6 +1793,28 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2.06
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &101044972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101044958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f63a16859111a418e9055d825fe746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecipeBook
+  serializedRecipeBook:
+    elements:
+    - key: 0
+      value:
+      - {fileID: 11400000, guid: fd9b28ff595dee94a9a29df1891f84d1, type: 2}
+    - key: 1
+      value:
+      - {fileID: 11400000, guid: fc4ebaf60ac90584f9ad301466bf16b0, type: 2}
+    - key: 1
+      value: []
 --- !u!1 &102046492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,7 +3739,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 100
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3740,8 +3765,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.028067546, y: 0.9659086, z: -0.11873408, w: -0.2283311}
-  m_LocalPosition: {x: -4.253272, y: 6.299874, z: -1.8267338}
+  m_LocalRotation: {x: -0.0017456057, y: 0.98420745, z: -0.17696938, w: -0.003819153}
+  m_LocalPosition: {x: -8.352619, y: 6.909329, z: -3.8497217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

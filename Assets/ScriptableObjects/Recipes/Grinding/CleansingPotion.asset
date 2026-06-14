@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a05572d08eb7fe248b06c036bb3010f6, type: 3}
+  m_Name: CleansingPotion
+  m_EditorClassIdentifier: Assembly-CSharp::Recipe
+  recipeName: Cleansing Potion
+  method: 1
+  input:
+  - {fileID: 11400000, guid: 7057d3a61320a8f4084ad2de172fe058, type: 2}
+  output:
+  - {fileID: 11400000, guid: 2de3a61a7e1bfcb48bbcc3ca9f026847, type: 2}
