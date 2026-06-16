@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class OverworldItem : Interactable
 {
-    public static event Action<ItemDataSO> ItemPickUp;
+    public static event Action<ItemDataSO, int> ItemPickUp;
     [SerializeField] private ItemDataSO currentItem;
 
     public ItemDataSO CurrentItem => currentItem;
@@ -28,7 +28,7 @@ public class OverworldItem : Interactable
 
     public override void Interact(GameObject interactor)
     {
-        ItemPickUp?.Invoke(currentItem);
+        ItemPickUp?.Invoke(currentItem, 1);
         Destroy(gameObject);
     }
 }

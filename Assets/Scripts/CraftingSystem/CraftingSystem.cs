@@ -16,7 +16,7 @@ public class CraftingSystem
     public static CraftingSystem craftingSystem;
 
     private CraftingTable currentTable;
-    private readonly List<ItemDataSO> craftingItems;
+    private List<ItemDataSO> craftingItems;
     private List<Recipe> recipeList;
     private PlayerRecipeBook recipeBookRef;
     private CraftingMethod currentMethod;
@@ -27,13 +27,10 @@ public class CraftingSystem
         craftingSystem = this;
         craftingItems = new();
         currentMethod = CraftingMethod.Picking;
-
-        CraftingTable.ContextOpened += OnCraftingTableOpen;
-        CraftingSystemUI.CloseCraftingSystem += OnCraftingTableClose;
         recipeList = new();
     }
 
-    private void OnCraftingTableOpen(CraftingTable craftingTable)
+    public void OnCraftingTableOpen(CraftingTable craftingTable)
     {
         InventorySlotUI.ItemInventoryInteracted += AddItem;
         currentTable = craftingTable;
@@ -41,9 +38,8 @@ public class CraftingSystem
         recipeList = recipeBookRef.GetRecipes(CraftingMethod.Picking);
     }
 
-    private void OnCraftingTableClose()
+    public void OnCraftingTableClose()
     {
-        InventorySlotUI.ItemInventoryInteracted -= AddItem;
         currentTable.OnClose();
     }
 
@@ -55,6 +51,7 @@ public class CraftingSystem
             recipeList = recipeBookRef.GetRecipes(currentMethod);
         }
     }
+
     public void AddItem(ItemDataSO newItem, int hasAmount)
     {
         if (craftingItems.Count > 0)
@@ -81,9 +78,10 @@ public class CraftingSystem
 
         foreach (ItemDataSO item in recipe.CraftedItems)
         {
+            GameManager.manager.OnAddProcessItem(item);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().AddItem(item);
             currentTable.AddMaterial(item);
         }
-
         return true;
     }
 }

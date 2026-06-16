@@ -16,7 +16,6 @@ public class CraftingTable : MonoBehaviour
     [SerializeField] private GameObject materials;
     [SerializeField] private GameObject bookPage;
     [SerializeField] private GameObject craftingStation;
-    public static event Action<CraftingTable> ContextOpened;
 
     void Awake()
     {
@@ -40,7 +39,8 @@ public class CraftingTable : MonoBehaviour
         GameManager.manager.OnCraftingToggle(craftingCamera);
         ToggleCollisions(newValue);
         UpdateBook();
-        ContextOpened?.Invoke(this);
+        if (newValue)
+            CraftingSystem.craftingSystem.OnCraftingTableOpen(this);
     }
 
     public void AddMaterial(ItemDataSO item)
@@ -53,6 +53,14 @@ public class CraftingTable : MonoBehaviour
     public void MaterialsBackToBench(ItemDataSO item)
     {
 
+    }
+
+    public void ResetItems()
+    {
+        foreach (Transform material in materials.transform)
+        {
+            Destroy(material.gameObject);
+        }
     }
 
     private void ToggleCollisions(bool newValue)

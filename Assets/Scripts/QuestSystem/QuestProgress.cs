@@ -77,11 +77,11 @@ public class QuestProgress
         switch (currentObjective.Type)
         {
             case QuestObjectiveType.Collect:
-                InventorySystem.PickedUpItem += PickedUpItem;
+                InventorySystem.AddedItem += PickedUpItem;
                 Interactable.interacted -= Interacted;
                 break;
             case QuestObjectiveType.Interact:
-                InventorySystem.PickedUpItem -= PickedUpItem;
+                InventorySystem.AddedItem -= PickedUpItem;
                 Interactable.interacted += Interacted;
                 break;
         }
@@ -94,7 +94,7 @@ public class QuestProgress
         GameManager.manager.QuestLineCompleted(this);
 
         Interactable.interacted -= Interacted;
-        InventorySystem.PickedUpItem -= PickedUpItem;
+        InventorySystem.AddedItem -= PickedUpItem;
     }
 
     private void PickedUpItem(ItemDataSO data)

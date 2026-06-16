@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LumaGrass
   m_EditorClassIdentifier: Assembly-CSharp::Item
   itemName: LumaGrass
-  worldObject: {fileID: 6522890710521174588, guid: 12a3eb66a76fcba43b69dda4e56c744f, type: 3}
+  worldObject: {fileID: 3520943828583533041, guid: 3c372892b558b984faddc9c760c6b7a2, type: 3}
   itemSprite: {fileID: 21300000, guid: 6edbf4854fc15ea4ea93ac601a67a8c1, type: 3}
   itemDescription: A flower with a glowing bud.

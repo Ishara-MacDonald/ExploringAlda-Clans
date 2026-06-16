@@ -16,5 +16,6 @@ public class CraftingMaterial : MonoBehaviour
         GetComponent<CapsuleCollider>().direction = savedCollider.direction;
         GetComponent<CapsuleCollider>().radius = savedCollider.radius;
         GetComponent<CapsuleCollider>().height = savedCollider.height;
+        GetComponent<CapsuleCollider>().center = savedCollider.center;
     }
 }

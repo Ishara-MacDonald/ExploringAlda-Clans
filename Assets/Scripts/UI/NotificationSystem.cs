@@ -7,14 +7,14 @@ public class NotificationSystem : MonoBehaviour
     private void OnEnable()
     {
         notificationSystem = this;
-        InventorySystem.PickedUpItem += PickedUpItem;
+        InventorySystem.AddedItem += PickedUpItem;
         QuestProgress.completedObjective += CompletedObjective;
         QuestProgress.progressedObjective += ProgressedObjective;
     }
 
     private void PickedUpItem(ItemDataSO data)
     {
-        AddNotification("Picked up " + data.itemName);
+        AddNotification("Added item: " + data.itemName);
     }
 
     private void ProgressedObjective(string itemName, int hasAmount, int neededAmount)

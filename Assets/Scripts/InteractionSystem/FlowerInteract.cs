@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlowerInteract : Interactable
 {
-    public static event Action<ItemDataSO> pickedUp;
+    public static event Action<ItemDataSO, int> pickedUp;
     [SerializeField] private ItemDataSO item;
 
     private void Awake()
@@ -15,7 +15,6 @@ public class FlowerInteract : Interactable
 
     public override void Interact(GameObject interactor)
     {
-        Debug.Log("hiii");
-        pickedUp?.Invoke(item);
+        pickedUp?.Invoke(item, 1);
     }
 }

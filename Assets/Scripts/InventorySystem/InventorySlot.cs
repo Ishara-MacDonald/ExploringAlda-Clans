@@ -20,4 +20,11 @@ public class InventorySlot
     {
         amount += _amount;
     }
+
+    public int RemoveAmount(int _amount)
+    {
+        amount -= _amount;
+        if (amount < 0) amount = 0;
+        return amount;
+    }
 }

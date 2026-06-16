@@ -82,6 +82,9 @@ public class Grinder : CraftingGear
         {
             foreach (GameObject material in materialList)
             {
+                ItemDataSO itemData = material.GetComponent<CraftingMaterial>().ItemData;
+                GameManager.manager.OnRemoveItem(itemData);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().RemoveItem(itemData);
                 Destroy(material);
             }
         }

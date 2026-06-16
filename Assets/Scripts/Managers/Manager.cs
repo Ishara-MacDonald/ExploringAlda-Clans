@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,8 +31,8 @@ public class GameManager : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
         craftingSystem = new();
+        questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
         popupBanner.gameObject.SetActive(false);
         InMenu();
     }
@@ -108,7 +109,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Crafting
-
     public void OnCraftingToggle(CinemachineClearShot craftingCam)
     {
         if (!craftingUIOpen)
@@ -119,6 +119,16 @@ public class GameManager : MonoBehaviour
         {
             OnCraftingClose();
         }
+    }
+
+    public void OnAddProcessItem(ItemDataSO item)
+    {
+        craftingUI.AddProcessedItem(item);
+    }
+
+    public void OnRemoveItem(ItemDataSO item)
+    {
+        craftingUI.RemoveItem(item);
     }
 
     private void OnCraftingOpen(CinemachineClearShot craftingCam)
