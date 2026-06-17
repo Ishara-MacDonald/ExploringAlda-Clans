@@ -13,6 +13,9 @@ public class InventorySlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI amountTxt;
     private int amount;
 
+    public ItemDataSO Item => item;
+    public int Amount => amount;
+
     public void SetInventorySlotUI(ItemDataSO _item, int _amount)
     {
         item = _item;
@@ -21,8 +24,14 @@ public class InventorySlotUI : MonoBehaviour
         amountTxt.SetText(_amount.ToString());
     }
 
+    public void SetAmount(int _amount)
+    {
+        amount = _amount;
+        amountTxt.SetText(_amount.ToString());
+    }
+
     public void OnClickItem()
     {
-        ItemInventoryInteracted?.Invoke(item, amount);
+        CraftingSystem.craftingSystem.AddItem(item, amount);
     }
 }

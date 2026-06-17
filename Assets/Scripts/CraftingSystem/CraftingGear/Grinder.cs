@@ -11,7 +11,7 @@ public class Grinder : CraftingGear
     [SerializeField] private Pestle pestle;
     [SerializeField] private CraftingMethod method;
     [SerializeField] private Transform benchMaterials;
-    private List<GameObject> materialList;
+    private List<CraftingMaterial> materialList;
     private bool isUsed = false;
     private Transform parent;
 
@@ -36,9 +36,10 @@ public class Grinder : CraftingGear
         if (materialList.Count == 0 && other.CompareTag("Drag"))
         {
             if (other.transform == null) return;
+            if (!other.gameObject.TryGetComponent<CraftingMaterial>(out var material)) return;
 
             TransferItem(other.transform, true);
-            materialList.Add(other.gameObject);
+            materialList.Add(material);
         }
     }
 
@@ -48,13 +49,13 @@ public class Grinder : CraftingGear
         Grabber.OnLetGoItem -= OnEnableColliders;
     }
 
-    public override GameObject OnGrab()
+    public override CraftingMaterial OnGrab()
     {
         if (materialList.Count > 0)
         {
             Grabber.OnLetGoItem += OnEnableColliders;
             GetComponent<Collider>().enabled = false;
-            GameObject material = materialList[0];
+            CraftingMaterial material = materialList[0];
             materialList.Remove(material);
             TransferItem(material.transform, false);
             return material;
@@ -77,16 +78,16 @@ public class Grinder : CraftingGear
     public override void OnUse()
     {
         if (materialList.Count == 0) return;
-        List<CraftingMaterial> craftingMaterials = materialList.Select((material) => material.GetComponent<CraftingMaterial>()).ToList();
-        if (CraftingSystem.craftingSystem.ProcessItem(craftingMaterials))
+        if (CraftingSystem.craftingSystem.ProcessItem(materialList))
         {
-            foreach (GameObject material in materialList)
+            foreach (CraftingMaterial material in materialList)
             {
                 ItemDataSO itemData = material.GetComponent<CraftingMaterial>().ItemData;
                 GameManager.manager.OnRemoveItem(itemData);
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().RemoveItem(itemData);
-                Destroy(material);
+                Destroy(material.gameObject);
             }
+            materialList = new();
         }
     }
 

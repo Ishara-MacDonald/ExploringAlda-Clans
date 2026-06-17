@@ -12,7 +12,7 @@ public abstract class CraftingGear : MonoBehaviour
         }
     }
 
-    public abstract GameObject OnGrab();
+    public abstract CraftingMaterial OnGrab();
     public abstract bool OnLongGrab();
     public abstract void OnUse();
     public abstract void OnPlaceDown(GameObject locationObj);

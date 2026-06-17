@@ -1,12 +1,10 @@
-using System;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 [RequireComponent(typeof(InventorySystem))]
 public class CraftingSystemUI : MonoBehaviour
 {
     [SerializeField] private RecipeInfoUI recipeInfoUI;
-    [SerializeField] private InventoryUI simpleInventory;
+    [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private InventorySystem craftingInventory;
 
     void Start()
@@ -16,10 +14,10 @@ public class CraftingSystemUI : MonoBehaviour
 
     public void OnOpenCraftingSystem(InventorySystem inventorySystem)
     {
-        simpleInventory.gameObject.SetActive(true);
+        inventoryUI.gameObject.SetActive(true);
         craftingInventory.SetInventorySlot(inventorySystem.InventorySlots);
 
-        simpleInventory.OnOpenInventory(craftingInventory);
+        inventoryUI.OnOpenInventory(craftingInventory);
         recipeInfoUI.OpenRecipeInfo();
     }
 
@@ -28,17 +26,21 @@ public class CraftingSystemUI : MonoBehaviour
         craftingInventory.AddItem(item);
     }
 
+    public void OnResetItems()
+    {
+        CraftingSystem.craftingSystem.OnResetItems();
+    }
+
     public void RemoveItem(ItemDataSO item)
     {
         craftingInventory.RemoveItem(item);
-        simpleInventory.OnCloseInventory();
-        simpleInventory.OnOpenInventory(craftingInventory);
+        inventoryUI.UpdateUI();
     }
 
     public void OnCloseCraftingSystem()
     {
         CraftingSystem.craftingSystem.OnCraftingTableClose();
-        simpleInventory.OnCloseInventory();
+        inventoryUI.OnCloseInventory();
         gameObject.SetActive(false);
     }
 

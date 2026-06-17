@@ -74,10 +74,10 @@ public class Grabber : MonoBehaviour
             }
             else if (hit.collider.CompareTag("CraftingGear"))
             {
-                GameObject grabbed = hit.collider.GetComponent<CraftingGear>().OnGrab();
+                CraftingMaterial grabbed = hit.collider.GetComponent<CraftingGear>().OnGrab();
                 if (grabbed != null)
                 {
-                    selectedObject = grabbed;
+                    selectedObject = grabbed.gameObject;
                 }
             }
             return;

@@ -36,6 +36,7 @@ public class CraftingTable : MonoBehaviour
     private void Toggle(bool newValue)
     {
         isCrafting = newValue;
+        if (!newValue) ResetItems();
         GameManager.manager.OnCraftingToggle(craftingCamera);
         ToggleCollisions(newValue);
         UpdateBook();
@@ -48,11 +49,6 @@ public class CraftingTable : MonoBehaviour
         GameObject newItem = Instantiate(craftingMaterialPrefab, materialSpawnPoint.transform.position, materialSpawnPoint.transform.rotation, materialSpawnPoint.transform);
         // newItem.transform.Rotate(90f, 0f, 0, Space.Self);
         newItem.GetComponent<CraftingMaterial>().SetItem(item);
-    }
-
-    public void MaterialsBackToBench(ItemDataSO item)
-    {
-
     }
 
     public void ResetItems()

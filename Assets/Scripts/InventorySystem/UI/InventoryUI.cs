@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
@@ -9,6 +10,12 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private ItemInfoUI itemInfoUI;
     [SerializeField] private bool isSimple = false;
     [SerializeField] private GameObject inventoryDisplay;
+    private List<InventorySlotUI> uiSlots;
+
+    void Awake()
+    {
+        uiSlots = new();
+    }
 
     void OnEnable()
     {
@@ -29,6 +36,7 @@ public class InventoryUI : MonoBehaviour
         {
             GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
             uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
+            uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
         }
         if (!isSimple) InteractItem(invSlots[0].GetItem, 0);
     }
@@ -36,6 +44,55 @@ public class InventoryUI : MonoBehaviour
     public void InteractItem(ItemDataSO item, int _)
     {
         if (!isSimple) itemInfoUI.SetItemInfoUI(item);
+    }
+
+    public void UpdateUI()
+    {
+        UpdateItems();
+        UpdateAmount();
+    }
+
+    private void UpdateItems()
+    {
+        List<ItemDataSO> uiItems = uiSlots.Select(slot => slot.Item).ToList();
+        List<ItemDataSO> invItems = currentSystem.InventorySlots.Select(slot => slot.GetItem).ToList();
+
+        if (!Helpers.CompareLists(uiItems, invItems))
+        {
+            List<ItemDataSO> onlyInUIItem = uiItems.Except(invItems).ToList();
+            if (onlyInUIItem.Count > 0)
+            {
+                foreach (ItemDataSO item in onlyInUIItem)
+                {
+                    InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item.Equals(item));
+                    uiSlots.Remove(uiSlot);
+                    Destroy(uiSlot);
+                }
+            }
+
+            List<ItemDataSO> onlyInDataItems = invItems.Except(uiItems).ToList();
+
+            if (onlyInDataItems.Count > 0)
+            {
+                foreach (ItemDataSO item in onlyInDataItems)
+                {
+                    InventorySlot invSlot = currentSystem.InventorySlots.Find(invSlot => invSlot.GetItem.Equals(item));
+                    GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
+                    uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
+                    uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
+                }
+            }
+        }
+    }
+
+    private void UpdateAmount()
+    {
+        foreach (InventorySlot slot in currentSystem.InventorySlots)
+        {
+            InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.GetItem);
+            if (uiSlot == null || uiSlot.Amount == slot.GetAmount) continue;
+            uiSlot.SetAmount(slot.GetAmount);
+        }
     }
 
     public void ToggleInventoryDisplay()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum CraftingMethod
 {
@@ -32,7 +33,6 @@ public class CraftingSystem
 
     public void OnCraftingTableOpen(CraftingTable craftingTable)
     {
-        InventorySlotUI.ItemInventoryInteracted += AddItem;
         currentTable = craftingTable;
         recipeBookRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRecipeBook>();
         recipeList = recipeBookRef.GetRecipes(CraftingMethod.Picking);
@@ -40,7 +40,14 @@ public class CraftingSystem
 
     public void OnCraftingTableClose()
     {
+        craftingItems = new();
         currentTable.OnClose();
+    }
+
+    public void OnResetItems()
+    {
+        craftingItems = new();
+        currentTable.ResetItems();
     }
 
     public void SetCurrentMethod(CraftingMethod newMethod)
@@ -57,7 +64,7 @@ public class CraftingSystem
         if (craftingItems.Count > 0)
         {
             int currentAmount = craftingItems.FindAll((item) => item.Equals(newItem)).Count;
-            if (hasAmount > currentAmount)
+            if (currentAmount < hasAmount)
             {
                 craftingItems.Add(newItem);
                 currentTable.AddMaterial(newItem);
@@ -78,9 +85,8 @@ public class CraftingSystem
 
         foreach (ItemDataSO item in recipe.CraftedItems)
         {
-            GameManager.manager.OnAddProcessItem(item);
+            // GameManager.manager.OnAddProcessItem(item);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().AddItem(item);
-            currentTable.AddMaterial(item);
         }
         return true;
     }
