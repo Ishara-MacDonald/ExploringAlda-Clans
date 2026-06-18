@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8703f72b988f8439c55e9617dad654, type: 3}
+  m_Name: 18 june 2026
+  m_EditorClassIdentifier: ALTUSHKA.TheAtlas.Editor::ALTUSHKA.TheAtlas.GraphLayoutPreset
+  _positions:
+  - Id: GameManager
+    Pos: {x: -265, y: 933}
+  - Id: PlayerQuestList
+    Pos: {x: -2267, y: 1266}
+  - Id: Quest
+    Pos: {x: -2996, y: 1920}
+  - Id: QuestInfoUI
+    Pos: {x: -3352, y: 1354}
+  - Id: QuestLine
+    Pos: {x: -3077, y: 1612}
+  - Id: QuestObjective
+    Pos: {x: -2706, y: 2106}
+  - Id: QuestObjectiveType
+    Pos: {x: -2922, y: 1503}
+  - Id: QuestPreviewUI
+    Pos: {x: -2447, y: 1064}
+  - Id: QuestProgress
+    Pos: {x: -2706, y: 1402}
+  - Id: QuestSystem
+    Pos: {x: -2656, y: 1111}
+  - Id: QuestSystemUI
+    Pos: {x: -3128, y: 1111}
+  - Id: QuestTrigger
+    Pos: {x: -2492, y: 1920}
+  - Id: ChestInteract
+    Pos: {x: 2519, y: 3050}
+  - Id: FlowerInteract
+    Pos: {x: 2216, y: 2756}
+  - Id: IInteractable
+    Pos: {x: 2656, y: 3388}
+  - Id: Interactable
+    Pos: {x: 2114, y: 3243}
+  - Id: InteractionSign
+    Pos: {x: 3280, y: 3436}
+  - Id: InteractionType
+    Pos: {x: 2874, y: 3056}
+  - Id: Interactor
+    Pos: {x: 3192, y: 2983}
+  - Id: InteractPrompt
+    Pos: {x: 2886, y: 2738}
+  - Id: PlotInteract
+    Pos: {x: 2935, y: 2545}
+  - Id: QuestInteract
+    Pos: {x: 2874, y: 3539}
+  - Id: ChestContext
+    Pos: {x: 3427, y: 3250}
+  - Id: PlotStateContext
+    Pos: {x: 3440, y: 2690}
+  - Id: InventorySlotUI
+    Pos: {x: 2392, y: 1105}
+  - Id: InventorySystem
+    Pos: {x: 3389, y: 1126}
+  - Id: InventoryUI
+    Pos: {x: 2753, y: 972}
+  - Id: ItemInfoUI
+    Pos: {x: 3219, y: 780}
+  - Id: PlayerInventory
+    Pos: {x: 2357, y: 899}
+  - Id: InventorySlot
+    Pos: {x: 2181, y: 1254}
+  - Id: CraftingSystem
+    Pos: {x: 1157, y: -852}
+  - Id: CraftingInteract
+    Pos: {x: 1157, y: -249}
+  - Id: CraftingTable
+    Pos: {x: 755, y: -608}
+  - Id: CraftingGear
+    Pos: {x: 1028, y: -999}
+  - Id: CraftingMethod
+    Pos: {x: 945, y: -852}
+  - Id: CraftingSystemUI
+    Pos: {x: 509, y: -1056}
+  - Id: RecipeInfoUI
+    Pos: {x: 376, y: -1047}
+  - Id: Recipe
+    Pos: {x: 332, y: -555}
+  - Id: PlayerRecipeBook
+    Pos: {x: 132, y: -852}
+  - Id: CraftingMaterial
+    Pos: {x: 1546, y: -238}
+  - Id: Grabber
+    Pos: {x: 1615, y: -449}
+  - Id: Grinder
+    Pos: {x: 1607, y: -954}
+  - Id: Pestle
+    Pos: {x: 2052, y: -687}
+  - Id: ItemDataSO
+    Pos: {x: 502, y: 1800}
+  - Id: ItemSpawner
+    Pos: {x: 304, y: 1626}
+  - Id: NotificationSystem
+    Pos: {x: 76, y: 3669}
+  - Id: PopUpSmall
+    Pos: {x: -285, y: 4138}
+  - Id: PopUpBanner
+    Pos: {x: -258, y: 3669}
+  - Id: InGameUI
+    Pos: {x: 18, y: 4042}
+  - Id: DebugTPPoint
+    Pos: {x: -2256, y: 393}
+  - Id: PlayerMovement
+    Pos: {x: -2412, y: 614}
+  - Id: TPPoint
+    Pos: {x: -2465, y: 345}
+  - Id: Helpers
+    Pos: {x: -103, y: 837}
+  - Id: DialogueUI
+    Pos: {x: -1943, y: -713}
+  _boxes: []
+  _groups:
+  - Title: Quest System
+    Position: {x: -3377, y: 1005}
+    ContainedNodeIds:
+    - PlayerQuestList
+    - Quest
+    - QuestInfoUI
+    - QuestLine
+    - QuestObjective
+    - QuestObjectiveType
+    - QuestPreviewUI
+    - QuestProgress
+    - QuestSystem
+    - QuestSystemUI
+    - QuestTrigger
+  - Title: Interaction System
+    Position: {x: 2088.9995, y: 2485.9998}
+    ContainedNodeIds:
+    - ChestInteract
+    - FlowerInteract
+    - IInteractable
+    - Interactable
+    - InteractionSign
+    - InteractionType
+    - Interactor
+    - InteractPrompt
+    - PlotInteract
+    - QuestInteract
+    - ChestContext
+    - PlotStateContext
+  - Title: Inventory System
+    Position: {x: 2155.9995, y: 721}
+    ContainedNodeIds:
+    - InventorySlotUI
+    - InventorySystem
+    - InventoryUI
+    - ItemInfoUI
+    - PlayerInventory
+    - InventorySlot
+  - Title: Crafting System
+    Position: {x: 107, y: -1115}
+    ContainedNodeIds:
+    - CraftingSystem
+    - CraftingInteract
+    - CraftingTable
+    - CraftingGear
+    - CraftingMethod
+    - CraftingSystemUI
+    - RecipeInfoUI
+    - Recipe
+    - PlayerRecipeBook
+    - CraftingMaterial
+    - Grabber
+    - Grinder
+    - Pestle
+  - Title: Items
+    Position: {x: 278.99988, y: 1567.0001}
+    ContainedNodeIds:
+    - ItemDataSO
+    - ItemSpawner
+  - Title: UI Systems
+    Position: {x: -310, y: 3609.9995}
+    ContainedNodeIds:
+    - NotificationSystem
+    - PopUpSmall
+    - PopUpBanner
+    - InGameUI
+  - Title: Movement System
+    Position: {x: -2490, y: 286}
+    ContainedNodeIds:
+    - DebugTPPoint
+    - PlayerMovement
+    - TPPoint
+  - Title: Diaogue System
+    Position: {x: -1968, y: -772.0002}
+    ContainedNodeIds:
+    - DialogueUI
+  LinkedFolder: {fileID: 102900000, guid: d713888c70fb2e24ab8df0c043ad9ccc, type: 3}
