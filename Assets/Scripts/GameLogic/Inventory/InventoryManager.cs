@@ -20,4 +20,9 @@ public class InventoryManager
     {
         Debug.LogWarning("Method not implemented.");
     }
+
+    public void RemoveItems(List<CraftingMaterial> items)
+    {
+        Debug.LogWarning("Method not implemented.");
+    }
 }

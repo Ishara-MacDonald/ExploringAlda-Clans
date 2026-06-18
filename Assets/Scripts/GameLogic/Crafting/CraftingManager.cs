@@ -7,17 +7,18 @@ using UnityEngine;
 
 // To figure this out: need materials and method.
 
-
 public class CraftingManager
 {
     public static CraftingManager craftingManager;
+    public InventoryManager inventoryManager;
     private RecipeBook recipeBook;
 
-    public CraftingManager()
+    public CraftingManager(InventoryManager _inventoryManager)
     {
         if (craftingManager != null) Debug.LogError("Can only have one Crafting Manager");
         craftingManager = this;
         recipeBook = new();
+        inventoryManager = _inventoryManager;
     }
 
     public void AddRecipe(Recipe recipe)
@@ -32,38 +33,9 @@ public class CraftingManager
         Recipe recipe = recipeBook.GetLinkedRecipe(materials, method);
         if (recipe == null) return false;
 
-        InventoryManager.inventoryManager.AddItems(recipe.CraftedItems);
+        inventoryManager.RemoveItems(materials);
+        inventoryManager.AddItems(recipe.CraftedItems);
 
         return true;
-    }
-
-    public void OnAddItem()
-    {
-
-    }
-
-    public void OnRemoveItem()
-    {
-
-    }
-
-    public void OnGetItems()
-    {
-
-    }
-
-    public void OnStartCrafting()
-    {
-
-    }
-
-    public void OnStopCrafting()
-    {
-
-    }
-
-    public void OnProcessItems()
-    {
-
     }
 }
