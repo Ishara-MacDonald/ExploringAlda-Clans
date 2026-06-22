@@ -4,25 +4,60 @@ using UnityEngine;
 
 public class InventoryManager
 {
+    protected List<InventorySlot> slots;
     public static InventoryManager inventoryManager;
+
+    public List<InventorySlot> InventorySlots => slots;
+
     public InventoryManager()
     {
         if (inventoryManager != null) Debug.LogError("Can only have one Crafting Manager");
         inventoryManager = this;
     }
 
-    public void AddItem(ItemDataSO item)
+    public ItemDataSO GetItem(ItemDataSO itemID)
     {
-        Debug.LogWarning("Method not implemented.");
+        return null;
     }
 
-    public void AddItems(List<ItemDataSO> items)
+    public bool HasItem(ItemDataSO item)
     {
-        Debug.LogWarning("Method not implemented.");
+        return slots.Find((slot) => slot.GetItem.Equals(item)) is not null;
     }
 
-    public void RemoveItems(List<CraftingMaterial> items)
+    public void AddItem(ItemDataSO item, int amount = 1)
     {
-        Debug.LogWarning("Method not implemented.");
+        InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
+        if (foundSlot == null)
+            slots.Add(new InventorySlot(item));
+        else
+            foundSlot.AddAmount(amount);
+    }
+
+    public List<InventorySlot> AddItems(List<ItemDataSO> items)
+    {
+        foreach (ItemDataSO item in items)
+        {
+            AddItem(item, 1);
+        }
+        return slots;
+    }
+
+    public void RemoveItem(ItemDataSO item, int amount = 1)
+    {
+        InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
+        if (foundSlot == null) return;
+
+        slots.Remove(foundSlot);
+    }
+
+    public List<InventorySlot> RemoveItems(List<ItemDataSO> items)
+    {
+        foreach (ItemDataSO item in items)
+        {
+            RemoveItem(item, 1);
+        }
+
+        return slots;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameLogicManager : MonoBehaviour
 {
-    private static GameLogicManager logicManager;
+    public static GameLogicManager logicManager;
     CraftingManager craftingManager;
     InventoryManager inventoryManager;
     void Awake()
@@ -14,9 +14,18 @@ public class GameLogicManager : MonoBehaviour
         craftingManager = new(inventoryManager);
     }
 
-    public void OnProcessItem(List<CraftingMaterial> materials, CraftingMethod method)
+    public void OnProcessItem(List<OCraftingMaterial> materials, CraftingMethod method)
     {
         craftingManager.ProcessItem(materials, method);
     }
 
+    public ItemDataSO GetItemData(ItemDataSO item)
+    {
+        return inventoryManager.GetItem(item);
+    }
+
+    public void RemoveItem(ItemDataSO item)
+    {
+        inventoryManager.RemoveItem(item);
+    }
 }

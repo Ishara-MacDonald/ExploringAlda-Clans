@@ -16,7 +16,7 @@ public class CraftingSystem
 {
     public static CraftingSystem craftingSystem;
 
-    private CraftingTable currentTable;
+    private OCraftingTable currentTable;
     private List<ItemDataSO> craftingItems;
     private List<Recipe> recipeList;
     private PlayerRecipeBook recipeBookRef;
@@ -31,7 +31,7 @@ public class CraftingSystem
         recipeList = new();
     }
 
-    public void OnCraftingTableOpen(CraftingTable craftingTable)
+    public void OnCraftingTableOpen(OCraftingTable craftingTable)
     {
         currentTable = craftingTable;
         recipeBookRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRecipeBook>();
@@ -77,7 +77,7 @@ public class CraftingSystem
         }
     }
 
-    public bool ProcessItem(List<CraftingMaterial> materials)
+    public bool ProcessItem(List<OCraftingMaterial> materials)
     {
         List<ItemDataSO> items = materials.Select(item => item.ItemData).ToList();
         Recipe recipe = recipeList.Find(recipe => recipe.IsRecipe(items) == true);

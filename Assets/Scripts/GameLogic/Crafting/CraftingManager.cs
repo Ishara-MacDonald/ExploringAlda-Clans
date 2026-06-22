@@ -26,14 +26,14 @@ public class CraftingManager
         recipeBook.AddRecipe(recipe);
     }
 
-    public bool ProcessItem(List<CraftingMaterial> materials, CraftingMethod method)
+    public bool ProcessItem(List<OCraftingMaterial> materials, CraftingMethod method)
     {
         if (recipeBook == null) return false;
         List<ItemDataSO> items = materials.Select(item => item.ItemData).ToList();
         Recipe recipe = recipeBook.GetLinkedRecipe(materials, method);
         if (recipe == null) return false;
 
-        inventoryManager.RemoveItems(materials);
+        inventoryManager.RemoveItems(items);
         inventoryManager.AddItems(recipe.CraftedItems);
 
         return true;

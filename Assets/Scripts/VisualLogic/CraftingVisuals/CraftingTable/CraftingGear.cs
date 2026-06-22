@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class OCraftingGear : MonoBehaviour
+public abstract class CraftingGear : MonoBehaviour
 {
     public void MoveOriginalSpot(CraftingMethod gearType, Transform originalSpot)
     {

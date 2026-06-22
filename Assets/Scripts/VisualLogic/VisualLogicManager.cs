@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class VisualLogicManager : MonoBehaviour
 {
-    private static VisualLogicManager visualManager;
+    public static VisualLogicManager visualManager;
+
+    GameLogicManager logicManager;
+
     CraftingVisualManager craftingManager;
     InventoryVisualManager inventoryManager;
     void Awake()
     {
         visualManager = this;
-        inventoryManager = new();
-        craftingManager = new(inventoryManager);
+        inventoryManager = new(this);
+        craftingManager = new(visualManager);
+        logicManager = GameLogicManager.logicManager;
     }
 
-    public void OnProcessItem(List<CraftingMaterial> materials, CraftingMethod method)
+    public void OnProcessItem(List<OCraftingMaterial> materials, CraftingMethod method)
     {
         visualManager.OnProcessItem(materials, method);
     }
+
+    public ItemDataSO GetItemData(ItemDataSO itemID)
+    {
+        return GameLogicManager.logicManager.GetItemData(itemID);
+    }
+
+    public void RemoveItemFromInventory(ItemDataSO item)
+    {
+        GameLogicManager.logicManager.RemoveItem(item);
+    }
+
 }

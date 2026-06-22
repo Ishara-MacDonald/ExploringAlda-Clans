@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class OPestle : MonoBehaviour
+public class Pestle : MonoBehaviour
 {
     private static readonly int IsGrindingHash = Animator.StringToHash("isGrinding");
     public static event Action Grinded;
@@ -65,10 +65,10 @@ public class OPestle : MonoBehaviour
         transform.SetPositionAndRotation(pestleLocation.position, pestleLocation.rotation);
     }
 
-    public void ToGrinder(OGrinder grinder)
+    public void ToGrinder(Transform grinder)
     {
-        transform.parent = grinder.gameObject.transform;
-        transform.SetPositionAndRotation(grinder.gameObject.transform.position, Quaternion.Euler(-30, 0, 30));
+        transform.parent = grinder;
+        transform.SetPositionAndRotation(grinder.position, Quaternion.Euler(-30, 0, 30));
         transform.tag = "Untagged";
     }
 

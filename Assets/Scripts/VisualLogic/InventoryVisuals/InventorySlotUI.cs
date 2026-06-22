@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable]
-public class OInventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour
 {
+
     public static event Action<ItemDataSO, int> ItemInventoryInteracted;
     private ItemDataSO item;
     [SerializeField] private Image image;
@@ -15,9 +15,11 @@ public class OInventorySlotUI : MonoBehaviour
 
     public ItemDataSO Item => item;
     public int Amount => amount;
+    private InventoryVisualManager manager;
 
-    public void SetInventorySlotUI(ItemDataSO _item, int _amount)
+    public void SetInventorySlotUI(ItemDataSO _item, int _amount, InventoryVisualManager _manager)
     {
+        manager = _manager;
         item = _item;
         image.sprite = item.itemSprite;
         amount = _amount;
@@ -32,6 +34,6 @@ public class OInventorySlotUI : MonoBehaviour
 
     public void OnClickItem()
     {
-        CraftingSystem.craftingSystem.AddItem(item, amount);
+        manager.DisplayInfo(item);
     }
 }

@@ -1,11 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CapsuleCollider))]
-public class OCraftingMaterial : MonoBehaviour
+public class CraftingMaterial : MonoBehaviour
 {
     private ItemDataSO item;
-
-    private string itemID;
 
     public string ItemName => item.itemName;
     public ItemDataSO ItemData => item;

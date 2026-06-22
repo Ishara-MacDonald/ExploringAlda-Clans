@@ -18,7 +18,7 @@ public class RecipeBook
         recipes.Add(recipe);
     }
 
-    public Recipe GetLinkedRecipe(List<CraftingMaterial> materials, CraftingMethod method)
+    public Recipe GetLinkedRecipe(List<OCraftingMaterial> materials, CraftingMethod method)
     {
         // Find(recipe => recipe.IsRecipe(items) == true)
         return ScriptableObject.CreateInstance<Recipe>();

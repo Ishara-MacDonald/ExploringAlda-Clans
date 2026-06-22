@@ -2,8 +2,8 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(Grabber))]
-public class CraftingTable : MonoBehaviour
+[RequireComponent(typeof(OGrabber))]
+public class OCraftingTable : MonoBehaviour
 {
     private bool isCrafting = false;
     [Header("Crafting Table")]
@@ -48,7 +48,7 @@ public class CraftingTable : MonoBehaviour
     {
         GameObject newItem = Instantiate(craftingMaterialPrefab, materialSpawnPoint.transform.position, materialSpawnPoint.transform.rotation, materialSpawnPoint.transform);
         // newItem.transform.Rotate(90f, 0f, 0, Space.Self);
-        newItem.GetComponent<CraftingMaterial>().SetItem(item);
+        newItem.GetComponent<OCraftingMaterial>().SetItem(item);
     }
 
     public void ResetItems()
@@ -64,7 +64,7 @@ public class CraftingTable : MonoBehaviour
         constraints.SetActive(newValue);
         craftingStation.SetActive(newValue);
         materials.SetActive(newValue);
-        GetComponent<Grabber>().enabled = newValue;
+        GetComponent<OGrabber>().enabled = newValue;
     }
 
     private void UpdateBook()

@@ -1,7 +1,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(CraftingTable))]
+[RequireComponent(typeof(OCraftingTable))]
 public class CraftingInteract : Interactable
 {
 
@@ -13,6 +13,6 @@ public class CraftingInteract : Interactable
 
     public override void Interact(GameObject interactor)
     {
-        GetComponent<CraftingTable>().OnOpen();
+        GetComponent<OCraftingTable>().OnOpen();
     }
 }

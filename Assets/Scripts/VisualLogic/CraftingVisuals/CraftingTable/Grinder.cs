@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class OGrinder : OCraftingGear
+public class Grinder : CraftingGear
 {
     [SerializeField] private Transform originalSpot;
     [SerializeField] private Transform materials;
-    [SerializeField] private OPestle pestle;
+    [SerializeField] private Pestle pestle;
     [SerializeField] private CraftingMethod method;
     [SerializeField] private Transform benchMaterials;
     private List<OCraftingMaterial> materialList;
@@ -20,12 +20,12 @@ public class OGrinder : OCraftingGear
 
     void OnEnable()
     {
-        OPestle.Grinded += OnUse;
+        Pestle.Grinded += OnUse;
     }
 
     void OnDisable()
     {
-        OPestle.Grinded -= OnUse;
+        Pestle.Grinded -= OnUse;
     }
 
     void OnTriggerEnter(Collider other)
@@ -66,11 +66,10 @@ public class OGrinder : OCraftingGear
         if (!pestle.IsBeingUsed)
         {
             gameObject.GetComponent<Collider>().enabled = false;
-            pestle.ToGrinder(this);
+            pestle.ToGrinder(transform);
             return true;
         }
         else return false;
-
     }
 
     public override void OnUse()

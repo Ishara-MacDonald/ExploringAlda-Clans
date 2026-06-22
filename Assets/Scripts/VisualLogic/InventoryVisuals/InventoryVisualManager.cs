@@ -1,30 +1,26 @@
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryVisualManager : MonoBehaviour
 {
     [SerializeField] private InventorySystem currentSystem;
     [SerializeField] private Transform content;
     [SerializeField] private ItemInfoUI itemInfoUI;
     [SerializeField] private bool isSimple = false;
     [SerializeField] private GameObject inventoryDisplay;
-    private List<OInventorySlotUI> uiSlots;
+    private List<InventorySlotUI> uiSlots;
+    private VisualLogicManager visualManager;
+
+    public InventoryVisualManager(VisualLogicManager _visualManager)
+    {
+        visualManager = _visualManager;
+    }
 
     void Awake()
     {
         uiSlots = new();
-    }
-
-    void OnEnable()
-    {
-        OInventorySlotUI.ItemInventoryInteracted += InteractItem;
-    }
-
-    void OnDisable()
-    {
-        OInventorySlotUI.ItemInventoryInteracted -= InteractItem;
     }
 
     public void OnOpenInventory(InventorySystem newSystem)
@@ -35,15 +31,15 @@ public class InventoryUI : MonoBehaviour
         foreach (InventorySlot invSlot in invSlots)
         {
             GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-            uiSlot.GetComponent<OInventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
-            uiSlots.Add(uiSlot.GetComponent<OInventorySlotUI>());
+            uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount, this);
+            uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
         }
-        if (!isSimple) InteractItem(invSlots[0].GetItem, 0);
+        if (!isSimple) DisplayInfo(invSlots[0].GetItem);
     }
 
-    public void InteractItem(ItemDataSO item, int _)
+    public void DisplayInfo(ItemDataSO item)
     {
-        if (!isSimple) itemInfoUI.SetItemInfoUI(item);
+        itemInfoUI.SetItemInfoUI(item);
     }
 
     public void UpdateUI()
@@ -64,7 +60,7 @@ public class InventoryUI : MonoBehaviour
             {
                 foreach (ItemDataSO item in onlyInUIItem)
                 {
-                    OInventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item.Equals(item));
+                    InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item.Equals(item));
                     uiSlots.Remove(uiSlot);
                     Destroy(uiSlot);
                 }
@@ -78,8 +74,8 @@ public class InventoryUI : MonoBehaviour
                 {
                     InventorySlot invSlot = currentSystem.InventorySlots.Find(invSlot => invSlot.GetItem.Equals(item));
                     GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-                    uiSlot.GetComponent<OInventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
-                    uiSlots.Add(uiSlot.GetComponent<OInventorySlotUI>());
+                    uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount, this);
+                    uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
                 }
             }
         }
@@ -89,24 +85,9 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (InventorySlot slot in currentSystem.InventorySlots)
         {
-            OInventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.GetItem);
+            InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.GetItem);
             if (uiSlot == null || uiSlot.Amount == slot.GetAmount) continue;
             uiSlot.SetAmount(slot.GetAmount);
         }
-    }
-
-    public void ToggleInventoryDisplay()
-    {
-        bool isActive = inventoryDisplay.activeSelf;
-        inventoryDisplay.SetActive(!isActive);
-    }
-
-    public void OnCloseInventory()
-    {
-        foreach (Transform child in content)
-        {
-            Destroy(child.gameObject);
-        }
-        currentSystem = null;
     }
 }

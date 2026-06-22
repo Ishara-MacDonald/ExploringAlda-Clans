@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class OGrabber : MonoBehaviour
+public class Grabber : MonoBehaviour
 {
     private GameObject selectedObject = null;
     public static event Action OnLetGoItem;
@@ -15,6 +15,13 @@ public class OGrabber : MonoBehaviour
     private float lastPressedTime;
     private bool isPressed = false;
     private bool isLongPressed = false;
+
+    public CraftingTableManager manager;
+
+    public void Setup(CraftingTableManager tableManager)
+    {
+        manager = tableManager;
+    }
 
     void Update()
     {
@@ -69,11 +76,11 @@ public class OGrabber : MonoBehaviour
             {
                 selectedObject = hit.collider.gameObject;
                 Cursor.visible = false;
-                selectedObject.GetComponent<OPestle>().OnGrab();
+                manager.GrabPestle(hit.collider.gameObject);
             }
             else if (hit.collider.CompareTag("CraftingGear"))
             {
-                GameObject grabbed = hit.collider.GetComponent<OCraftingGear>().OnGrab();
+                GameObject grabbed = manager.GrabCraftingGear(hit.collider.gameObject);
                 if (grabbed != null)
                 {
                     selectedObject = grabbed;
@@ -90,7 +97,7 @@ public class OGrabber : MonoBehaviour
         {
             if (hit.collider.CompareTag("CraftingGear"))
             {
-                if (hit.collider.GetComponent<OCraftingGear>().OnLongGrab())
+                if (manager.LongGrabCraftingGear(hit.collider.gameObject))
                     selectedObject = hit.collider.gameObject;
             }
         }
@@ -98,13 +105,13 @@ public class OGrabber : MonoBehaviour
 
     private void OnPressSelectedObject()
     {
-        if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<OPestle>().OnLetGo();
+        if (selectedObject.CompareTag("Pestle")) manager.LetPestleGo(selectedObject);
         else if (selectedObject.CompareTag("CraftingGear"))
         {
             RaycastHit hit = GetHit(putBackLayer);
 
-            if (hit.collider != null) selectedObject.GetComponent<OCraftingGear>().OnPlaceDown(hit.collider.gameObject);
-            else selectedObject.GetComponent<OCraftingGear>().OnPutBack();
+            if (hit.collider != null) manager.PlaceGearDown(selectedObject, hit.collider);
+            else manager.PutGearBack(selectedObject);
         }
         else
         {
@@ -121,12 +128,12 @@ public class OGrabber : MonoBehaviour
         mousePosition = Mouse.current.position.ReadValue();
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
-            if (selectedObject.CompareTag("CraftingGear")) selectedObject.GetComponent<OCraftingGear>().OnUse();
+            if (selectedObject.CompareTag("CraftingGear")) manager.UseGear(selectedObject);
             return;
         }
 
         bool canMove = true;
-        if (selectedObject.CompareTag("Pestle")) canMove = selectedObject.GetComponent<OPestle>().CanMove();
+        if (selectedObject.CompareTag("Pestle")) canMove = manager.CanMovePestle(selectedObject);
 
         if (canMove)
         {
