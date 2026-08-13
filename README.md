@@ -1,3 +1,7 @@
+Playable on [itch.io](https://ika-bits.itch.io/exploring-alda-gardens)
+
+
+
 **Copyright © 2026 Ishara MacDonald. All rights reserved.**
 
 
