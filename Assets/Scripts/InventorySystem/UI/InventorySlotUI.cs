@@ -32,6 +32,6 @@ public class InventorySlotUI : MonoBehaviour
 
     public void OnClickItem()
     {
-        CraftingSystem.craftingSystem.AddItem(item, amount);
+        ItemInventoryInteracted?.Invoke(item, 1);
     }
 }

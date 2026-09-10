@@ -10,6 +10,7 @@ public class QuestProgress
     private int objectiveNo = 0;
     private int questNo = 0;
     private int currentAmount = 0;
+    private bool isNew = true;
     private bool isChanged = false;
     private bool isCompleted = false;
     [SerializeField] private QuestLine questLine;
@@ -25,9 +26,15 @@ public class QuestProgress
     public string QuestLineName => questLine.QuestLineName;
     public QuestLine QuestLine => questLine;
     public int CurrentAmount => currentAmount;
+    public bool IsNew => isNew;
     public bool IsChanged => isChanged;
     public bool IsCompleted => isCompleted;
     public QuestObjective CurrentObjective => currentObjective;
+
+    public void ToggleIsNew()
+    {
+        isNew = false;
+    }
 
     public void OnUpdated()
     {
@@ -51,6 +58,7 @@ public class QuestProgress
         }
         else
         {
+            currentAmount = 0;
             currentObjective = nextObjective;
             CheckObjectiveType();
         }
@@ -74,14 +82,14 @@ public class QuestProgress
 
     private void CheckObjectiveType()
     {
+        InventorySystem.AddedItem -= PickedUpItem;
+        Interactable.interacted -= Interacted;
         switch (currentObjective.Type)
         {
             case QuestObjectiveType.Collect:
                 InventorySystem.AddedItem += PickedUpItem;
-                Interactable.interacted -= Interacted;
                 break;
             case QuestObjectiveType.Interact:
-                InventorySystem.AddedItem -= PickedUpItem;
                 Interactable.interacted += Interacted;
                 break;
         }

@@ -33,6 +33,7 @@ public class CraftingSystem
 
     public void OnCraftingTableOpen(CraftingTable craftingTable)
     {
+        InventorySlotUI.ItemInventoryInteracted += AddItem;
         currentTable = craftingTable;
         recipeBookRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRecipeBook>();
         recipeList = recipeBookRef.GetRecipes(CraftingMethod.Picking);
@@ -40,8 +41,10 @@ public class CraftingSystem
 
     public void OnCraftingTableClose()
     {
+        InventorySlotUI.ItemInventoryInteracted -= AddItem;
         craftingItems = new();
         currentTable.OnClose();
+        currentTable = null;
     }
 
     public void OnResetItems()
@@ -61,6 +64,7 @@ public class CraftingSystem
 
     public void AddItem(ItemDataSO newItem, int hasAmount)
     {
+        if (currentTable == null) return;
         if (craftingItems.Count > 0)
         {
             int currentAmount = craftingItems.FindAll((item) => item.Equals(newItem)).Count;

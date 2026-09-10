@@ -28,6 +28,7 @@ public class OverworldItem : Interactable
 
     public override void Interact(GameObject interactor)
     {
+        CheckQuest();
         ItemPickUp?.Invoke(currentItem, 1);
         Destroy(gameObject);
     }
