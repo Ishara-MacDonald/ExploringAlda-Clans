@@ -2366,7 +2366,6 @@ MonoBehaviour:
   action: Interact
   questTrigger:
     line: {fileID: 0}
-  item: {fileID: 0}
 --- !u!114 &118254130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3851,6 +3850,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246067313}
   - component: {fileID: 246067314}
+  - component: {fileID: 246067315}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3885,11 +3885,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f23fc34e387684ab7f58badf3e9d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  cameras:
-  - {fileID: 1001791199}
-  - {fileID: 51440560}
+--- !u!114 &246067315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246067312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bd53c3c43f4d64180b82a03ffb837b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualManager
   inventory: {fileID: 2133569859}
-  dialogue: {fileID: 0}
   questListUI: {fileID: 2093112127}
   craftingUI: {fileID: 1032047919}
   popupBanner: {fileID: 133959937}
@@ -4736,7 +4744,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -4762,8 +4770,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.029033866, y: 0.6376425, z: 0.024061618, w: 0.76940894}
-  m_LocalPosition: {x: -82.57776, y: 15.56093, z: 6.949023}
+  m_LocalRotation: {x: 0.17671722, y: -0.05928595, z: 0.009603439, w: 0.9824276}
+  m_LocalPosition: {x: -4.3315, y: 6.909329, z: -7.2510796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
