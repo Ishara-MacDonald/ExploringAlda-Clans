@@ -13,9 +13,10 @@ public class CraftingMaterial : MonoBehaviour
         item = _item;
         Instantiate(item.worldObject, transform.position, transform.rotation, transform);
         CapsuleCollider savedCollider = item.worldObject.GetComponent<CapsuleCollider>();
-        GetComponent<CapsuleCollider>().direction = savedCollider.direction;
-        GetComponent<CapsuleCollider>().radius = savedCollider.radius;
-        GetComponent<CapsuleCollider>().height = savedCollider.height;
-        GetComponent<CapsuleCollider>().center = savedCollider.center;
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        collider.direction = savedCollider.direction;
+        collider.radius = savedCollider.radius;
+        collider.height = savedCollider.height;
+        collider.center = savedCollider.center;
     }
 }

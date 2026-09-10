@@ -14,13 +14,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] cameras;
 
     [SerializeField] private InventoryUI inventory;
-    [SerializeField] private DialogueUI dialogue;
     [SerializeField] private QuestSystemUI questListUI;
     [SerializeField] private CraftingSystemUI craftingUI;
 
     [SerializeField] private QuestSystem questSystem;
     [SerializeField] private PopUpBanner popupBanner;
-    private CraftingSystem craftingSystem;
     private GameObject player;
     private GameObject playerCam;
     private GameObject tempCam;
@@ -31,7 +29,7 @@ public class GameManager : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
-        craftingSystem = new();
+        new CraftingSystem();
         questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
         popupBanner.gameObject.SetActive(false);
         InMenu();

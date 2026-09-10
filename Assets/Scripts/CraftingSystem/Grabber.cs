@@ -80,7 +80,6 @@ public class Grabber : MonoBehaviour
                     selectedObject = grabbed.gameObject;
                 }
             }
-            return;
         }
     }
 

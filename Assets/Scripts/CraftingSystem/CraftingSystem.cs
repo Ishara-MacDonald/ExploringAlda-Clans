@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public enum CraftingMethod
 {
@@ -89,7 +87,7 @@ public class CraftingSystem
 
         foreach (ItemDataSO item in recipe.CraftedItems)
         {
-            // GameManager.manager.OnAddProcessItem(item);
+            GameManager.manager.OnAddProcessItem(item);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().AddItem(item);
         }
         return true;

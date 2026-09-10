@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -82,7 +80,7 @@ public class Grinder : CraftingGear
         {
             foreach (CraftingMaterial material in materialList)
             {
-                ItemDataSO itemData = material.GetComponent<CraftingMaterial>().ItemData;
+                ItemDataSO itemData = material.ItemData;
                 GameManager.manager.OnRemoveItem(itemData);
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().RemoveItem(itemData);
                 Destroy(material.gameObject);

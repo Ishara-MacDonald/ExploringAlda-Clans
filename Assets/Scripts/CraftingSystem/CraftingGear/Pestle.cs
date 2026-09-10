@@ -12,16 +12,9 @@ public class Pestle : MonoBehaviour
 
     public bool IsBeingUsed => isGrabbed || isGrinding;
 
-    private IEnumerator grindCoroutine;
-
-
     [SerializeField] private Animator animator;
     [SerializeField] private float grindTime = 5f;
     [SerializeField] private Transform pestleLocation;
-    void Start()
-    {
-        grindCoroutine = Grinding(5f);
-    }
 
     void Update()
     {
@@ -29,8 +22,7 @@ public class Pestle : MonoBehaviour
         {
             if (!isGrinding && Mouse.current.rightButton.wasPressedThisFrame)
             {
-                grindCoroutine = Grinding(grindTime);
-                StartCoroutine(grindCoroutine);
+                StartCoroutine(Grinding(grindTime));
             }
         }
     }
