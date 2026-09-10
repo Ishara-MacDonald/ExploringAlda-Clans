@@ -1927,14 +1927,14 @@ GameObject:
   - component: {fileID: 101044967}
   - component: {fileID: 101044968}
   - component: {fileID: 101044966}
-  - component: {fileID: 101044965}
+  - component: {fileID: 101044971}
+  - component: {fileID: 101044974}
+  - component: {fileID: 101044973}
   - component: {fileID: 101044964}
   - component: {fileID: 101044969}
   - component: {fileID: 101044970}
   - component: {fileID: 101044972}
-  - component: {fileID: 101044971}
-  - component: {fileID: 101044974}
-  - component: {fileID: 101044973}
+  - component: {fileID: 101044965}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
