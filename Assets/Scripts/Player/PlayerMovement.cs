@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        moveAction.Enable();
+        moveAction.Disable();
         sprintAction.Disable();
         jumpAction.Disable();
 

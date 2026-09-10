@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +10,11 @@ public class GameManager : MonoBehaviour
 
     private CinemachineInputAxisController mainCamera;
 
-    [SerializeField] private GameObject[] cameras;
-
     [SerializeField] private InventoryUI inventory;
     [SerializeField] private QuestSystemUI questListUI;
     [SerializeField] private CraftingSystemUI craftingUI;
 
-    [SerializeField] private QuestSystem questSystem;
+    private QuestSystem questSystem;
     [SerializeField] private PopUpBanner popupBanner;
     private GameObject player;
     private GameObject playerCam;

@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class PopUpBanner : MonoBehaviour
 {
-    private IEnumerator coroutine;
-
     [SerializeField] private TextMeshProUGUI titleTxt;
     [SerializeField] private TextMeshProUGUI subtitleTxt;
     public void SetPopUpBanner(QuestLine line)
     {
         titleTxt.SetText(line.QuestAchievement);
         subtitleTxt.SetText(line.QuestSubAchievement);
-        coroutine = WaitAndHide(5f);
 
-        StartCoroutine(coroutine);
+        StartCoroutine(WaitAndHide(5f));
     }
 
     IEnumerator WaitAndHide(float waitTime)

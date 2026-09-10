@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class PopUpSmall : MonoBehaviour
 {
-    private IEnumerator coroutine;
-
     [SerializeField] private TextMeshProUGUI bannerTxt;
     public void SetPopUpBanner(string bannerText)
     {
         bannerTxt.SetText(bannerText);
-        coroutine = WaitAndHide(5f);
 
-        StartCoroutine(coroutine);
+        StartCoroutine(WaitAndHide(5f));
     }
 
     IEnumerator WaitAndHide(float waitTime)

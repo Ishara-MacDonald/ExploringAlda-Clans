@@ -1,11 +1,9 @@
-
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerQuestList : MonoBehaviour
 {
-    [SerializeField] private QuestSystem questSystem;
+    private QuestSystem questSystem;
     private InputAction questListAction;
 
     void Awake()
