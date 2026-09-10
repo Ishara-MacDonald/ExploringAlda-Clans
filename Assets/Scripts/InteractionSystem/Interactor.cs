@@ -80,13 +80,8 @@ public class Interactor : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Vector3 cameraForward = Camera.main.transform.forward;
-        // cameraForward.y = 0;
-        // cameraForward = cameraForward.normalized;
-
         Gizmos.color = Color.purple;
         Debug.DrawLine(rayPosition, rayPosition + cameraForward * distance);
-        // Gizmos.DrawWireSphere(transform.position + cameraForward * distance, raycastRadius);
         Gizmos.DrawWireSphere(rayPosition + cameraForward * distance, raycastRadius);
     }
 

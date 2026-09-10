@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(ChestContext))]
 public class ChestInteract : Interactable
 {
-    [SerializeField] private ItemDataSO item;
     private void Awake()
     {
         type = InteractionType.Inventory;

@@ -15,7 +15,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     protected InteractionType type;
 
     public static event Action<string> interacted;
-    public static event Action<ItemDataSO> interactedItem;
     [SerializeField] protected string interactableName = "Interactable";
     [SerializeField] protected string action = "Interact";
 #nullable enable
@@ -31,10 +30,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     protected void InvokeInteracted(string parameter)
     {
         interacted?.Invoke(parameter);
-    }
-    protected void InvokeInteracted(ItemDataSO parameter)
-    {
-        interactedItem?.Invoke(parameter);
     }
     public abstract void Interact(GameObject interactor);
 
