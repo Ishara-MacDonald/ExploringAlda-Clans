@@ -20,6 +20,7 @@ public class VisualManager : MonoBehaviour
     private GameObject player;
     private GameObject playerCam;
     private GameObject tempCam;
+    private InteractionVisualManager interactionVisualManager;
 
     void Awake()
     {
@@ -27,6 +28,7 @@ public class VisualManager : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
+        interactionVisualManager = player.GetComponent<InteractionVisualManager>();
         popupBanner.gameObject.SetActive(false);
     }
 
@@ -77,6 +79,7 @@ public class VisualManager : MonoBehaviour
     public void SetPlayerMoveInput(Vector2 moveInput) => LogicManager.manager.SetPlayerMoveInput(moveInput);
     public void SetPlayerSprintEnabled(bool enabled) => LogicManager.manager.SetPlayerSprintEnabled(enabled);
     public void TryPlayerJump() => LogicManager.manager.TryPlayerJump();
+    public void OnInteract(Interactable interactable) => LogicManager.manager.OnInteract(interactable);
 
     public void OnInventoryToggle()
     {
@@ -126,10 +129,7 @@ public class VisualManager : MonoBehaviour
     {
         tempCam = craftingCam.gameObject;
         craftingUIOpen = true;
-        // KNOWN SHORTCUT (still open, Interaction system out of scope for this slice):
-        // reaches directly into the player's Interactor component instead of going
-        // through LogicManager / a future InteractionSystemManager.
-        player.GetComponent<Interactor>().SetShown(false);
+        interactionVisualManager.SetShown(false);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 1;
         craftingCam.Priority = 90;
         craftingUI.gameObject.SetActive(true);
@@ -142,7 +142,7 @@ public class VisualManager : MonoBehaviour
     public void OnCraftingClose()
     {
         craftingUIOpen = false;
-        player.GetComponent<Interactor>().SetShown(true);
+        interactionVisualManager.SetShown(true);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 90;
         tempCam.GetComponent<CinemachineClearShot>().Priority = 1;
         InMenu();

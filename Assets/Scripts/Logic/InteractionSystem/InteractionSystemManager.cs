@@ -1,8 +1,7 @@
 using UnityEngine;
 
-// Thin placeholder for the Interaction system's Logic-side per-system manager.
-// Not yet wired into the call chain — phase 2 will move Interactor's
-// coordination logic here and have it talk to LogicManager.
+// Logic-side per-system manager for Interaction. Single entry point for actually
+// resolving an interaction once Visual has detected an Interact press against a target.
 public class InteractionSystemManager : MonoBehaviour
 {
     public static InteractionSystemManager Instance;
@@ -11,4 +10,6 @@ public class InteractionSystemManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    public void Interact(Interactable interactable, GameObject interactor) => interactable.Interact(interactor);
 }

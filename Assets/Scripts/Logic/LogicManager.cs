@@ -25,6 +25,7 @@ public class LogicManager : MonoBehaviour
     public void SetPlayerSprintEnabled(bool enabled) => playerManager.SetSprintEnabled(enabled);
     public void TryPlayerJump() => playerManager.TryJump();
     public InventorySystem GetPlayerInventorySystem() => playerManager.GetInventorySystem();
+    public void OnInteract(Interactable interactable) => InteractionSystemManager.Instance.Interact(interactable, player);
 
     public List<QuestProgress> GetQuests()
     {
