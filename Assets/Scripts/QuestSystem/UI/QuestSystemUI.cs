@@ -20,7 +20,7 @@ public class QuestSystemUI : MonoBehaviour
         QuestProgress questLineToShow = null;
         if (changedQuest is not null) questLineToShow = changedQuest;
 
-        if (quests.Count == 0 || quests == null) ShowDefault();
+        if (quests == null || quests.Count == 0) ShowDefault();
         else
         {
             foreach (QuestProgress questProgress in quests)
@@ -34,7 +34,6 @@ public class QuestSystemUI : MonoBehaviour
                 questsProgresses.Add(questProgress);
 
             }
-            Debug.Log(questLineToShow.QuestLineName);
 
             ShowQuestLine(questLineToShow ?? questsProgresses[0]);
         }

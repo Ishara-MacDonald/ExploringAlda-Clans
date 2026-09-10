@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class QuestProgress
 {
@@ -13,7 +12,7 @@ public class QuestProgress
     private bool isNew = true;
     private bool isChanged = false;
     private bool isCompleted = false;
-    [SerializeField] private QuestLine questLine;
+    private QuestLine questLine;
 
     public QuestProgress(QuestLine _questLine)
     {

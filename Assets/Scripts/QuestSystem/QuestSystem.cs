@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class QuestSystem
 {
-    [SerializeField] List<QuestProgress> questsProgress;
+    List<QuestProgress> questsProgress;
 
     public QuestSystem()
     {
