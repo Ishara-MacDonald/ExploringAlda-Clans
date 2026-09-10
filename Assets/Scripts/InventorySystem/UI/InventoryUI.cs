@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -66,7 +65,7 @@ public class InventoryUI : MonoBehaviour
                 {
                     InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item.Equals(item));
                     uiSlots.Remove(uiSlot);
-                    Destroy(uiSlot);
+                    Destroy(uiSlot.gameObject);
                 }
             }
 

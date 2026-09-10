@@ -24,7 +24,7 @@ public class InventorySystem : MonoBehaviour
     {
         InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
         if (foundSlot == null)
-            slots.Add(new InventorySlot(item));
+            slots.Add(new InventorySlot(item, amount));
         else
             foundSlot.AddAmount(amount);
 
@@ -36,7 +36,7 @@ public class InventorySystem : MonoBehaviour
         InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
         if (foundSlot == null) return;
 
-        if (foundSlot.GetAmount < amount) slots.Remove(foundSlot);
+        if (foundSlot.GetAmount <= amount) slots.Remove(foundSlot);
         else foundSlot.RemoveAmount(amount);
     }
 }

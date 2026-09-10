@@ -1,10 +1,8 @@
-
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable]
 public class InventorySlotUI : MonoBehaviour
 {
     public static event Action<ItemDataSO, int> ItemInventoryInteracted;

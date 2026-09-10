@@ -10,10 +10,10 @@ public class InventorySlot
     public ItemDataSO GetItem => item;
     public int GetAmount => amount;
 
-    public InventorySlot(ItemDataSO _item)
+    public InventorySlot(ItemDataSO _item, int _amount = 1)
     {
         item = _item;
-        amount = 1;
+        amount = _amount;
     }
 
     public void AddAmount(int _amount)
