@@ -83,7 +83,11 @@ public class CraftingSystem
     {
         List<ItemDataSO> items = materials.Select(item => item.ItemData).ToList();
         Recipe recipe = recipeList.Find(recipe => recipe.IsRecipe(items) == true);
-        if (recipe == null) return false;
+        if (recipe == null)
+        {
+            Debug.LogWarning($"No matching {currentMethod} recipe for: {string.Join(", ", items.Select(item => item.itemName))}");
+            return false;
+        }
 
         foreach (ItemDataSO item in recipe.CraftedItems)
         {

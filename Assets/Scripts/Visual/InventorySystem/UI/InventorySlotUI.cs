@@ -30,6 +30,6 @@ public class InventorySlotUI : MonoBehaviour
 
     public void OnClickItem()
     {
-        ItemInventoryInteracted?.Invoke(item, 1);
+        ItemInventoryInteracted?.Invoke(item, amount);
     }
 }
