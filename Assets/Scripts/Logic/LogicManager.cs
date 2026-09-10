@@ -9,6 +9,7 @@ public class LogicManager : MonoBehaviour
 
     private GameObject player;
     private QuestSystem questSystem;
+    private PlayerManager playerManager;
 
     void Awake()
     {
@@ -16,12 +17,14 @@ public class LogicManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         new CraftingSystem();
         questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
+        playerManager = player.GetComponent<PlayerManager>();
     }
 
-    public void SetMovementEnabled(bool newValue)
-    {
-        player.GetComponent<PlayerMovement>().SetMovementEnabled(newValue);
-    }
+    public void SetMovementEnabled(bool newValue) => playerManager.SetMovementEnabled(newValue);
+    public void SetPlayerMoveInput(Vector2 moveInput) => playerManager.SetMoveInput(moveInput);
+    public void SetPlayerSprintEnabled(bool enabled) => playerManager.SetSprintEnabled(enabled);
+    public void TryPlayerJump() => playerManager.TryJump();
+    public InventorySystem GetPlayerInventorySystem() => playerManager.GetInventorySystem();
 
     public List<QuestProgress> GetQuests()
     {

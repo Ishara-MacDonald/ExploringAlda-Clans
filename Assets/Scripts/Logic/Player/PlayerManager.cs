@@ -1,15 +1,24 @@
 using UnityEngine;
 
-// Thin placeholder for the Player's Logic-side per-system manager.
-// Not yet wired into the call chain — phase 2 will move player coordination
-// logic here (and split input-reading out of PlayerMovement/PlayerInventory/
-// PlayerQuestList) and have it talk to LogicManager.
+// Logic-side per-system manager for the Player. Landing point for player
+// input intents pushed from PlayerVisualManager via VisualManager -> LogicManager.
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
+    private PlayerMovement playerMovement;
+    private PlayerInventory playerInventory;
+
     void Awake()
     {
         Instance = this;
+        playerMovement = GetComponent<PlayerMovement>();
+        playerInventory = GetComponent<PlayerInventory>();
     }
+
+    public void SetMoveInput(Vector2 moveInput) => playerMovement.SetMoveInput(moveInput);
+    public void SetSprintEnabled(bool enabled) => playerMovement.SetSprintEnabled(enabled);
+    public void TryJump() => playerMovement.TryJump();
+    public void SetMovementEnabled(bool newValue) => playerMovement.SetMovementEnabled(newValue);
+    public InventorySystem GetInventorySystem() => playerInventory;
 }

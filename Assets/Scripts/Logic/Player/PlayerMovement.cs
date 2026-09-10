@@ -1,16 +1,10 @@
-
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    #region InputActions
-    private InputAction moveAction;
-    private InputAction sprintAction;
-    private InputAction jumpAction;
+    private Vector2 rawMoveInput;
     private Vector2 moveInput;
-    #endregion
 
     [Header("References")]
     [SerializeField] private GameObject Wings;
@@ -23,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprintEnabled;
     private bool isGliding;
 
-    #region Speeds
     [Header("Speeds")]
     [SerializeField] private int walkSpeed;
     [SerializeField] private int sprintSpeed;
@@ -39,18 +32,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float glidingVelocity;
     private float velocity;
     private int moveSpeed;
-    #endregion
 
     public bool IsMovementEnabled => isMovementEnabled;
     private bool IsGrounded => characterController.isGrounded || Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundedBuffer, groundLayer);
-    private bool IsMoving => moveAction.ReadValue<Vector2>().x != 0 || moveAction.ReadValue<Vector2>().y != 0;
-
-    void Awake()
-    {
-        moveAction = InputSystem.actions.FindAction("Move");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-    }
+    private bool IsMoving => rawMoveInput.x != 0 || rawMoveInput.y != 0;
 
     void Start()
     {
@@ -64,30 +49,6 @@ public class PlayerMovement : MonoBehaviour
     public void ToggleMovementEnabled()
     {
         isMovementEnabled = !isMovementEnabled;
-    }
-
-    private void OnEnable()
-    {
-        moveAction.Enable();
-        sprintAction.Enable();
-        jumpAction.Enable();
-
-        sprintAction.started += OnSprintToggle;
-        sprintAction.canceled += OnSprintToggle;
-
-        jumpAction.started += OnJump;
-    }
-
-    private void OnDisable()
-    {
-        moveAction.Disable();
-        sprintAction.Disable();
-        jumpAction.Disable();
-
-        sprintAction.started -= OnSprintToggle;
-        sprintAction.canceled -= OnSprintToggle;
-
-        jumpAction.started -= OnJump;
     }
 
     private void Update()
@@ -111,24 +72,19 @@ public class PlayerMovement : MonoBehaviour
         isMovementEnabled = newValue;
     }
 
-    private void OnSprintToggle(InputAction.CallbackContext context)
+    public void SetMoveInput(Vector2 newValue)
     {
-        if (context.started)
-        {
-            isSprintEnabled = true;
-        }
-        else if (context.canceled)
-        {
-            isSprintEnabled = false;
-        }
+        rawMoveInput = newValue;
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    public void SetSprintEnabled(bool newValue)
     {
-        if (context.started)
-        {
-            Jump();
-        }
+        isSprintEnabled = newValue;
+    }
+
+    public void TryJump()
+    {
+        Jump();
     }
 
     private void OnToggleGliding()
@@ -180,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!IsMoving) return moveInput;
         }
-        return moveAction.ReadValue<Vector2>();
+        return rawMoveInput;
     }
 
     private void HandleGravity()

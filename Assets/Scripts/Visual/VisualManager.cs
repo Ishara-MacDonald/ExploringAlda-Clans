@@ -74,7 +74,18 @@ public class VisualManager : MonoBehaviour
         questListUI.ShowQuestLine(questLine);
     }
 
-    public void OpenInventory(InventorySystem system)
+    public void SetPlayerMoveInput(Vector2 moveInput) => LogicManager.manager.SetPlayerMoveInput(moveInput);
+    public void SetPlayerSprintEnabled(bool enabled) => LogicManager.manager.SetPlayerSprintEnabled(enabled);
+    public void TryPlayerJump() => LogicManager.manager.TryPlayerJump();
+
+    public void OnInventoryToggle()
+    {
+        if (craftingUIOpen) return;
+        if (inventoryUIOpen) CloseInventory();
+        else OpenInventory();
+    }
+
+    private void OpenInventory()
     {
         if (craftingUIOpen) return;
         if (questUIOpen)
@@ -82,7 +93,7 @@ public class VisualManager : MonoBehaviour
             OnQuestListToggle();
         }
         inventory.gameObject.SetActive(true);
-        inventory.OnOpenInventory(system);
+        inventory.OnOpenInventory(LogicManager.manager.GetPlayerInventorySystem());
         inventoryUIOpen = true;
         InMenu();
     }
@@ -115,17 +126,16 @@ public class VisualManager : MonoBehaviour
     {
         tempCam = craftingCam.gameObject;
         craftingUIOpen = true;
-        // KNOWN SHORTCUT (phase 2): reaches directly into the player's Interactor component
-        // instead of going through LogicManager / a future InteractionSystemManager.
+        // KNOWN SHORTCUT (still open, Interaction system out of scope for this slice):
+        // reaches directly into the player's Interactor component instead of going
+        // through LogicManager / a future InteractionSystemManager.
         player.GetComponent<Interactor>().SetShown(false);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 1;
         craftingCam.Priority = 90;
         craftingUI.gameObject.SetActive(true);
         if (inventoryUIOpen) CloseInventory();
         if (questUIOpen) OnQuestListToggle();
-        // KNOWN SHORTCUT (phase 2): reaches directly into the player's InventorySystem
-        // component instead of going through LogicManager / a future InventorySystemManager.
-        craftingUI.OnOpenCraftingSystem(player.GetComponent<InventorySystem>());
+        craftingUI.OnOpenCraftingSystem(LogicManager.manager.GetPlayerInventorySystem());
         InMenu();
     }
 
