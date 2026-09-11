@@ -15,6 +15,7 @@ public class CraftingVisualManager : MonoBehaviour
     [SerializeField] private LayerMask putBackLayer;
     [SerializeField] private LayerMask isContainable;
     [SerializeField] private float longPressTime = 0.5f;
+    [SerializeField] private CraftingSystemUI craftingSystemUI;
 
     private bool active = false;
     private float lastPressedTime;
@@ -25,6 +26,14 @@ public class CraftingVisualManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    public void ShowPanel() => craftingSystemUI.gameObject.SetActive(true);
+    public void PopulatePanel(InventorySystem playerInventory) => craftingSystemUI.OnOpenCraftingSystem(playerInventory);
+    public void AddProcessedItem(ItemDataSO item) => craftingSystemUI.AddProcessedItem(item);
+    public void RemoveItem(ItemDataSO item) => craftingSystemUI.RemoveItem(item);
+    public void RefreshInventoryDisplay() => craftingSystemUI.RefreshInventoryDisplay();
+    public void OnCraftingReset() => VisualManager.manager.OnCraftingReset();
+    public void OnCraftingTableClosed() => VisualManager.manager.OnCraftingTableClosed();
 
     void OnEnable()
     {

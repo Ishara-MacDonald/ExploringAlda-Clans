@@ -12,9 +12,8 @@ public class VisualManager : MonoBehaviour
 
     private CinemachineInputAxisController mainCamera;
 
-    [SerializeField] private InventoryUI inventory;
-    [SerializeField] private QuestSystemUI questListUI;
-    [SerializeField] private CraftingSystemUI craftingUI;
+    [SerializeField] private InventoryVisualManager inventoryVisualManager;
+    [SerializeField] private QuestVisualManager questVisualManager;
     [SerializeField] private PopUpBanner popupBanner;
     [SerializeField] private CraftingVisualManager craftingVisualManager;
 
@@ -65,16 +64,11 @@ public class VisualManager : MonoBehaviour
         {
             CloseInventory();
         }
-        questListUI.gameObject.SetActive(questUIOpen);
+        questVisualManager.SetPanelActive(questUIOpen);
         if (questUIOpen)
-            questListUI.OnOpenQuestList(LogicManager.manager.GetQuests());
+            questVisualManager.PopulateQuestList(LogicManager.manager.GetQuests());
 
         InMenu();
-    }
-
-    public void ShowQuestDetails(QuestProgress questLine)
-    {
-        questListUI.ShowQuestLine(questLine);
     }
 
     public void SetPlayerMoveInput(Vector2 moveInput) => LogicManager.manager.SetPlayerMoveInput(moveInput);
@@ -103,8 +97,8 @@ public class VisualManager : MonoBehaviour
         {
             OnQuestListToggle();
         }
-        inventory.gameObject.SetActive(true);
-        inventory.OnOpenInventory(LogicManager.manager.GetPlayerInventorySystem());
+        inventoryVisualManager.ShowPanel();
+        inventoryVisualManager.OpenInventory(LogicManager.manager.GetPlayerInventorySystem());
         inventoryUIOpen = true;
         InMenu();
     }
@@ -112,8 +106,8 @@ public class VisualManager : MonoBehaviour
     public void CloseInventory()
     {
         if (craftingUIOpen) return;
-        inventory.OnCloseInventory();
-        inventory.gameObject.SetActive(false);
+        inventoryVisualManager.CloseInventory();
+        inventoryVisualManager.HidePanel();
         inventoryUIOpen = false;
         InMenu();
     }
@@ -130,9 +124,9 @@ public class VisualManager : MonoBehaviour
         }
     }
 
-    public void OnAddProcessItem(ItemDataSO item) { craftingUI.AddProcessedItem(item); }
-    public void OnRemoveItem(ItemDataSO item) { craftingUI.RemoveItem(item); }
-    public void OnCraftingItemsStaged() => craftingUI.RefreshInventoryDisplay();
+    public void OnAddProcessItem(ItemDataSO item) { craftingVisualManager.AddProcessedItem(item); }
+    public void OnRemoveItem(ItemDataSO item) { craftingVisualManager.RemoveItem(item); }
+    public void OnCraftingItemsStaged() => craftingVisualManager.RefreshInventoryDisplay();
 
     public void OnCraftingItemClicked(ItemDataSO item, int amount) => LogicManager.manager.OnCraftingItemClicked(item, amount);
     public void OnCraftingReset() => LogicManager.manager.OnCraftingReset();
@@ -152,10 +146,10 @@ public class VisualManager : MonoBehaviour
         craftingVisualManager.SetActive(true);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 1;
         craftingCam.Priority = 90;
-        craftingUI.gameObject.SetActive(true);
+        craftingVisualManager.ShowPanel();
         if (inventoryUIOpen) CloseInventory();
         if (questUIOpen) OnQuestListToggle();
-        craftingUI.OnOpenCraftingSystem(LogicManager.manager.GetPlayerInventorySystem());
+        craftingVisualManager.PopulatePanel(LogicManager.manager.GetPlayerInventorySystem());
         InMenu();
     }
 

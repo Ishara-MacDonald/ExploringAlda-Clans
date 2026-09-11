@@ -316,6 +316,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   longPressTime: 0.5
+  craftingSystemUI: {fileID: 1032047919}
 --- !u!114 &21628275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3955,9 +3956,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11bd53c3c43f4d64180b82a03ffb837b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VisualManager
-  inventory: {fileID: 2133569859}
-  questListUI: {fileID: 2093112127}
-  craftingUI: {fileID: 1032047919}
+  inventoryVisualManager: {fileID: 2133569860}
+  questVisualManager: {fileID: 2093112128}
   popupBanner: {fileID: 133959937}
   craftingVisualManager: {fileID: 21628274}
 --- !u!114 &246067316
@@ -4827,7 +4827,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -4853,8 +4853,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17671722, y: -0.05928595, z: 0.009603439, w: 0.9824276}
-  m_LocalPosition: {x: -4.3315, y: 6.909329, z: -7.2510796}
+  m_LocalRotation: {x: -0.029033866, y: 0.6376425, z: 0.024061618, w: 0.76940894}
+  m_LocalPosition: {x: -10.406758, y: 5.9179296, z: -8.540977}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22438,6 +22438,7 @@ GameObject:
   - component: {fileID: 2093112126}
   - component: {fileID: 2093112125}
   - component: {fileID: 2093112127}
+  - component: {fileID: 2093112128}
   m_Layer: 5
   m_Name: QuestSystem
   m_TagString: Untagged
@@ -22518,6 +22519,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestSystemUI
   content: {fileID: 262663307}
   questInfoUI: {fileID: 134579425}
+--- !u!114 &2093112128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093112123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ef8382ce6261c469482fa0911186b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestVisualManager
+  questSystemUI: {fileID: 2093112127}
 --- !u!1 &2093984218
 GameObject:
   m_ObjectHideFlags: 0
@@ -22765,6 +22779,7 @@ GameObject:
   - component: {fileID: 2133569856}
   - component: {fileID: 2133569858}
   - component: {fileID: 2133569859}
+  - component: {fileID: 2133569860}
   m_Layer: 5
   m_Name: InventorySystem
   m_TagString: Untagged
@@ -22817,6 +22832,19 @@ MonoBehaviour:
   itemInfoUI: {fileID: 1622641121}
   isSimple: 0
   inventoryDisplay: {fileID: 0}
+--- !u!114 &2133569860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133569855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91818de6e99e6174b830156bc58a405b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryVisualManager
+  inventoryUI: {fileID: 2133569859}
 --- !u!1 &2135344177
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,6 @@ public class QuestPreviewUI : MonoBehaviour
 
     public void ShowQuestDetails()
     {
-        VisualManager.manager.ShowQuestDetails(progress);
+        QuestVisualManager.Instance.ShowQuestDetails(progress);
     }
 }

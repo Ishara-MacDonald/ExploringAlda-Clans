@@ -28,7 +28,7 @@ public class CraftingSystemUI : MonoBehaviour
 
     public void OnResetItems()
     {
-        VisualManager.manager.OnCraftingReset();
+        CraftingVisualManager.Instance.OnCraftingReset();
         RefreshInventoryDisplay();
     }
 
@@ -42,7 +42,7 @@ public class CraftingSystemUI : MonoBehaviour
 
     public void OnCloseCraftingSystem()
     {
-        VisualManager.manager.OnCraftingTableClosed();
+        CraftingVisualManager.Instance.OnCraftingTableClosed();
         inventoryUI.OnCloseInventory();
         gameObject.SetActive(false);
     }
