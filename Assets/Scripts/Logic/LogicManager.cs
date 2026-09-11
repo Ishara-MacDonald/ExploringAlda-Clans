@@ -16,15 +16,14 @@ public class LogicManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         new CraftingSystem();
         playerManager = player.GetComponent<PlayerManager>();
-
-        InventorySystem.AddedItem += OnItemAdded;
-        QuestProgress.completedObjective += OnQuestObjectiveCompleted;
-        QuestProgress.progressedObjective += OnQuestObjectiveProgressed;
     }
 
-    private void OnItemAdded(ItemDataSO item) => VisualManager.manager.ShowItemAddedNotification(item);
-    private void OnQuestObjectiveCompleted(QuestObjective objective) => VisualManager.manager.ShowObjectiveCompletedNotification(objective);
-    private void OnQuestObjectiveProgressed(string itemName, int hasAmount, int neededAmount) => VisualManager.manager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);
+    // Called by InventorySystemManager/QuestSystemManager, which own the actual
+    // event subscriptions — LogicManager never subscribes to a Logic class's event
+    // directly, only its SystemManagers do.
+    public void OnItemAdded(ItemDataSO item) => VisualManager.manager.ShowItemAddedNotification(item);
+    public void OnQuestObjectiveCompleted(QuestObjective objective) => VisualManager.manager.ShowObjectiveCompletedNotification(objective);
+    public void OnQuestObjectiveProgressed(string itemName, int hasAmount, int neededAmount) => VisualManager.manager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);
     public void ShowNotification(string text) => VisualManager.manager.ShowNotification(text);
 
     public void SetMovementEnabled(bool newValue) => playerManager.SetMovementEnabled(newValue);
@@ -58,8 +57,8 @@ public class LogicManager : MonoBehaviour
     public void OnRemoveItem(ItemDataSO item) { VisualManager.manager.OnRemoveItem(item); }
     public void OnCraftingItemsStaged() => VisualManager.manager.OnCraftingItemsStaged();
 
-    public void OnCraftingItemClicked(ItemDataSO item, int amount) => CraftingSystem.craftingSystem.AddItem(item, amount);
-    public void OnCraftingReset() => CraftingSystem.craftingSystem.OnResetItems();
-    public void OnCraftingTableClosed() => CraftingSystem.craftingSystem.OnCraftingTableClose();
-    public int GetCraftingStagedAmount(ItemDataSO item) => CraftingSystem.craftingSystem.GetStagedAmount(item);
+    public void OnCraftingItemClicked(ItemDataSO item, int amount) => CraftingSystemManager.Instance.AddItem(item, amount);
+    public void OnCraftingReset() => CraftingSystemManager.Instance.OnResetItems();
+    public void OnCraftingTableClosed() => CraftingSystemManager.Instance.OnCraftingTableClose();
+    public int GetCraftingStagedAmount(ItemDataSO item) => CraftingSystemManager.Instance.GetStagedAmount(item);
 }

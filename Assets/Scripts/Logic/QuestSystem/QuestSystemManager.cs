@@ -18,6 +18,21 @@ public class QuestSystemManager : MonoBehaviour
         playerQuestList = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerQuestList>();
     }
 
+    void OnEnable()
+    {
+        QuestProgress.completedObjective += OnQuestObjectiveCompleted;
+        QuestProgress.progressedObjective += OnQuestObjectiveProgressed;
+    }
+
+    void OnDisable()
+    {
+        QuestProgress.completedObjective -= OnQuestObjectiveCompleted;
+        QuestProgress.progressedObjective -= OnQuestObjectiveProgressed;
+    }
+
+    private void OnQuestObjectiveCompleted(QuestObjective objective) => LogicManager.manager.OnQuestObjectiveCompleted(objective);
+    private void OnQuestObjectiveProgressed(string itemName, int hasAmount, int neededAmount) => LogicManager.manager.OnQuestObjectiveProgressed(itemName, hasAmount, neededAmount);
+
     public List<QuestProgress> GetQuests() => questSystem.GetQuests();
 
     public void OnQuestTrigger(QuestLine questLine)

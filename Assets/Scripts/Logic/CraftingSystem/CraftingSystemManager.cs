@@ -24,4 +24,11 @@ public class CraftingSystemManager : MonoBehaviour
     public void ReleaseSelected(GameObject putBackHit) => grabber.ReleaseSelected(putBackHit);
     public void Drag(Vector3 targetPosition) => grabber.Drag(targetPosition);
     public void SecondaryAction() => grabber.SecondaryAction();
+
+    // Bridges to the recipe/staging singleton — a different concern from Grabber's
+    // drag gestures, but still Crafting's, so it belongs behind this same manager.
+    public void AddItem(ItemDataSO item, int amount) => CraftingSystem.craftingSystem.AddItem(item, amount);
+    public void OnResetItems() => CraftingSystem.craftingSystem.OnResetItems();
+    public void OnCraftingTableClose() => CraftingSystem.craftingSystem.OnCraftingTableClose();
+    public int GetStagedAmount(ItemDataSO item) => CraftingSystem.craftingSystem.GetStagedAmount(item);
 }
