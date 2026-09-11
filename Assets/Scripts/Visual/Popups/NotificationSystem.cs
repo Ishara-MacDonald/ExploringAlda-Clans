@@ -4,34 +4,10 @@ public class NotificationSystem : MonoBehaviour
 {
     public static NotificationSystem notificationSystem;
     [SerializeField] private GameObject content;
-    private void OnEnable()
+
+    private void Awake()
     {
         notificationSystem = this;
-        InventorySystem.AddedItem += PickedUpItem;
-        QuestProgress.completedObjective += CompletedObjective;
-        QuestProgress.progressedObjective += ProgressedObjective;
-    }
-
-    private void OnDisable()
-    {
-        InventorySystem.AddedItem -= PickedUpItem;
-        QuestProgress.completedObjective -= CompletedObjective;
-        QuestProgress.progressedObjective -= ProgressedObjective;
-    }
-
-    private void PickedUpItem(ItemDataSO data)
-    {
-        AddNotification("Added item: " + data.itemName);
-    }
-
-    private void ProgressedObjective(string itemName, int hasAmount, int neededAmount)
-    {
-        AddNotification(string.Format("{0}: ({1}/{2})", itemName, hasAmount, neededAmount));
-    }
-
-    private void CompletedObjective(QuestObjective objective)
-    {
-        AddNotification("Completed: " + objective.Name);
     }
 
     public void AddNotification(string notificationText)

@@ -139,6 +139,11 @@ public class VisualManager : MonoBehaviour
     public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
     public int GetCraftingStagedAmount(ItemDataSO item) => LogicManager.manager.GetCraftingStagedAmount(item);
 
+    public void ShowNotification(string text) => NotificationSystem.notificationSystem.AddNotification(text);
+    public void ShowItemAddedNotification(ItemDataSO item) => NotificationSystem.notificationSystem.AddNotification("Added item: " + item.itemName);
+    public void ShowObjectiveCompletedNotification(QuestObjective objective) => NotificationSystem.notificationSystem.AddNotification("Completed: " + objective.Name);
+    public void ShowObjectiveProgressedNotification(string itemName, int hasAmount, int neededAmount) => NotificationSystem.notificationSystem.AddNotification(string.Format("{0}: ({1}/{2})", itemName, hasAmount, neededAmount));
+
     private void OnCraftingOpen(CinemachineClearShot craftingCam)
     {
         tempCam = craftingCam.gameObject;

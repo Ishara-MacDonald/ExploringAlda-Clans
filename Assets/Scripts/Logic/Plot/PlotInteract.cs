@@ -22,7 +22,7 @@ public class PlotInteract : Interactable
             else
             {
                 if (!objectRequired) return;
-                NotificationSystem.notificationSystem.AddNotification("Missing " + objectRequired.itemName);
+                LogicManager.manager.ShowNotification("Missing " + objectRequired.itemName);
                 return;
             }
         }

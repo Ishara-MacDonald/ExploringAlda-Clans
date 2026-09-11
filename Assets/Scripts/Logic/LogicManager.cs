@@ -18,7 +18,16 @@ public class LogicManager : MonoBehaviour
         new CraftingSystem();
         questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
         playerManager = player.GetComponent<PlayerManager>();
+
+        InventorySystem.AddedItem += OnItemAdded;
+        QuestProgress.completedObjective += OnQuestObjectiveCompleted;
+        QuestProgress.progressedObjective += OnQuestObjectiveProgressed;
     }
+
+    private void OnItemAdded(ItemDataSO item) => VisualManager.manager.ShowItemAddedNotification(item);
+    private void OnQuestObjectiveCompleted(QuestObjective objective) => VisualManager.manager.ShowObjectiveCompletedNotification(objective);
+    private void OnQuestObjectiveProgressed(string itemName, int hasAmount, int neededAmount) => VisualManager.manager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);
+    public void ShowNotification(string text) => VisualManager.manager.ShowNotification(text);
 
     public void SetMovementEnabled(bool newValue) => playerManager.SetMovementEnabled(newValue);
     public void SetPlayerMoveInput(Vector2 moveInput) => playerManager.SetMoveInput(moveInput);
