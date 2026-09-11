@@ -1,14 +1,27 @@
 using UnityEngine;
 
-// Thin placeholder for the Crafting system's Logic-side per-system manager.
-// Not yet wired into the call chain — phase 2 will move CraftingSystem's
-// coordination logic here and have it talk to LogicManager.
+// Logic-side per-system manager for Crafting. Landing point for crafting-table
+// drag/grab intents pushed from CraftingVisualManager via VisualManager -> LogicManager.
+// Lives on the Crafting Table GameObject (mirrors PlayerManager's placement pattern)
+// because crafting interaction is tied to that specific object, unlike Interaction's
+// stateless InteractionSystemManager.
+[RequireComponent(typeof(Grabber))]
 public class CraftingSystemManager : MonoBehaviour
 {
     public static CraftingSystemManager Instance;
 
+    private Grabber grabber;
+
     void Awake()
     {
         Instance = this;
+        grabber = GetComponent<Grabber>();
     }
+
+    public bool HasSelection => grabber.HasSelection;
+    public void TryQuickGrab(GameObject hit) => grabber.TryQuickGrab(hit);
+    public void TryLongGrab(GameObject hit) => grabber.TryLongGrab(hit);
+    public void ReleaseSelected(GameObject putBackHit) => grabber.ReleaseSelected(putBackHit);
+    public void Drag(Vector3 targetPosition) => grabber.Drag(targetPosition);
+    public void SecondaryAction() => grabber.SecondaryAction();
 }

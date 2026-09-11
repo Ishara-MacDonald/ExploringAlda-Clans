@@ -1,7 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(Grabber))]
 public class CraftingTable : MonoBehaviour
 {
     private bool isCrafting = false;
@@ -62,7 +61,6 @@ public class CraftingTable : MonoBehaviour
         constraints.SetActive(newValue);
         craftingStation.SetActive(newValue);
         materials.SetActive(newValue);
-        GetComponent<Grabber>().enabled = newValue;
     }
 
     private void UpdateBook()

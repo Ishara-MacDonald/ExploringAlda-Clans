@@ -29,6 +29,7 @@ public class CraftingSystemUI : MonoBehaviour
     public void OnResetItems()
     {
         CraftingSystem.craftingSystem.OnResetItems();
+        RefreshInventoryDisplay();
     }
 
     public void RemoveItem(ItemDataSO item)
@@ -36,6 +37,8 @@ public class CraftingSystemUI : MonoBehaviour
         craftingInventory.RemoveItem(item);
         inventoryUI.UpdateUI();
     }
+
+    public void RefreshInventoryDisplay() => inventoryUI.UpdateUI();
 
     public void OnCloseCraftingSystem()
     {

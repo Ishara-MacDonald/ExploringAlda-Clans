@@ -1,109 +1,62 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+// Logic-side landing point for crafting drag/grab gestures. Owns which object is
+// currently selected and the gameplay rules for what happens to it — tag-based
+// dispatch to Pestle/CraftingGear, drag-position application, use/place/put-back.
+// All input reading and raycasting now live in CraftingVisualManager.
 public class Grabber : MonoBehaviour
 {
     private GameObject selectedObject = null;
     public static event Action OnLetGoItem;
-    [SerializeField] private LayerMask draggableLayer;
-    [SerializeField] private LayerMask putBackLayer;
-    [SerializeField] private LayerMask isContainable;
-    private Vector2 mousePosition;
 
-    [SerializeField] private float longPressTime = 0.5f;
-    private float lastPressedTime;
-    private bool isPressed = false;
-    private bool isLongPressed = false;
+    [SerializeField] private float dragHoverHeight = .25f;
+    [SerializeField] private float gearHoverHeight = .125f;
 
-    void Update()
+    public bool HasSelection => selectedObject != null;
+
+    public void TryQuickGrab(GameObject hit)
     {
+        if (hit == null) return;
 
-        if (selectedObject == null)
+        if (hit.CompareTag("Drag"))
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                mousePosition = Mouse.current.position.ReadValue();
-                isPressed = true;
-                lastPressedTime = Time.time;
-            }
-
-            if (isPressed && !isLongPressed)
-            {
-                if (Mouse.current.leftButton.wasReleasedThisFrame)
-                {
-                    if (Time.time - lastPressedTime < longPressTime) OnQuickPress();
-                    isPressed = false;
-                }
-                else if (Time.time - lastPressedTime > longPressTime)
-                {
-                    isLongPressed = true;
-                    isPressed = false;
-                    OnLongPress();
-                }
-            }
-
-            if (isLongPressed && Mouse.current.leftButton.wasReleasedThisFrame)
-            {
-                isLongPressed = false;
-            }
+            selectedObject = hit;
+            selectedObject.GetComponent<Collider>().enabled = false;
         }
-        else
+        else if (hit.CompareTag("Pestle"))
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame) OnPressSelectedObject();
-            else MoveSelectedObject();
+            selectedObject = hit;
+            selectedObject.GetComponent<Pestle>().OnGrab();
         }
-    }
-
-    private void OnQuickPress()
-    {
-        RaycastHit hit = GetHit(draggableLayer);
-        if (hit.collider != null)
+        else if (hit.CompareTag("CraftingGear"))
         {
-            if (hit.collider.CompareTag("Drag"))
+            CraftingMaterial grabbed = hit.GetComponent<CraftingGear>().OnGrab();
+            if (grabbed != null)
             {
-                selectedObject = hit.collider.gameObject;
-                selectedObject.GetComponent<Collider>().enabled = false;
-                Cursor.visible = false;
-            }
-            else if (hit.collider.CompareTag("Pestle"))
-            {
-                selectedObject = hit.collider.gameObject;
-                Cursor.visible = false;
-                selectedObject.GetComponent<Pestle>().OnGrab();
-            }
-            else if (hit.collider.CompareTag("CraftingGear"))
-            {
-                CraftingMaterial grabbed = hit.collider.GetComponent<CraftingGear>().OnGrab();
-                if (grabbed != null)
-                {
-                    selectedObject = grabbed.gameObject;
-                }
+                selectedObject = grabbed.gameObject;
             }
         }
     }
 
-    private void OnLongPress()
+    public void TryLongGrab(GameObject hit)
     {
-        RaycastHit hit = GetHit(draggableLayer);
-        if (hit.collider != null)
+        if (hit == null) return;
+        if (hit.CompareTag("CraftingGear"))
         {
-            if (hit.collider.CompareTag("CraftingGear"))
-            {
-                if (hit.collider.GetComponent<CraftingGear>().OnLongGrab())
-                    selectedObject = hit.collider.gameObject;
-            }
+            if (hit.GetComponent<CraftingGear>().OnLongGrab())
+                selectedObject = hit;
         }
     }
 
-    private void OnPressSelectedObject()
+    public void ReleaseSelected(GameObject putBackHit)
     {
+        if (selectedObject == null) return;
+
         if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().OnLetGo();
         else if (selectedObject.CompareTag("CraftingGear"))
         {
-            RaycastHit hit = GetHit(putBackLayer);
-
-            if (hit.collider != null) selectedObject.GetComponent<CraftingGear>().OnPlaceDown(hit.collider.gameObject);
+            if (putBackHit != null) selectedObject.GetComponent<CraftingGear>().OnPlaceDown(putBackHit);
             else selectedObject.GetComponent<CraftingGear>().OnPutBack();
         }
         else
@@ -113,42 +66,27 @@ public class Grabber : MonoBehaviour
         }
 
         selectedObject = null;
-        Cursor.visible = true;
     }
 
-    private void MoveSelectedObject()
+    public void SecondaryAction()
     {
-        mousePosition = Mouse.current.position.ReadValue();
-        if (Mouse.current.rightButton.wasPressedThisFrame)
-        {
-            if (selectedObject.CompareTag("CraftingGear")) selectedObject.GetComponent<CraftingGear>().OnUse();
-            return;
-        }
+        if (selectedObject == null) return;
+        if (selectedObject.CompareTag("CraftingGear")) selectedObject.GetComponent<CraftingGear>().OnUse();
+        else if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().TryStartGrinding();
+    }
+
+    public void Drag(Vector3 targetPosition)
+    {
+        if (selectedObject == null) return;
 
         bool canMove = true;
         if (selectedObject.CompareTag("Pestle")) canMove = selectedObject.GetComponent<Pestle>().CanMove();
 
         if (canMove)
         {
-            RaycastHit hit = GetHit(isContainable);
-
-            Vector3 newPosition = hit.point;
-            if (!selectedObject.CompareTag("CraftingGear"))
-                newPosition.y += .25f;
-            selectedObject.transform.position = newPosition;
+            if (selectedObject.CompareTag("Pestle") || selectedObject.CompareTag("CraftingGear")) targetPosition.y += gearHoverHeight;
+            else targetPosition.y += dragHoverHeight;
+            selectedObject.transform.position = targetPosition;
         }
-    }
-
-    private RaycastHit GetHit(LayerMask layerMask)
-    {
-        Vector3 screenMousePosNear = new(mousePosition.x, mousePosition.y, Camera.main.nearClipPlane);
-        Vector3 screenMousePosFar = new(mousePosition.x, mousePosition.y, Camera.main.farClipPlane);
-
-        Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
-        Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
-
-        Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out RaycastHit hit, 100f, layerMask);
-
-        return hit;
     }
 }

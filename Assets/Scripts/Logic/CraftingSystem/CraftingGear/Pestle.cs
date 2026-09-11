@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Pestle : MonoBehaviour
 {
@@ -16,15 +15,9 @@ public class Pestle : MonoBehaviour
     [SerializeField] private float grindTime = 5f;
     [SerializeField] private Transform pestleLocation;
 
-    void Update()
+    public void TryStartGrinding()
     {
-        if (isGrabbed)
-        {
-            if (!isGrinding && Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                StartCoroutine(Grinding(grindTime));
-            }
-        }
+        if (isGrabbed && !isGrinding) StartCoroutine(Grinding(grindTime));
     }
 
     public void OnGrab()

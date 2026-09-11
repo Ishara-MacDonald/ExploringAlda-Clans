@@ -60,23 +60,28 @@ public class CraftingSystem
         }
     }
 
-    public void AddItem(ItemDataSO newItem, int hasAmount)
+    // availableAmount is how many of this item are still available to stage right now
+    // (i.e. real amount minus whatever's already staged) — not the player's total.
+    public void AddItem(ItemDataSO newItem, int availableAmount)
     {
         if (currentTable == null) return;
-        if (craftingItems.Count > 0)
-        {
-            int currentAmount = craftingItems.FindAll((item) => item.Equals(newItem)).Count;
-            if (currentAmount < hasAmount)
-            {
-                craftingItems.Add(newItem);
-                currentTable.AddMaterial(newItem);
-            }
-        }
-        else if (craftingItems.Count == 0)
-        {
-            craftingItems.Add(newItem);
-            currentTable.AddMaterial(newItem);
-        }
+        if (availableAmount <= 0) return;
+
+        craftingItems.Add(newItem);
+        currentTable.AddMaterial(newItem);
+        LogicManager.manager.OnCraftingItemsStaged();
+    }
+
+    // How many of this item are currently pulled out onto the table (staged for
+    // crafting) but not yet actually removed from the player's real inventory.
+    public int GetStagedAmount(ItemDataSO item) => craftingItems.Count(i => i.Equals(item));
+
+    // Called once a staged item is actually consumed by a successful craft, so
+    // staged bookkeeping doesn't outlive the items it was tracking.
+    public void ReleaseStagedItem(ItemDataSO item)
+    {
+        int index = craftingItems.FindIndex(i => i.Equals(item));
+        if (index >= 0) craftingItems.RemoveAt(index);
     }
 
     public bool ProcessItem(List<CraftingMaterial> materials)
@@ -92,7 +97,6 @@ public class CraftingSystem
         foreach (ItemDataSO item in recipe.CraftedItems)
         {
             LogicManager.manager.OnAddProcessItem(item);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().AddItem(item);
         }
         return true;
     }

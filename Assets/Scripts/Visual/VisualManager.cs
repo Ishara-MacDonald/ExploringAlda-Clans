@@ -16,6 +16,7 @@ public class VisualManager : MonoBehaviour
     [SerializeField] private QuestSystemUI questListUI;
     [SerializeField] private CraftingSystemUI craftingUI;
     [SerializeField] private PopUpBanner popupBanner;
+    [SerializeField] private CraftingVisualManager craftingVisualManager;
 
     private GameObject player;
     private GameObject playerCam;
@@ -81,6 +82,13 @@ public class VisualManager : MonoBehaviour
     public void TryPlayerJump() => LogicManager.manager.TryPlayerJump();
     public void OnInteract(Interactable interactable) => LogicManager.manager.OnInteract(interactable);
 
+    public bool HasCraftingSelection() => LogicManager.manager.HasCraftingSelection();
+    public void OnCraftingQuickGrab(GameObject hit) => LogicManager.manager.OnCraftingQuickGrab(hit);
+    public void OnCraftingLongGrab(GameObject hit) => LogicManager.manager.OnCraftingLongGrab(hit);
+    public void OnCraftingRelease(GameObject putBackHit) => LogicManager.manager.OnCraftingRelease(putBackHit);
+    public void OnCraftingDrag(Vector3 targetPosition) => LogicManager.manager.OnCraftingDrag(targetPosition);
+    public void OnCraftingSecondaryAction() => LogicManager.manager.OnCraftingSecondaryAction();
+
     public void OnInventoryToggle()
     {
         if (craftingUIOpen) return;
@@ -124,12 +132,14 @@ public class VisualManager : MonoBehaviour
 
     public void OnAddProcessItem(ItemDataSO item) { craftingUI.AddProcessedItem(item); }
     public void OnRemoveItem(ItemDataSO item) { craftingUI.RemoveItem(item); }
+    public void OnCraftingItemsStaged() => craftingUI.RefreshInventoryDisplay();
 
     private void OnCraftingOpen(CinemachineClearShot craftingCam)
     {
         tempCam = craftingCam.gameObject;
         craftingUIOpen = true;
         interactionVisualManager.SetShown(false);
+        craftingVisualManager.SetActive(true);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 1;
         craftingCam.Priority = 90;
         craftingUI.gameObject.SetActive(true);
@@ -143,6 +153,7 @@ public class VisualManager : MonoBehaviour
     {
         craftingUIOpen = false;
         interactionVisualManager.SetShown(true);
+        craftingVisualManager.SetActive(false);
         playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 90;
         tempCam.GetComponent<CinemachineClearShot>().Priority = 1;
         InMenu();

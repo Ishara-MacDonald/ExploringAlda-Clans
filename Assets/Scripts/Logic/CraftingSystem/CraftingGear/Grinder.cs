@@ -82,7 +82,7 @@ public class Grinder : CraftingGear
             {
                 ItemDataSO itemData = material.ItemData;
                 LogicManager.manager.OnRemoveItem(itemData);
-                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().RemoveItem(itemData);
+                CraftingSystem.craftingSystem.ReleaseStagedItem(itemData);
                 Destroy(material.gameObject);
             }
             materialList = new();

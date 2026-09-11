@@ -89,8 +89,13 @@ public class InventoryUI : MonoBehaviour
         foreach (InventorySlot slot in currentSystem.InventorySlots)
         {
             InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.GetItem);
-            if (uiSlot == null || uiSlot.Amount == slot.GetAmount) continue;
-            uiSlot.SetAmount(slot.GetAmount);
+            if (uiSlot == null) continue;
+            // Subtract anything already staged for the current craft, without touching
+            // the player's real inventory data — it's only actually removed on a
+            // successful craft (see CraftingSystem.ReleaseStagedItem).
+            int displayAmount = slot.GetAmount - CraftingSystem.craftingSystem.GetStagedAmount(slot.GetItem);
+            if (uiSlot.Amount == displayAmount) continue;
+            uiSlot.SetAmount(displayAmount);
         }
     }
 

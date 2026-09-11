@@ -27,6 +27,13 @@ public class LogicManager : MonoBehaviour
     public InventorySystem GetPlayerInventorySystem() => playerManager.GetInventorySystem();
     public void OnInteract(Interactable interactable) => InteractionSystemManager.Instance.Interact(interactable, player);
 
+    public bool HasCraftingSelection() => CraftingSystemManager.Instance.HasSelection;
+    public void OnCraftingQuickGrab(GameObject hit) => CraftingSystemManager.Instance.TryQuickGrab(hit);
+    public void OnCraftingLongGrab(GameObject hit) => CraftingSystemManager.Instance.TryLongGrab(hit);
+    public void OnCraftingRelease(GameObject putBackHit) => CraftingSystemManager.Instance.ReleaseSelected(putBackHit);
+    public void OnCraftingDrag(Vector3 targetPosition) => CraftingSystemManager.Instance.Drag(targetPosition);
+    public void OnCraftingSecondaryAction() => CraftingSystemManager.Instance.SecondaryAction();
+
     public List<QuestProgress> GetQuests()
     {
         return questSystem.GetQuests();
@@ -56,4 +63,5 @@ public class LogicManager : MonoBehaviour
 
     public void OnAddProcessItem(ItemDataSO item) { VisualManager.manager.OnAddProcessItem(item); }
     public void OnRemoveItem(ItemDataSO item) { VisualManager.manager.OnRemoveItem(item); }
+    public void OnCraftingItemsStaged() => VisualManager.manager.OnCraftingItemsStaged();
 }
