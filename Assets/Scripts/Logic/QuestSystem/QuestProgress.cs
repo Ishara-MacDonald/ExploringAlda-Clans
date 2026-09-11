@@ -98,7 +98,7 @@ public class QuestProgress
     {
         if (isCompleted) return;
         isCompleted = true;
-        LogicManager.manager.QuestLineCompleted(this);
+        QuestSystemManager.Instance.QuestLineCompleted(this);
 
         Interactable.interacted -= Interacted;
         InventorySystem.AddedItem -= PickedUpItem;

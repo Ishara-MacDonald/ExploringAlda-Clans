@@ -3906,6 +3906,7 @@ GameObject:
   - component: {fileID: 246067313}
   - component: {fileID: 246067314}
   - component: {fileID: 246067315}
+  - component: {fileID: 246067316}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3958,6 +3959,18 @@ MonoBehaviour:
   craftingUI: {fileID: 1032047919}
   popupBanner: {fileID: 133959937}
   craftingVisualManager: {fileID: 21628274}
+--- !u!114 &246067316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246067312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07fdcb19ed83674c8fb73a690282731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestSystemManager
 --- !u!1 &257656945
 GameObject:
   m_ObjectHideFlags: 0

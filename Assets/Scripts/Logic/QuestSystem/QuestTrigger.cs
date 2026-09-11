@@ -9,7 +9,7 @@ public class QuestTrigger
     public void OnQuestTrigger()
     {
         if (line == null) return;
-        LogicManager.manager.OnQuestTrigger(line);
+        QuestSystemManager.Instance.OnQuestTrigger(line);
     }
 
 }

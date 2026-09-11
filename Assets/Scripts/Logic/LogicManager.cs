@@ -8,7 +8,6 @@ public class LogicManager : MonoBehaviour
     public static LogicManager manager;
 
     private GameObject player;
-    private QuestSystem questSystem;
     private PlayerManager playerManager;
 
     void Awake()
@@ -16,7 +15,6 @@ public class LogicManager : MonoBehaviour
         manager = this;
         player = GameObject.FindGameObjectWithTag("Player");
         new CraftingSystem();
-        questSystem = player.GetComponent<PlayerQuestList>().GetQuestSystem;
         playerManager = player.GetComponent<PlayerManager>();
 
         InventorySystem.AddedItem += OnItemAdded;
@@ -43,22 +41,8 @@ public class LogicManager : MonoBehaviour
     public void OnCraftingDrag(Vector3 targetPosition) => CraftingSystemManager.Instance.Drag(targetPosition);
     public void OnCraftingSecondaryAction() => CraftingSystemManager.Instance.SecondaryAction();
 
-    public List<QuestProgress> GetQuests()
-    {
-        return questSystem.GetQuests();
-    }
-
-    public void OnQuestTrigger(QuestLine questLine)
-    {
-        questSystem.AddQuestLine(questLine);
-        VisualManager.manager.OnQuestListToggle();
-    }
-
-    public void QuestLineCompleted(QuestProgress progress)
-    {
-        questSystem.RemoveQuestLine(progress);
-        VisualManager.manager.ShowCompletedBanner(progress.QuestLine);
-    }
+    public List<QuestProgress> GetQuests() => QuestSystemManager.Instance.GetQuests();
+    public void ShowCompletedBanner(QuestLine questLine) => VisualManager.manager.ShowCompletedBanner(questLine);
 
     public void OnQuestListToggle()
     {
