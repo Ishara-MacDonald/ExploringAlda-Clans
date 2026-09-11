@@ -48,6 +48,7 @@ public class QuestSystemUI : MonoBehaviour
 
     public void ShowQuestLine(QuestProgress line)
     {
+        line.ToggleIsNew();
         questInfoUI.SetQuestInfoUI(line);
     }
 }
