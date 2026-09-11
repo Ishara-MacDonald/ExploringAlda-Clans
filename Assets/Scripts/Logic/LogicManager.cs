@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Logic-side top hub. Owns non-visual gameplay state (quest system, crafting system, the
-// player reference) and is the only Logic-side class allowed to call into VisualManager.
+// Logic-side top hub; owns gameplay state. Only class that calls into VisualManager.
 public class LogicManager : MonoBehaviour
 {
     public static LogicManager manager;
@@ -18,9 +17,7 @@ public class LogicManager : MonoBehaviour
         playerManager = player.GetComponent<PlayerManager>();
     }
 
-    // Called by InventorySystemManager/QuestSystemManager, which own the actual
-    // event subscriptions — LogicManager never subscribes to a Logic class's event
-    // directly, only its SystemManagers do.
+    // Called by InventorySystemManager/QuestSystemManager — LogicManager never subscribes directly.
     public void OnItemAdded(ItemDataSO item) => VisualManager.manager.ShowItemAddedNotification(item);
     public void OnQuestObjectiveCompleted(QuestObjective objective) => VisualManager.manager.ShowObjectiveCompletedNotification(objective);
     public void OnQuestObjectiveProgressed(string itemName, int hasAmount, int neededAmount) => VisualManager.manager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);

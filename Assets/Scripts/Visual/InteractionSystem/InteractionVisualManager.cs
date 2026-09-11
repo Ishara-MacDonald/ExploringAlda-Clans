@@ -2,10 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Visual-side per-system manager for Interaction. Owns camera-driven target detection,
-// prompt visibility/text, and the Interact input binding. Reports discrete "interact
-// pressed while looking at X" events up through VisualManager -> LogicManager, which
-// resolves them.
+// Owns target detection, prompt UI, and Interact input; reports presses up to LogicManager.
 public class InteractionVisualManager : MonoBehaviour
 {
     public static InteractionVisualManager Instance;

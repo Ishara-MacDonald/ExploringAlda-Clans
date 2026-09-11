@@ -1,9 +1,6 @@
 using UnityEngine;
 
-// Logic-side per-system manager for Inventory. Currently just bridges the
-// InventorySystem.AddedItem static event (fires for any InventorySystem instance
-// adding an item) up through LogicManager, so LogicManager never subscribes to a
-// Logic class's event directly.
+// Bridges InventorySystem.AddedItem to LogicManager, so LogicManager never subscribes directly.
 public class InventorySystemManager : MonoBehaviour
 {
     public static InventorySystemManager Instance;

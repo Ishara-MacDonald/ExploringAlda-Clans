@@ -1,12 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Visual-side per-system manager for crafting-table dragging. Owns all mouse input
-// reading and camera/mouse raycasting for grab/drag/release/use gestures (aiming is
-// camera-driven — same reasoning as InteractionVisualManager), plus cursor visibility
-// while dragging. Tag dispatch and gameplay state (what's selected, whether it can
-// move, what a gesture means) stay in Logic's Grabber; this only reports discrete/
-// continuous gesture events up through VisualManager -> LogicManager.
+// Visual manager for crafting-table dragging: owns mouse input/raycasting. Grabber owns gameplay logic.
 public class CraftingVisualManager : MonoBehaviour
 {
     public static CraftingVisualManager Instance;
@@ -51,10 +46,7 @@ public class CraftingVisualManager : MonoBehaviour
         VisualManager.manager.OnCraftingItemClicked(item, amount);
     }
 
-    // Called by VisualManager when the crafting table opens/closes — replaces the old
-    // Grabber.enabled toggle from CraftingTable.ToggleCollisions. Deliberately does not
-    // touch Cursor.visible: VisualManager.InMenu() (called right after this, same frame)
-    // is the sole authority for menu-driven cursor visibility.
+    // Toggles input on table open/close. Doesn't touch Cursor.visible — InMenu() owns that.
     public void SetActive(bool newValue)
     {
         active = newValue;

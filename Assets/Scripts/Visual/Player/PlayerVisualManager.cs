@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Visual-side per-system manager for the Player. Reads all player input and
-// translates it into intents pushed through VisualManager -> LogicManager.
+// Reads all player input and pushes it as intents through VisualManager to LogicManager.
 public class PlayerVisualManager : MonoBehaviour
 {
     public static PlayerVisualManager Instance;

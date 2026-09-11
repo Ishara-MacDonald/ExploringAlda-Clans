@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Logic-side per-system manager for Quests. Bridge between the Quest classes
-// (QuestTrigger, QuestProgress) and LogicManager. Caches the PlayerQuestList
-// component (safe regardless of Awake order) rather than its QuestSystem value,
-// so it never depends on PlayerQuestList.Awake() having already run.
+// Bridge between Quest classes and LogicManager. Caches PlayerQuestList, not QuestSystem, to avoid Awake-order issues.
 public class QuestSystemManager : MonoBehaviour
 {
     public static QuestSystemManager Instance;

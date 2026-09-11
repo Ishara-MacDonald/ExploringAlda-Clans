@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Logic-side per-system manager for Interaction. Single entry point for actually
-// resolving an interaction once Visual has detected an Interact press against a target.
+// Single entry point for resolving an interaction once Visual detects an Interact press.
 public class InteractionSystemManager : MonoBehaviour
 {
     public static InteractionSystemManager Instance;

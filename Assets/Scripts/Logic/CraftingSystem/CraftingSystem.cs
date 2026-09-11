@@ -58,8 +58,7 @@ public class CraftingSystem
         }
     }
 
-    // availableAmount is how many of this item are still available to stage right now
-    // (i.e. real amount minus whatever's already staged) — not the player's total.
+    // availableAmount = still stageable (real amount minus staged) — not the player's total.
     public void AddItem(ItemDataSO newItem, int availableAmount)
     {
         if (currentTable == null) return;
@@ -70,12 +69,10 @@ public class CraftingSystem
         LogicManager.manager.OnCraftingItemsStaged();
     }
 
-    // How many of this item are currently pulled out onto the table (staged for
-    // crafting) but not yet actually removed from the player's real inventory.
+    // How many of this item are staged, but not yet removed from real inventory.
     public int GetStagedAmount(ItemDataSO item) => craftingItems.Count(i => i.Equals(item));
 
-    // Called once a staged item is actually consumed by a successful craft, so
-    // staged bookkeeping doesn't outlive the items it was tracking.
+    // Called when a staged item is consumed, so bookkeeping doesn't outlive it.
     public void ReleaseStagedItem(ItemDataSO item)
     {
         int index = craftingItems.FindIndex(i => i.Equals(item));

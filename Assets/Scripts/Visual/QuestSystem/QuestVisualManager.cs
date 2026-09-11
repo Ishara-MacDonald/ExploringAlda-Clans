@@ -1,18 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Visual-side per-system manager for the quest list UI. Lives on the same
-// GameObject as QuestSystemUI ("QuestSystem") and is the only path VisualManager
-// uses to reach it.
+// Visual manager for the quest list UI on "QuestSystem" — VisualManager's only path to it.
 public class QuestVisualManager : MonoBehaviour
 {
     public static QuestVisualManager Instance;
 
-    // Serialized rather than GetComponent-in-Awake: this GameObject likely starts
-    // inactive like InventorySystem did, and Unity never calls Awake() on an inactive
-    // object's components, so a GetComponent fetch here could stay null until
-    // something else activates it first — but activating it is this manager's job.
-    // A serialized reference is valid immediately regardless of active state.
+    // Serialized, not GetComponent: this GameObject may start inactive, so Awake() might not fire.
     [SerializeField] private QuestSystemUI questSystemUI;
 
     void Awake()

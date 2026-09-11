@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Logic-side per-system manager for the Player. Landing point for player
-// input intents pushed from PlayerVisualManager via VisualManager -> LogicManager.
+// Landing point for player input intents pushed from PlayerVisualManager via LogicManager.
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;

@@ -1,10 +1,7 @@
 using System;
 using UnityEngine;
 
-// Logic-side landing point for crafting drag/grab gestures. Owns which object is
-// currently selected and the gameplay rules for what happens to it — tag-based
-// dispatch to Pestle/CraftingGear, drag-position application, use/place/put-back.
-// All input reading and raycasting now live in CraftingVisualManager.
+// Owns grab/drag gameplay rules: tag dispatch, drag position, use/place/put-back. Input lives in CraftingVisualManager.
 public class Grabber : MonoBehaviour
 {
     private GameObject selectedObject = null;
