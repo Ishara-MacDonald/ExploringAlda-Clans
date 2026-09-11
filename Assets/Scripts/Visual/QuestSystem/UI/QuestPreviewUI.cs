@@ -1,0 +1,23 @@
+
+
+using TMPro;
+using UnityEngine;
+
+public class QuestPreviewUI : MonoBehaviour
+{
+    private QuestProgress progress;
+    [SerializeField] private TextMeshProUGUI title;
+
+    public QuestProgress Progress => progress;
+
+    public void SetQuestPreviewUI(QuestProgress _progress)
+    {
+        progress = _progress;
+        title.SetText(_progress.GetCurrentQuest().QuestName);
+    }
+
+    public void ShowQuestDetails()
+    {
+        QuestVisualManager.Instance.ShowQuestDetails(progress);
+    }
+}

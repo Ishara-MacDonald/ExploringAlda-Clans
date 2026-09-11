@@ -19,19 +19,47 @@ MonoBehaviour:
   - questName: Flower for the Picking
     questDescription: What's a herbalist without their herbs?
     objectives:
-    - name: Gather cecilias
+    - name: Gather Rubinettes
       type: 0
-      description: It's about time I pick up some herbs. Let's start off with some
-        common cecilias.
-      itemData: {fileID: 11400000, guid: 1e39cd2b87756d847af03855e3a182b6, type: 2}
-      gatherAmount: 2
+      description: '"If you''re reading this, I''ll have to assume you found the
+        cabin and are still alive. Good for you, I suppose. Since you pride yourself
+        so much in your ''grasses'', go do your plant picking. Your elixirs are the
+        only use we have for you."
+
+
+        What a warm welcome... Well, let''s
+        make myself familiar with my surroundings. There should be some Rubinettes
+        nearby. If I remember right, they carry red petals and should grow in areas
+        with a lot of foliage.
+
+
+        Let''s try and find some.'
+      itemData: {fileID: 11400000, guid: f66f7c823b8565d44b129085f8c1331e, type: 2}
+      gatherAmount: 4
       position: {fileID: 0}
       range: 0
       interactable: 
-    - name: Plant the cecilias in a plot
+    - name: Gather Bliz lilies
+      type: 0
+      description: 'What a maze... I should have enough Rubinettes now though. Next,
+        let''s look for some Bliz Lilies.
+
+
+        I saw a forest with snow covered
+        trees back at the cabin, where flowers with blue petals should grow.
+
+
+        Let''s
+        try and find some Bliz Lilies.'
+      itemData: {fileID: 11400000, guid: 713bcbcab78c93248a4bfdcd2776135c, type: 2}
+      gatherAmount: 4
+      position: {fileID: 0}
+      range: 111
+      interactable: House Plot
+    - name: Planting duties
       type: 2
-      description: Those are some pretty flowers! Let's put them in the plot next
-        to my house.
+      description: I should have enough flowers now. Let's plot them back at the
+        cabin.
       itemData: {fileID: 11400000, guid: 1e39cd2b87756d847af03855e3a182b6, type: 2}
       gatherAmount: 2
       position: {fileID: 0}
