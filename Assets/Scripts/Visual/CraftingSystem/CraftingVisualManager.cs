@@ -26,6 +26,22 @@ public class CraftingVisualManager : MonoBehaviour
         Instance = this;
     }
 
+    void OnEnable()
+    {
+        InventorySlotUI.ItemInventoryInteracted += OnItemClicked;
+    }
+
+    void OnDisable()
+    {
+        InventorySlotUI.ItemInventoryInteracted -= OnItemClicked;
+    }
+
+    private void OnItemClicked(ItemDataSO item, int amount)
+    {
+        if (!active) return;
+        VisualManager.manager.OnCraftingItemClicked(item, amount);
+    }
+
     // Called by VisualManager when the crafting table opens/closes — replaces the old
     // Grabber.enabled toggle from CraftingTable.ToggleCollisions. Deliberately does not
     // touch Cursor.visible: VisualManager.InMenu() (called right after this, same frame)

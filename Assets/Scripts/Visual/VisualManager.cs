@@ -134,6 +134,11 @@ public class VisualManager : MonoBehaviour
     public void OnRemoveItem(ItemDataSO item) { craftingUI.RemoveItem(item); }
     public void OnCraftingItemsStaged() => craftingUI.RefreshInventoryDisplay();
 
+    public void OnCraftingItemClicked(ItemDataSO item, int amount) => LogicManager.manager.OnCraftingItemClicked(item, amount);
+    public void OnCraftingReset() => LogicManager.manager.OnCraftingReset();
+    public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
+    public int GetCraftingStagedAmount(ItemDataSO item) => LogicManager.manager.GetCraftingStagedAmount(item);
+
     private void OnCraftingOpen(CinemachineClearShot craftingCam)
     {
         tempCam = craftingCam.gameObject;

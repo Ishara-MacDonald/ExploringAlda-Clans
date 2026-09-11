@@ -64,4 +64,9 @@ public class LogicManager : MonoBehaviour
     public void OnAddProcessItem(ItemDataSO item) { VisualManager.manager.OnAddProcessItem(item); }
     public void OnRemoveItem(ItemDataSO item) { VisualManager.manager.OnRemoveItem(item); }
     public void OnCraftingItemsStaged() => VisualManager.manager.OnCraftingItemsStaged();
+
+    public void OnCraftingItemClicked(ItemDataSO item, int amount) => CraftingSystem.craftingSystem.AddItem(item, amount);
+    public void OnCraftingReset() => CraftingSystem.craftingSystem.OnResetItems();
+    public void OnCraftingTableClosed() => CraftingSystem.craftingSystem.OnCraftingTableClose();
+    public int GetCraftingStagedAmount(ItemDataSO item) => CraftingSystem.craftingSystem.GetStagedAmount(item);
 }
