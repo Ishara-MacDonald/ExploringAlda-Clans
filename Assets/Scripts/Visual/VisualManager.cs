@@ -1,8 +1,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-// Visual-side top hub. Owns UI panel refs, camera refs, and all "is a menu open" state.
-// Only Visual-side class allowed to call into LogicManager.
+// Visual-side top hub; owns UI/camera refs and menu state. Only class that calls LogicManager.
 public class VisualManager : MonoBehaviour
 {
     public static VisualManager manager;
@@ -14,7 +13,7 @@ public class VisualManager : MonoBehaviour
 
     [SerializeField] private InventoryVisualManager inventoryVisualManager;
     [SerializeField] private QuestVisualManager questVisualManager;
-    [SerializeField] private PopUpBanner popupBanner;
+    [SerializeField] private PopupsVisualManager popupsVisualManager;
     [SerializeField] private CraftingVisualManager craftingVisualManager;
 
     private GameObject player;
@@ -29,15 +28,11 @@ public class VisualManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
         interactionVisualManager = player.GetComponent<InteractionVisualManager>();
-        popupBanner.gameObject.SetActive(false);
     }
 
     void Start()
     {
-        // Deferred to Start: InMenu() calls into LogicManager, and Unity doesn't guarantee
-        // Awake() order across different components — LogicManager.manager could still be
-        // null if this ran from Awake(). All Awake() calls are guaranteed to finish before
-        // any Start() call, so this is safe here.
+        // Deferred to Start: Awake() order isn't guaranteed, LogicManager.manager could be null here.
         InMenu();
     }
 
@@ -50,11 +45,7 @@ public class VisualManager : MonoBehaviour
         LogicManager.manager.SetMovementEnabled(!isInMenu);
     }
 
-    public void ShowCompletedBanner(QuestLine questLine)
-    {
-        popupBanner.gameObject.SetActive(true);
-        popupBanner.SetPopUpBanner(questLine);
-    }
+    public void ShowCompletedBanner(QuestLine questLine) => popupsVisualManager.ShowCompletedBanner(questLine);
 
     public void OnQuestListToggle()
     {
@@ -133,10 +124,10 @@ public class VisualManager : MonoBehaviour
     public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
     public int GetCraftingStagedAmount(ItemDataSO item) => LogicManager.manager.GetCraftingStagedAmount(item);
 
-    public void ShowNotification(string text) => NotificationSystem.notificationSystem.AddNotification(text);
-    public void ShowItemAddedNotification(ItemDataSO item) => NotificationSystem.notificationSystem.AddNotification("Added item: " + item.itemName);
-    public void ShowObjectiveCompletedNotification(QuestObjective objective) => NotificationSystem.notificationSystem.AddNotification("Completed: " + objective.Name);
-    public void ShowObjectiveProgressedNotification(string itemName, int hasAmount, int neededAmount) => NotificationSystem.notificationSystem.AddNotification(string.Format("{0}: ({1}/{2})", itemName, hasAmount, neededAmount));
+    public void ShowNotification(string text) => popupsVisualManager.ShowNotification(text);
+    public void ShowItemAddedNotification(ItemDataSO item) => popupsVisualManager.ShowItemAddedNotification(item);
+    public void ShowObjectiveCompletedNotification(QuestObjective objective) => popupsVisualManager.ShowObjectiveCompletedNotification(objective);
+    public void ShowObjectiveProgressedNotification(string itemName, int hasAmount, int neededAmount) => popupsVisualManager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);
 
     private void OnCraftingOpen(CinemachineClearShot craftingCam)
     {
