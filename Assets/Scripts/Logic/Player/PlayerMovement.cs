@@ -30,11 +30,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpGravity;
     [SerializeField] private float jumpPower;
     [SerializeField] private float glidingVelocity;
+    [SerializeField] private float minGlideHeight;
     private float velocity;
     private int moveSpeed;
 
     public bool IsMovementEnabled => isMovementEnabled;
-    private bool IsGrounded => characterController.isGrounded || Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundedBuffer, groundLayer);
+    private bool isGrounded;
     private bool IsMoving => rawMoveInput.x != 0 || rawMoveInput.y != 0;
 
     void Start()
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Debug.DrawRay(transform.position, -transform.up * groundedBuffer, Color.red);
+        isGrounded = characterController.isGrounded || Physics.Raycast(transform.position, -transform.up, groundedBuffer, groundLayer);
         if (isMovementEnabled)
         {
             moveSpeed = HandleMovementSpeed();
@@ -112,27 +114,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundedBuffer, groundLayer))
+        if (isGrounded)
         {
             velocity += jumpPower;
         }
-        else
+        else if (isGliding || HeightAboveGround() >= minGlideHeight)
         {
             OnToggleGliding();
         }
     }
 
+    private float HeightAboveGround()
+    {
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, Mathf.Infinity, groundLayer))
+            return hit.distance;
+        return Mathf.Infinity;
+    }
+
     private int HandleMovementSpeed()
     {
         if (isGliding) return glidingSpeed;
-        if (!IsGrounded) return fallingSpeed;
+        if (!isGrounded) return fallingSpeed;
         if (isSprintEnabled) return sprintSpeed;
         return walkSpeed;
     }
 
     private Vector2 HandleMovementInput()
     {
-        if (!IsGrounded)
+        if (!isGrounded)
         {
             if (!IsMoving) return moveInput;
         }
