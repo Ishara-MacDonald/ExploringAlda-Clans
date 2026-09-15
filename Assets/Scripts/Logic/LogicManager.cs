@@ -12,7 +12,7 @@ public class LogicManager : MonoBehaviour
     void Awake()
     {
         manager = this;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
         new CraftingSystem();
         playerManager = player.GetComponent<PlayerManager>();
     }

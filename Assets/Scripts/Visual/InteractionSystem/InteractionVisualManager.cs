@@ -102,7 +102,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
         for (int i = 0; i < hitCount; i++)
         {
             Collider collider = hitsBuffer[i].collider;
-            if (collider == null || !collider.gameObject.CompareTag("Interactable")) continue;
+            if (collider == null || !collider.gameObject.CompareTag(Tags.Interactable)) continue;
 
             float sqrDistance = (collider.transform.position - rayPosition).sqrMagnitude;
             if (closestCollider != null && sqrDistance >= closestDistance) continue;

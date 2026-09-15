@@ -11,13 +11,13 @@ public class InteractionSign : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag(Tags.Player))
             visual.SetActive(true);
     }
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag(Tags.Player))
             visual.SetActive(false);
     }
 }

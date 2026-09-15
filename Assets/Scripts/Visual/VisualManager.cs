@@ -26,9 +26,9 @@ public class VisualManager : MonoBehaviour
         manager = this;
         InventoryVisualManager.Instance = inventoryVisualManager;
         QuestVisualManager.Instance = questVisualManager;
-        mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
+        mainCamera = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera).GetComponent<CinemachineInputAxisController>();
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
+        playerCam = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera);
         interactionVisualManager = player.GetComponent<InteractionVisualManager>();
     }
 

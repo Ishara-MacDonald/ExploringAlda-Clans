@@ -11,7 +11,7 @@ public class OverworldItem : Interactable
     void Awake()
     {
         type = InteractionType.PickUp;
-        gameObject.tag = "Interactable";
+        gameObject.tag = Tags.Interactable;
 
         gameObject.AddComponent<SphereCollider>().isTrigger = true;
         if (transform.childCount <= 0) Instantiate((GameObject)Resources.Load("Gatherables/InteractSign"), transform.position, transform.rotation, transform);

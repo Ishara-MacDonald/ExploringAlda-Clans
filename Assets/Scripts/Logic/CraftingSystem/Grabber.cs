@@ -16,17 +16,17 @@ public class Grabber : MonoBehaviour
     {
         if (hit == null) return;
 
-        if (hit.CompareTag("Drag"))
+        if (hit.CompareTag(Tags.Drag))
         {
             selectedObject = hit;
             selectedObject.GetComponent<Collider>().enabled = false;
         }
-        else if (hit.CompareTag("Pestle"))
+        else if (hit.CompareTag(Tags.Pestle))
         {
             selectedObject = hit;
             selectedObject.GetComponent<Pestle>().OnGrab();
         }
-        else if (hit.CompareTag("CraftingGear"))
+        else if (hit.CompareTag(Tags.CraftingGear))
         {
             CraftingMaterial grabbed = hit.GetComponent<CraftingGear>().OnGrab();
             if (grabbed != null)
@@ -39,7 +39,7 @@ public class Grabber : MonoBehaviour
     public void TryLongGrab(GameObject hit)
     {
         if (hit == null) return;
-        if (hit.CompareTag("CraftingGear"))
+        if (hit.CompareTag(Tags.CraftingGear))
         {
             if (hit.GetComponent<CraftingGear>().OnLongGrab())
                 selectedObject = hit;
@@ -50,8 +50,8 @@ public class Grabber : MonoBehaviour
     {
         if (selectedObject == null) return;
 
-        if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().OnLetGo();
-        else if (selectedObject.CompareTag("CraftingGear"))
+        if (selectedObject.CompareTag(Tags.Pestle)) selectedObject.GetComponent<Pestle>().OnLetGo();
+        else if (selectedObject.CompareTag(Tags.CraftingGear))
         {
             if (putBackHit != null) selectedObject.GetComponent<CraftingGear>().OnPlaceDown(putBackHit);
             else selectedObject.GetComponent<CraftingGear>().OnPutBack();
@@ -68,8 +68,8 @@ public class Grabber : MonoBehaviour
     public void SecondaryAction()
     {
         if (selectedObject == null) return;
-        if (selectedObject.CompareTag("CraftingGear")) selectedObject.GetComponent<CraftingGear>().OnUse();
-        else if (selectedObject.CompareTag("Pestle")) selectedObject.GetComponent<Pestle>().TryStartGrinding();
+        if (selectedObject.CompareTag(Tags.CraftingGear)) selectedObject.GetComponent<CraftingGear>().OnUse();
+        else if (selectedObject.CompareTag(Tags.Pestle)) selectedObject.GetComponent<Pestle>().TryStartGrinding();
     }
 
     public void Drag(Vector3 targetPosition)
@@ -77,11 +77,11 @@ public class Grabber : MonoBehaviour
         if (selectedObject == null) return;
 
         bool canMove = true;
-        if (selectedObject.CompareTag("Pestle")) canMove = selectedObject.GetComponent<Pestle>().CanMove();
+        if (selectedObject.CompareTag(Tags.Pestle)) canMove = selectedObject.GetComponent<Pestle>().CanMove();
 
         if (canMove)
         {
-            if (selectedObject.CompareTag("Pestle") || selectedObject.CompareTag("CraftingGear")) targetPosition.y += gearHoverHeight;
+            if (selectedObject.CompareTag(Tags.Pestle) || selectedObject.CompareTag(Tags.CraftingGear)) targetPosition.y += gearHoverHeight;
             else targetPosition.y += dragHoverHeight;
             selectedObject.transform.position = targetPosition;
         }

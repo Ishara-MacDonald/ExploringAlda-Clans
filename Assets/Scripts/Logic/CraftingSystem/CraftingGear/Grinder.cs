@@ -31,7 +31,7 @@ public class Grinder : CraftingGear
     void OnTriggerEnter(Collider other)
     {
         if (!isUsed) return;
-        if (materialList.Count == 0 && other.CompareTag("Drag"))
+        if (materialList.Count == 0 && other.CompareTag(Tags.Drag))
         {
             if (other.transform == null) return;
             if (!other.gameObject.TryGetComponent<CraftingMaterial>(out var material)) return;
@@ -93,7 +93,7 @@ public class Grinder : CraftingGear
     {
         parent = locationObj.transform;
 
-        if (locationObj.CompareTag("CraftingBench"))
+        if (locationObj.CompareTag(Tags.CraftingBench))
         {
             isUsed = false;
             MoveOriginalSpot(method, originalSpot);

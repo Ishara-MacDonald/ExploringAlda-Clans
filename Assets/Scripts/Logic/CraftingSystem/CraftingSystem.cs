@@ -32,7 +32,7 @@ public class CraftingSystem
     public void OnCraftingTableOpen(CraftingTable craftingTable)
     {
         currentTable = craftingTable;
-        recipeBookRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRecipeBook>();
+        recipeBookRef = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerRecipeBook>();
         recipeList = recipeBookRef.GetRecipes(currentMethod);
     }
 

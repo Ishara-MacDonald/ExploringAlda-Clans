@@ -10,7 +10,7 @@ public class QuestSystemManager : SingletonManager<QuestSystemManager>
     protected override void Awake()
     {
         base.Awake();
-        playerQuestList = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerQuestList>();
+        playerQuestList = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerQuestList>();
     }
 
     void OnEnable()
