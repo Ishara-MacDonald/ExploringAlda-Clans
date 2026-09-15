@@ -14,6 +14,7 @@ public class CraftingTable : MonoBehaviour
     [SerializeField] private GameObject materials;
     [SerializeField] private GameObject bookPage;
     [SerializeField] private GameObject craftingStation;
+    [SerializeField] private Grinder grinder;
 
     void Awake()
     {
@@ -54,6 +55,7 @@ public class CraftingTable : MonoBehaviour
         {
             Destroy(material.gameObject);
         }
+        if (grinder != null) grinder.DestroyHeldMaterials();
     }
 
     private void ToggleCollisions(bool newValue)

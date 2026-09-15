@@ -17,7 +17,7 @@ public class InventorySystem : MonoBehaviour
 
     public bool HasItem(ItemDataSO item)
     {
-        return slots.Find((slot) => slot.Item.Equals(item)) is not null;
+        return slots.Find((slot) => slot.Item.Equals(item)) != null;
     }
 
     public void AddItem(ItemDataSO item, int amount = 1)

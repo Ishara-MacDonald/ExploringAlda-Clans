@@ -29,6 +29,7 @@ public class InventoryUI : MonoBehaviour
     public void OnOpenInventory(InventorySystem newSystem)
     {
         currentSystem = newSystem;
+        uiSlots.Clear();
         List<InventorySlot> invSlots = currentSystem.InventorySlots;
         if (invSlots == null || invSlots.Count == 0) { return; }
         foreach (InventorySlot invSlot in invSlots)
@@ -109,6 +110,7 @@ public class InventoryUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        uiSlots.Clear();
         currentSystem = null;
     }
 }

@@ -16,9 +16,9 @@ public class QuestSystemUI : MonoBehaviour
     public void OnOpenQuestList(List<QuestProgress> quests)
     {
         QuestProgress changedQuest = questsProgresses.Find((progress) => progress.IsChanged);
-        if (quests.Count == questsProgresses.Count && changedQuest is null) { return; }
+        if (quests.Count == questsProgresses.Count && changedQuest == null) { return; }
         QuestProgress questLineToShow = null;
-        if (changedQuest is not null) questLineToShow = changedQuest;
+        if (changedQuest != null) questLineToShow = changedQuest;
 
         if (quests == null || quests.Count == 0) ShowDefault();
         else

@@ -119,7 +119,15 @@ public class Grinder : CraftingGear
             TransferItem(material, false);
         }
         materialList = new();
+    }
 
+    public void DestroyHeldMaterials()
+    {
+        foreach (CraftingMaterial material in materialList)
+        {
+            Destroy(material.gameObject);
+        }
+        materialList = new();
     }
 
     private void TransferItem(Transform item, bool isIncoming)

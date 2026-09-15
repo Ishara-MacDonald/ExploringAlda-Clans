@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +15,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
     private string currentInteract;
     private Vector3 cameraForward;
     private Vector3 rayPosition;
+    private readonly RaycastHit[] hitsBuffer = new RaycastHit[5];
 
     public void SetShown(bool newValue)
     {
@@ -48,7 +48,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
         {
             Interactable interactable = CheckInteraction();
 
-            if (interactable)
+            if (interactable != null)
             {
                 if (!canInteract || (canInteract && !interactable.ActionLabel.Equals(currentInteract)))
                 {
@@ -59,7 +59,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
                     prompt.SetAction(interactable.ActionLabel);
                 }
             }
-            else if (!interactable && canInteract)
+            else if (interactable == null && canInteract)
             {
                 canInteract = false;
             }
@@ -76,7 +76,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
         if (context.started)
         {
             Interactable interactable = CheckInteraction();
-            if (interactable) VisualManager.manager.OnInteract(interactable);
+            if (interactable != null) VisualManager.manager.OnInteract(interactable);
         }
     }
 
@@ -95,16 +95,23 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
 
         rayPosition = transform.position;
 
-        RaycastHit[] hits = new RaycastHit[5];
+        int hitCount = Physics.SphereCastNonAlloc(rayPosition, raycastRadius, cameraForward, hitsBuffer, distance, layerMask, QueryTriggerInteraction.UseGlobal);
 
-        Physics.SphereCastNonAlloc(rayPosition, raycastRadius, cameraForward, hits, distance, layerMask, QueryTriggerInteraction.UseGlobal);
+        Collider closestCollider = null;
+        float closestDistance = float.MaxValue;
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider collider = hitsBuffer[i].collider;
+            if (collider == null || !collider.gameObject.CompareTag("Interactable")) continue;
 
-        RaycastHit[] validHits = hits.Where(hit => hit.collider != null && hit.collider.gameObject.CompareTag("Interactable")).ToArray();
-        if (validHits.Length == 0) return null;
+            float sqrDistance = (collider.transform.position - rayPosition).sqrMagnitude;
+            if (closestCollider != null && sqrDistance >= closestDistance) continue;
 
-        RaycastHit[] sortedHits = validHits.OrderBy(hit => Vector3.Distance(transform.position, hit.collider.transform.position)).ToArray();
+            closestCollider = collider;
+            closestDistance = sqrDistance;
+        }
 
-        if (sortedHits[0].collider.gameObject.TryGetComponent(out Interactable interactable))
+        if (closestCollider != null && closestCollider.TryGetComponent(out Interactable interactable))
         {
             return interactable;
         }

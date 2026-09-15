@@ -51,7 +51,7 @@ public class QuestProgress
         objectiveNo++;
         isChanged = true;
         QuestObjective nextObjective = currentQuest.GetNextObjective(objectiveNo);
-        if (nextObjective is null)
+        if (nextObjective == null)
         {
             QuestCompleted();
         }
@@ -68,7 +68,7 @@ public class QuestProgress
         questNo++;
         objectiveNo = 0;
         Quest nextQuest = questLine.GetNextQuest(questNo);
-        if (nextQuest is null)
+        if (nextQuest == null)
         {
             QuestLineCompleted();
         }
