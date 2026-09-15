@@ -1,22 +1,18 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class PopUpBanner : MonoBehaviour
+public class PopUpBanner : TimedPopup
 {
     [SerializeField] private TextMeshProUGUI titleTxt;
     [SerializeField] private TextMeshProUGUI subtitleTxt;
+
     public void SetPopUpBanner(QuestLine line)
     {
         titleTxt.SetText(line.QuestAchievement);
         subtitleTxt.SetText(line.QuestSubAchievement);
 
-        StartCoroutine(WaitAndHide(5f));
+        StartHideTimer();
     }
 
-    IEnumerator WaitAndHide(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        gameObject.SetActive(false);
-    }
+    protected override void OnHide() => gameObject.SetActive(false);
 }
