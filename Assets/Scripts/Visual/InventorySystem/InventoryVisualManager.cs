@@ -1,17 +1,10 @@
 using UnityEngine;
 
 // Visual manager for the main inventory UI, on "InventorySystem" (not "SimpleInventorySystem").
-public class InventoryVisualManager : MonoBehaviour
+public class InventoryVisualManager : SingletonManager<InventoryVisualManager>
 {
-    public static InventoryVisualManager Instance;
-
     // Serialized, not GetComponent: this GameObject starts inactive, so Awake() won't fire.
     [SerializeField] private InventoryUI inventoryUI;
-
-    void Awake()
-    {
-        Instance = this;
-    }
 
     public void ShowPanel() => inventoryUI.gameObject.SetActive(true);
     public void HidePanel() => inventoryUI.gameObject.SetActive(false);

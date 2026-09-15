@@ -2,15 +2,13 @@ using UnityEngine;
 
 // Landing point for crafting-table drag intents. Lives on Crafting Table, unlike stateless InteractionSystemManager.
 [RequireComponent(typeof(Grabber))]
-public class CraftingSystemManager : MonoBehaviour
+public class CraftingSystemManager : SingletonManager<CraftingSystemManager>
 {
-    public static CraftingSystemManager Instance;
-
     private Grabber grabber;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         grabber = GetComponent<Grabber>();
     }
 

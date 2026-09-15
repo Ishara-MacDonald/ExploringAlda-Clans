@@ -1,14 +1,8 @@
 using UnityEngine;
 
-public class NotificationSystem : MonoBehaviour
+public class NotificationSystem : SingletonManager<NotificationSystem>
 {
-    public static NotificationSystem Instance;
     [SerializeField] private GameObject content;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void AddNotification(string notificationText)
     {

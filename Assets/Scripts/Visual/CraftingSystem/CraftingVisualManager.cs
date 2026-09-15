@@ -2,10 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Visual manager for crafting-table dragging: owns mouse input/raycasting. Grabber owns gameplay logic.
-public class CraftingVisualManager : MonoBehaviour
+public class CraftingVisualManager : SingletonManager<CraftingVisualManager>
 {
-    public static CraftingVisualManager Instance;
-
     [SerializeField] private LayerMask draggableLayer;
     [SerializeField] private LayerMask putBackLayer;
     [SerializeField] private LayerMask isContainable;
@@ -16,11 +14,6 @@ public class CraftingVisualManager : MonoBehaviour
     private float lastPressedTime;
     private bool isPressed = false;
     private bool isLongPressed = false;
-
-    void Awake()
-    {
-        Instance = this;
-    }
 
     public void ShowPanel() => craftingSystemUI.gameObject.SetActive(true);
     public void PopulatePanel(InventorySystem playerInventory) => craftingSystemUI.OnOpenCraftingSystem(playerInventory);

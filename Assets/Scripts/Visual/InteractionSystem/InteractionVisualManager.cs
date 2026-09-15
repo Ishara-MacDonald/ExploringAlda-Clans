@@ -3,10 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Owns target detection, prompt UI, and Interact input; reports presses up to LogicManager.
-public class InteractionVisualManager : MonoBehaviour
+public class InteractionVisualManager : SingletonManager<InteractionVisualManager>
 {
-    public static InteractionVisualManager Instance;
-
     private InputAction interactAction;
     [SerializeField] private float raycastRadius;
     [SerializeField] private float distance = 10f;
@@ -25,9 +23,9 @@ public class InteractionVisualManager : MonoBehaviour
         interactPrompt.SetActive(newValue);
     }
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         interactAction = InputSystem.actions.FindAction("Interact");
         interactPrompt.SetActive(false);
     }

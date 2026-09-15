@@ -1,15 +1,13 @@
 using UnityEngine;
 
 // popupBanner is serialized, not GetComponent, since its GameObject starts inactive (Awake won't fire).
-public class PopupsVisualManager : MonoBehaviour
+public class PopupsVisualManager : SingletonManager<PopupsVisualManager>
 {
-    public static PopupsVisualManager Instance;
-
     [SerializeField] private PopUpBanner popupBanner;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         popupBanner.gameObject.SetActive(false);
     }
 

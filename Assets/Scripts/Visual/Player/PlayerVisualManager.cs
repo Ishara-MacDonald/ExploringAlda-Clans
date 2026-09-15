@@ -2,19 +2,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Reads all player input and pushes it as intents through VisualManager to LogicManager.
-public class PlayerVisualManager : MonoBehaviour
+public class PlayerVisualManager : SingletonManager<PlayerVisualManager>
 {
-    public static PlayerVisualManager Instance;
-
     private InputAction moveAction;
     private InputAction sprintAction;
     private InputAction jumpAction;
     private InputAction inventoryAction;
     private InputAction questListAction;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         moveAction = InputSystem.actions.FindAction("Move");
         sprintAction = InputSystem.actions.FindAction("Sprint");
         jumpAction = InputSystem.actions.FindAction("Jump");

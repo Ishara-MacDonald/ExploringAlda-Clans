@@ -2,16 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Bridge between Quest classes and LogicManager. Caches PlayerQuestList, not QuestSystem, to avoid Awake-order issues.
-public class QuestSystemManager : MonoBehaviour
+public class QuestSystemManager : SingletonManager<QuestSystemManager>
 {
-    public static QuestSystemManager Instance;
-
     private PlayerQuestList playerQuestList;
     private QuestSystem questSystem => playerQuestList.QuestSystem;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         playerQuestList = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerQuestList>();
     }
 
