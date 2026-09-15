@@ -12,7 +12,7 @@ public enum CraftingMethod
 [Serializable]
 public class CraftingSystem
 {
-    public static CraftingSystem craftingSystem;
+    public static CraftingSystem Instance;
 
     private CraftingTable currentTable;
     private List<ItemDataSO> craftingItems;
@@ -22,8 +22,8 @@ public class CraftingSystem
 
     public CraftingSystem()
     {
-        if (craftingSystem != null) return;
-        craftingSystem = this;
+        if (Instance != null) return;
+        Instance = this;
         craftingItems = new();
         currentMethod = CraftingMethod.Picking;
         recipeList = new();

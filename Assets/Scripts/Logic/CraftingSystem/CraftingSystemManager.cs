@@ -22,8 +22,8 @@ public class CraftingSystemManager : MonoBehaviour
     public void SecondaryAction() => grabber.SecondaryAction();
 
     // Bridges the recipe/staging singleton — a different concern, but still Crafting's.
-    public void AddItem(ItemDataSO item, int amount) => CraftingSystem.craftingSystem.AddItem(item, amount);
-    public void OnResetItems() => CraftingSystem.craftingSystem.OnResetItems();
-    public void OnCraftingTableClose() => CraftingSystem.craftingSystem.OnCraftingTableClose();
-    public int GetStagedAmount(ItemDataSO item) => CraftingSystem.craftingSystem.GetStagedAmount(item);
+    public void AddItem(ItemDataSO item, int amount) => CraftingSystem.Instance.AddItem(item, amount);
+    public void OnResetItems() => CraftingSystem.Instance.OnResetItems();
+    public void OnCraftingTableClose() => CraftingSystem.Instance.OnCraftingTableClose();
+    public int GetStagedAmount(ItemDataSO item) => CraftingSystem.Instance.GetStagedAmount(item);
 }

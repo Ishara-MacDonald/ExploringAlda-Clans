@@ -76,13 +76,13 @@ public class Grinder : CraftingGear
     public override void OnUse()
     {
         if (materialList.Count == 0) return;
-        if (CraftingSystem.craftingSystem.ProcessItem(materialList))
+        if (CraftingSystem.Instance.ProcessItem(materialList))
         {
             foreach (CraftingMaterial material in materialList)
             {
                 ItemDataSO itemData = material.ItemData;
                 LogicManager.manager.OnRemoveItem(itemData);
-                CraftingSystem.craftingSystem.ReleaseStagedItem(itemData);
+                CraftingSystem.Instance.ReleaseStagedItem(itemData);
                 Destroy(material.gameObject);
             }
             materialList = new();
@@ -98,14 +98,14 @@ public class Grinder : CraftingGear
             isUsed = false;
             MoveOriginalSpot(method, originalSpot);
             OnMaterialReset();
-            CraftingSystem.craftingSystem.SetCurrentMethod(CraftingMethod.Picking);
+            CraftingSystem.Instance.SetCurrentMethod(CraftingMethod.Picking);
         }
         else
         {
             isUsed = true;
             pestle.MoveOriginalSpot();
             transform.parent = parent;
-            CraftingSystem.craftingSystem.SetCurrentMethod(method);
+            CraftingSystem.Instance.SetCurrentMethod(method);
         }
 
         transform.localPosition = new(0, 0, 0);

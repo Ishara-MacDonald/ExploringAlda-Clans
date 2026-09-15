@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class NotificationSystem : MonoBehaviour
 {
-    public static NotificationSystem notificationSystem;
+    public static NotificationSystem Instance;
     [SerializeField] private GameObject content;
 
     private void Awake()
     {
-        notificationSystem = this;
+        Instance = this;
     }
 
     public void AddNotification(string notificationText)

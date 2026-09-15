@@ -39,7 +39,7 @@ public class CraftingTable : MonoBehaviour
         ToggleCollisions(newValue);
         UpdateBook();
         if (newValue)
-            CraftingSystem.craftingSystem.OnCraftingTableOpen(this);
+            CraftingSystem.Instance.OnCraftingTableOpen(this);
     }
 
     public void AddMaterial(ItemDataSO item)
