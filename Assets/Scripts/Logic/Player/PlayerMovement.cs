@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject Wings;
     [SerializeField] private LayerMask groundLayer;
     private CharacterController characterController;
+    private Camera mainCamera;
     private Vector3 appliedMovement;
     private Vector3 cameraRelativeMovement;
 
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        mainCamera = Camera.main;
         isMovementEnabled = true;
         isSprintEnabled = false;
         isGliding = false;
@@ -168,8 +170,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
     {
         float currentYValue = vectorToRotate.y;
-        Vector3 cameraForward = Camera.main.transform.forward;
-        Vector3 cameraRight = Camera.main.transform.right;
+        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraRight = mainCamera.transform.right;
 
         cameraForward.y = 0;
         cameraRight.y = 0;

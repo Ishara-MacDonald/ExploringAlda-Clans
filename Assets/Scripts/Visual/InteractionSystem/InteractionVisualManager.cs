@@ -16,6 +16,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
     private Vector3 cameraForward;
     private Vector3 rayPosition;
     private readonly RaycastHit[] hitsBuffer = new RaycastHit[5];
+    private Camera mainCamera;
 
     public void SetShown(bool newValue)
     {
@@ -28,6 +29,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
         base.Awake();
         interactAction = InputSystem.actions.FindAction("Interact");
         interactPrompt.SetActive(false);
+        mainCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -89,7 +91,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
 
     private Interactable CheckInteraction()
     {
-        Vector3 tempCamera = Camera.main.transform.forward;
+        Vector3 tempCamera = mainCamera.transform.forward;
         tempCamera.y = 0;
         cameraForward = tempCamera.normalized;
 

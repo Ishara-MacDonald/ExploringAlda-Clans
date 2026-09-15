@@ -138,7 +138,7 @@ public class Grinder : CraftingGear
 
         item.parent = isIncoming ? materials : benchMaterials;
         item.position = isIncoming ? new(materials.position.x, materials.position.y, materials.position.z) : benchMaterials.position;
-        item.tag = isIncoming ? "Untagged" : "Drag";
+        item.tag = isIncoming ? Tags.Untagged : Tags.Drag;
     }
 
     public override void OnPutBack()

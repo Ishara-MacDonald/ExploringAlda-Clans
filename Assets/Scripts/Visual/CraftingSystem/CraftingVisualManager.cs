@@ -14,6 +14,13 @@ public class CraftingVisualManager : SingletonManager<CraftingVisualManager>
     private float lastPressedTime;
     private bool isPressed = false;
     private bool isLongPressed = false;
+    private Camera mainCamera;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        mainCamera = Camera.main;
+    }
 
     public void ShowPanel() => craftingSystemUI.gameObject.SetActive(true);
     public void PopulatePanel(InventorySystem playerInventory) => craftingSystemUI.OnOpenCraftingSystem(playerInventory);
@@ -123,10 +130,10 @@ public class CraftingVisualManager : SingletonManager<CraftingVisualManager>
     private RaycastHit GetHit(LayerMask layerMask)
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Vector3 screenMousePosNear = new(mousePosition.x, mousePosition.y, Camera.main.nearClipPlane);
-        Vector3 screenMousePosFar = new(mousePosition.x, mousePosition.y, Camera.main.farClipPlane);
-        Vector3 worldMousePosNear = Camera.main.ScreenToWorldPoint(screenMousePosNear);
-        Vector3 worldMousePosFar = Camera.main.ScreenToWorldPoint(screenMousePosFar);
+        Vector3 screenMousePosNear = new(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane);
+        Vector3 screenMousePosFar = new(mousePosition.x, mousePosition.y, mainCamera.farClipPlane);
+        Vector3 worldMousePosNear = mainCamera.ScreenToWorldPoint(screenMousePosNear);
+        Vector3 worldMousePosFar = mainCamera.ScreenToWorldPoint(screenMousePosFar);
         Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out RaycastHit hit, 100f, layerMask);
         return hit;
     }
