@@ -7,7 +7,7 @@ public class QuestSystemManager : MonoBehaviour
     public static QuestSystemManager Instance;
 
     private PlayerQuestList playerQuestList;
-    private QuestSystem questSystem => playerQuestList.GetQuestSystem;
+    private QuestSystem questSystem => playerQuestList.QuestSystem;
 
     void Awake()
     {

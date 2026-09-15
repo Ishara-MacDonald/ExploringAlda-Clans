@@ -120,7 +120,7 @@ public class QuestProgress
 
     private void Interacted(string interactionName)
     {
-        if (currentObjective.GetInteractable == interactionName)
+        if (currentObjective.Interactable == interactionName)
         {
             ObjectiveCompleted();
         }

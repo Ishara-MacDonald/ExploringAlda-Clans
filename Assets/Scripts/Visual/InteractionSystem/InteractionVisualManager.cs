@@ -52,13 +52,13 @@ public class InteractionVisualManager : MonoBehaviour
 
             if (interactable)
             {
-                if (!canInteract || (canInteract && !interactable.GetAction.Equals(currentInteract)))
+                if (!canInteract || (canInteract && !interactable.ActionLabel.Equals(currentInteract)))
                 {
                     canInteract = true;
-                    currentInteract = interactable.GetAction;
+                    currentInteract = interactable.ActionLabel;
                     interactPrompt.TryGetComponent(out InteractPrompt prompt);
                     if (prompt == null) return;
-                    prompt.SetAction(interactable.GetAction);
+                    prompt.SetAction(interactable.ActionLabel);
                 }
             }
             else if (!interactable && canInteract)

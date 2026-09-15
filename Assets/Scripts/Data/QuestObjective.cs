@@ -39,5 +39,5 @@ public class QuestObjective
     public ItemDataSO Item => itemData;
     public int Amount => gatherAmount;
 
-    public string GetInteractable => interactable;
+    public string Interactable => interactable;
 }

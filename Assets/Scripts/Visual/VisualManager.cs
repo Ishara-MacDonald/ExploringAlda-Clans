@@ -24,6 +24,8 @@ public class VisualManager : MonoBehaviour
     void Awake()
     {
         manager = this;
+        InventoryVisualManager.Instance = inventoryVisualManager;
+        QuestVisualManager.Instance = questVisualManager;
         mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
@@ -32,7 +34,6 @@ public class VisualManager : MonoBehaviour
 
     void Start()
     {
-        // Deferred to Start: Awake() order isn't guaranteed, LogicManager.manager could be null here.
         InMenu();
     }
 

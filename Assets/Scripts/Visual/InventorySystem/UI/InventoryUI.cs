@@ -34,10 +34,10 @@ public class InventoryUI : MonoBehaviour
         foreach (InventorySlot invSlot in invSlots)
         {
             GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-            uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
+            uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.Item, invSlot.Amount);
             uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
         }
-        if (!isSimple) InteractItem(invSlots[0].GetItem, 0);
+        if (!isSimple) InteractItem(invSlots[0].Item, 0);
     }
 
     public void InteractItem(ItemDataSO item, int _)
@@ -54,7 +54,7 @@ public class InventoryUI : MonoBehaviour
     private void UpdateItems()
     {
         List<ItemDataSO> uiItems = uiSlots.Select(slot => slot.Item).ToList();
-        List<ItemDataSO> invItems = currentSystem.InventorySlots.Select(slot => slot.GetItem).ToList();
+        List<ItemDataSO> invItems = currentSystem.InventorySlots.Select(slot => slot.Item).ToList();
 
         if (!Helpers.CompareLists(uiItems, invItems))
         {
@@ -75,9 +75,9 @@ public class InventoryUI : MonoBehaviour
             {
                 foreach (ItemDataSO item in onlyInDataItems)
                 {
-                    InventorySlot invSlot = currentSystem.InventorySlots.Find(invSlot => invSlot.GetItem.Equals(item));
+                    InventorySlot invSlot = currentSystem.InventorySlots.Find(invSlot => invSlot.Item.Equals(item));
                     GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-                    uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.GetItem, invSlot.GetAmount);
+                    uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.Item, invSlot.Amount);
                     uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
                 }
             }
@@ -88,10 +88,10 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (InventorySlot slot in currentSystem.InventorySlots)
         {
-            InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.GetItem);
+            InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.Item);
             if (uiSlot == null) continue;
             // Subtract staged-for-crafting amount; real inventory only changes on a successful craft.
-            int displayAmount = slot.GetAmount - InventoryVisualManager.Instance.GetCraftingStagedAmount(slot.GetItem);
+            int displayAmount = slot.Amount - InventoryVisualManager.Instance.GetCraftingStagedAmount(slot.Item);
             if (uiSlot.Amount == displayAmount) continue;
             uiSlot.SetAmount(displayAmount);
         }

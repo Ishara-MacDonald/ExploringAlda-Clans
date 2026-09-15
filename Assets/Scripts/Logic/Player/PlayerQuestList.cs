@@ -9,5 +9,5 @@ public class PlayerQuestList : MonoBehaviour
         questSystem = new();
     }
 
-    public QuestSystem GetQuestSystem => questSystem;
+    public QuestSystem QuestSystem => questSystem;
 }
