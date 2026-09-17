@@ -1,13 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CraftingTable))]
-public class CraftingInteract : Interactable
+public class ShedInteract : Interactable
 {
 
     private void Awake()
     {
         type = InteractionType.Inventory;
-        SetAction("Craft");
+        SetAction("Check the shed.");
     }
 
     public override void Interact(GameObject interactor)
