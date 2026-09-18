@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Landing point for crafting-table drag intents. Lives on Crafting Table, unlike stateless InteractionSystemManager.
@@ -23,5 +24,5 @@ public class CraftingSystemManager : SingletonManager<CraftingSystemManager>
     public void AddItem(ItemDataSO item, int amount) => CraftingSystem.Instance.AddItem(item, amount);
     public void OnResetItems() => CraftingSystem.Instance.OnResetItems();
     public void OnCraftingTableClose() => CraftingSystem.Instance.OnCraftingTableClose();
-    public int GetStagedAmount(ItemDataSO item) => CraftingSystem.Instance.GetStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetStagedAmounts() => CraftingSystem.Instance.GetStagedAmounts();
 }

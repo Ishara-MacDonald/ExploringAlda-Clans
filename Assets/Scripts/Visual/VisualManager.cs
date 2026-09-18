@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -123,7 +124,7 @@ public class VisualManager : MonoBehaviour
     public void OnCraftingItemClicked(ItemDataSO item, int amount) => LogicManager.manager.OnCraftingItemClicked(item, amount);
     public void OnCraftingReset() => LogicManager.manager.OnCraftingReset();
     public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
-    public int GetCraftingStagedAmount(ItemDataSO item) => LogicManager.manager.GetCraftingStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => LogicManager.manager.GetCraftingStagedAmounts();
 
     public void ShowNotification(string text) => popupsVisualManager.ShowNotification(text);
     public void ShowItemAddedNotification(ItemDataSO item) => popupsVisualManager.ShowItemAddedNotification(item);

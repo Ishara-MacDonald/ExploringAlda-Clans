@@ -92,12 +92,14 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateAmount()
     {
+        Dictionary<ItemDataSO, int> stagedAmounts = InventoryVisualManager.Instance.GetCraftingStagedAmounts();
         foreach (InventorySlot slot in currentSystem.InventorySlots)
         {
             InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.Item);
             if (uiSlot == null) continue;
             // Subtract staged-for-crafting amount; real inventory only changes on a successful craft.
-            int displayAmount = slot.Amount - InventoryVisualManager.Instance.GetCraftingStagedAmount(slot.Item);
+            stagedAmounts.TryGetValue(slot.Item, out int staged);
+            int displayAmount = slot.Amount - staged;
             if (uiSlot.Amount == displayAmount) continue;
             uiSlot.SetAmount(displayAmount);
         }
