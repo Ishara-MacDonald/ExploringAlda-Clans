@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Visual manager for the main inventory UI, on "InventorySystem" (not "SimpleInventorySystem").
@@ -12,5 +13,5 @@ public class InventoryVisualManager : SingletonManager<InventoryVisualManager>
     public void CloseInventory() => inventoryUI.OnCloseInventory();
 
     // Cross-system query — routes through the top hub, like Logic-side managers reaching LogicManager.
-    public int GetCraftingStagedAmount(ItemDataSO item) => VisualManager.manager.GetCraftingStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => VisualManager.manager.GetCraftingStagedAmounts();
 }

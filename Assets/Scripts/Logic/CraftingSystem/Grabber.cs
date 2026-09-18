@@ -5,6 +5,8 @@ using UnityEngine;
 public class Grabber : MonoBehaviour
 {
     private GameObject selectedObject = null;
+    private Pestle selectedPestle = null;
+    private bool selectedIsGear = false;
     public static event Action OnLetGoItem;
 
     [SerializeField] private float dragHoverHeight = .25f;
@@ -24,7 +26,9 @@ public class Grabber : MonoBehaviour
         else if (hit.CompareTag(Tags.Pestle))
         {
             selectedObject = hit;
-            selectedObject.GetComponent<Pestle>().OnGrab();
+            selectedPestle = selectedObject.GetComponent<Pestle>();
+            selectedIsGear = true;
+            selectedPestle.OnGrab();
         }
         else if (hit.CompareTag(Tags.CraftingGear))
         {
@@ -32,6 +36,7 @@ public class Grabber : MonoBehaviour
             if (grabbed != null)
             {
                 selectedObject = grabbed.gameObject;
+                selectedIsGear = true;
             }
         }
     }
@@ -42,7 +47,10 @@ public class Grabber : MonoBehaviour
         if (hit.CompareTag(Tags.CraftingGear))
         {
             if (hit.GetComponent<CraftingGear>().OnLongGrab())
+            {
                 selectedObject = hit;
+                selectedIsGear = true;
+            }
         }
     }
 
@@ -63,6 +71,8 @@ public class Grabber : MonoBehaviour
         }
 
         selectedObject = null;
+        selectedPestle = null;
+        selectedIsGear = false;
     }
 
     public void SecondaryAction()
@@ -76,13 +86,11 @@ public class Grabber : MonoBehaviour
     {
         if (selectedObject == null) return;
 
-        bool canMove = true;
-        if (selectedObject.CompareTag(Tags.Pestle)) canMove = selectedObject.GetComponent<Pestle>().CanMove();
+        bool canMove = selectedPestle == null || selectedPestle.CanMove();
 
         if (canMove)
         {
-            if (selectedObject.CompareTag(Tags.Pestle) || selectedObject.CompareTag(Tags.CraftingGear)) targetPosition.y += gearHoverHeight;
-            else targetPosition.y += dragHoverHeight;
+            targetPosition.y += selectedIsGear ? gearHoverHeight : dragHoverHeight;
             selectedObject.transform.position = targetPosition;
         }
     }

@@ -8,8 +8,9 @@ Scripts are split into two mirrored halves — `Logic/` (game rules, data, decis
 
 - **`LogicManager`** and **`VisualManager`** are the only two classes allowed to cross that boundary; everything else routes through them.
 - Each gameplay system (Player, Interaction, Crafting, Quest, Inventory, Popups) has a matching manager pair — e.g. `CraftingSystemManager` (Logic) / `CraftingVisualManager` (Visual) — that its own scripts talk to, instead of reaching into another system or a hub directly.
+- Manager singletons inherit `SingletonManager<T>` (`Common/SingletonManager.cs`) for their `Instance` — `LogicManager`/`VisualManager` are a deliberate naming exception (`.manager`, not `.Instance`).
 - `Data/` holds ScriptableObject definitions (`ItemDataSO`, `Recipe`, `Quest`, etc.), read directly by both sides since it's static content, not behavior.
-- `Common/` (shared utilities) and `Debug/` (dev-only tools) sit outside the split entirely.
+- `Common/` (shared utilities, including `Tags.cs` for tag string constants) and `Debug/` (dev-only tools) sit outside the split entirely.
 
 **Rule of thumb**: input handling and UI go in `Visual/`, game logic goes in `Logic/`, and the two only ever talk through their system's manager pair.
 

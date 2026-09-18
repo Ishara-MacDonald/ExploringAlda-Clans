@@ -57,5 +57,5 @@ public class LogicManager : MonoBehaviour
     public void OnCraftingItemClicked(ItemDataSO item, int amount) => CraftingSystemManager.Instance.AddItem(item, amount);
     public void OnCraftingReset() => CraftingSystemManager.Instance.OnResetItems();
     public void OnCraftingTableClosed() => CraftingSystemManager.Instance.OnCraftingTableClose();
-    public int GetCraftingStagedAmount(ItemDataSO item) => CraftingSystemManager.Instance.GetStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => CraftingSystemManager.Instance.GetStagedAmounts();
 }

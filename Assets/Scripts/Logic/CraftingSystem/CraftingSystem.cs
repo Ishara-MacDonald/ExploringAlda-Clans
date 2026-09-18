@@ -69,8 +69,17 @@ public class CraftingSystem
         LogicManager.manager.OnCraftingItemsStaged();
     }
 
-    // How many of this item are staged, but not yet removed from real inventory.
-    public int GetStagedAmount(ItemDataSO item) => craftingItems.Count(i => i.Equals(item));
+    // Tally of staged-but-not-yet-removed-from-inventory amounts, per item.
+    public Dictionary<ItemDataSO, int> GetStagedAmounts()
+    {
+        Dictionary<ItemDataSO, int> tally = new();
+        foreach (ItemDataSO item in craftingItems)
+        {
+            tally.TryGetValue(item, out int count);
+            tally[item] = count + 1;
+        }
+        return tally;
+    }
 
     // Called when a staged item is consumed, so bookkeeping doesn't outlive it.
     public void ReleaseStagedItem(ItemDataSO item)

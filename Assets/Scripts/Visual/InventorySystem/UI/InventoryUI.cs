@@ -10,10 +10,12 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private bool isSimple = false;
     [SerializeField] private GameObject inventoryDisplay;
     private List<InventorySlotUI> uiSlots;
+    private static GameObject inventorySlotPrefab;
 
     void Awake()
     {
         uiSlots = new();
+        inventorySlotPrefab ??= (GameObject)Resources.Load("UI/InventorySlot");
     }
 
     void OnEnable()
@@ -34,11 +36,16 @@ public class InventoryUI : MonoBehaviour
         if (invSlots == null || invSlots.Count == 0) { return; }
         foreach (InventorySlot invSlot in invSlots)
         {
-            GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-            uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.Item, invSlot.Amount);
-            uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
+            CreateSlot(invSlot);
         }
         if (!isSimple) InteractItem(invSlots[0].Item, 0);
+    }
+
+    private void CreateSlot(InventorySlot invSlot)
+    {
+        GameObject uiSlot = Instantiate(inventorySlotPrefab, content.position, content.rotation, content);
+        uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.Item, invSlot.Amount);
+        uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
     }
 
     public void InteractItem(ItemDataSO item, int _)
@@ -77,9 +84,7 @@ public class InventoryUI : MonoBehaviour
                 foreach (ItemDataSO item in onlyInDataItems)
                 {
                     InventorySlot invSlot = currentSystem.InventorySlots.Find(invSlot => invSlot.Item.Equals(item));
-                    GameObject uiSlot = Instantiate((GameObject)Resources.Load("UI/InventorySlot"), content.position, content.rotation, content);
-                    uiSlot.GetComponent<InventorySlotUI>().SetInventorySlotUI(invSlot.Item, invSlot.Amount);
-                    uiSlots.Add(uiSlot.GetComponent<InventorySlotUI>());
+                    CreateSlot(invSlot);
                 }
             }
         }
@@ -87,12 +92,14 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateAmount()
     {
+        Dictionary<ItemDataSO, int> stagedAmounts = InventoryVisualManager.Instance.GetCraftingStagedAmounts();
         foreach (InventorySlot slot in currentSystem.InventorySlots)
         {
             InventorySlotUI uiSlot = uiSlots.Find(uiSlot => uiSlot.Item == slot.Item);
             if (uiSlot == null) continue;
             // Subtract staged-for-crafting amount; real inventory only changes on a successful craft.
-            int displayAmount = slot.Amount - InventoryVisualManager.Instance.GetCraftingStagedAmount(slot.Item);
+            stagedAmounts.TryGetValue(slot.Item, out int staged);
+            int displayAmount = slot.Amount - staged;
             if (uiSlot.Amount == displayAmount) continue;
             uiSlot.SetAmount(displayAmount);
         }
