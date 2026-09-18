@@ -1,12 +1,9 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Owns target detection, prompt UI, and Interact input; reports presses up to LogicManager.
-public class InteractionVisualManager : MonoBehaviour
+public class InteractionVisualManager : SingletonManager<InteractionVisualManager>
 {
-    public static InteractionVisualManager Instance;
-
     private InputAction interactAction;
     [SerializeField] private float raycastRadius;
     [SerializeField] private float distance = 10f;
@@ -18,6 +15,8 @@ public class InteractionVisualManager : MonoBehaviour
     private string currentInteract;
     private Vector3 cameraForward;
     private Vector3 rayPosition;
+    private readonly RaycastHit[] hitsBuffer = new RaycastHit[5];
+    private Camera mainCamera;
 
     public void SetShown(bool newValue)
     {
@@ -25,11 +24,12 @@ public class InteractionVisualManager : MonoBehaviour
         interactPrompt.SetActive(newValue);
     }
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         interactAction = InputSystem.actions.FindAction("Interact");
         interactPrompt.SetActive(false);
+        mainCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -50,18 +50,18 @@ public class InteractionVisualManager : MonoBehaviour
         {
             Interactable interactable = CheckInteraction();
 
-            if (interactable)
+            if (interactable != null)
             {
-                if (!canInteract || (canInteract && !interactable.GetAction.Equals(currentInteract)))
+                if (!canInteract || (canInteract && !interactable.ActionLabel.Equals(currentInteract)))
                 {
                     canInteract = true;
-                    currentInteract = interactable.GetAction;
+                    currentInteract = interactable.ActionLabel;
                     interactPrompt.TryGetComponent(out InteractPrompt prompt);
                     if (prompt == null) return;
-                    prompt.SetAction(interactable.GetAction);
+                    prompt.SetAction(interactable.ActionLabel);
                 }
             }
-            else if (!interactable && canInteract)
+            else if (interactable == null && canInteract)
             {
                 canInteract = false;
             }
@@ -70,6 +70,7 @@ public class InteractionVisualManager : MonoBehaviour
 
     private void OnDisable()
     {
+        interactAction.started -= OnInteract;
         interactAction.Disable();
     }
 
@@ -78,7 +79,7 @@ public class InteractionVisualManager : MonoBehaviour
         if (context.started)
         {
             Interactable interactable = CheckInteraction();
-            if (interactable) VisualManager.manager.OnInteract(interactable);
+            if (interactable != null) VisualManager.manager.OnInteract(interactable);
         }
     }
 
@@ -91,22 +92,29 @@ public class InteractionVisualManager : MonoBehaviour
 
     private Interactable CheckInteraction()
     {
-        Vector3 tempCamera = Camera.main.transform.forward;
+        Vector3 tempCamera = mainCamera.transform.forward;
         tempCamera.y = 0;
         cameraForward = tempCamera.normalized;
 
         rayPosition = transform.position;
 
-        RaycastHit[] hits = new RaycastHit[5];
+        int hitCount = Physics.SphereCastNonAlloc(rayPosition, raycastRadius, cameraForward, hitsBuffer, distance, layerMask, QueryTriggerInteraction.UseGlobal);
 
-        Physics.SphereCastNonAlloc(rayPosition, raycastRadius, cameraForward, hits, distance, layerMask, QueryTriggerInteraction.UseGlobal);
+        Collider closestCollider = null;
+        float closestDistance = float.MaxValue;
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider collider = hitsBuffer[i].collider;
+            if (collider == null || !collider.gameObject.CompareTag(Tags.Interactable)) continue;
 
-        RaycastHit[] validHits = hits.Where(hit => hit.collider != null && hit.collider.gameObject.CompareTag("Interactable")).ToArray();
-        if (validHits.Length == 0) return null;
+            float sqrDistance = (collider.transform.position - rayPosition).sqrMagnitude;
+            if (closestCollider != null && sqrDistance >= closestDistance) continue;
 
-        RaycastHit[] sortedHits = validHits.OrderBy(hit => Vector3.Distance(transform.position, hit.collider.transform.position)).ToArray();
+            closestCollider = collider;
+            closestDistance = sqrDistance;
+        }
 
-        if (sortedHits[0].collider.gameObject.TryGetComponent(out Interactable interactable))
+        if (closestCollider != null && closestCollider.TryGetComponent(out Interactable interactable))
         {
             return interactable;
         }

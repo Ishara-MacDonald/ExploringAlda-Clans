@@ -21,8 +21,8 @@ public abstract class Interactable : MonoBehaviour, IInteractable
     [SerializeField] protected QuestTrigger? questTrigger = null;
 #nullable disable
 
-    public string GetName => interactableName;
-    public string GetAction => action;
+    public string Name => interactableName;
+    public string ActionLabel => action;
     protected void SetAction(string newAction)
     {
         action = newAction;

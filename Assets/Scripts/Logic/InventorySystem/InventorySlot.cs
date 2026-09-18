@@ -7,8 +7,8 @@ public class InventorySlot
     [SerializeField] private ItemDataSO item;
     [SerializeField] private int amount;
 
-    public ItemDataSO GetItem => item;
-    public int GetAmount => amount;
+    public ItemDataSO Item => item;
+    public int Amount => amount;
 
     public InventorySlot(ItemDataSO _item, int _amount = 1)
     {

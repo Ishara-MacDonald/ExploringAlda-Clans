@@ -5,16 +5,18 @@ public class OverworldItem : Interactable
 {
     public static event Action<ItemDataSO, int> ItemPickUp;
     [SerializeField] private ItemDataSO currentItem;
+    private static GameObject interactSignPrefab;
 
     public ItemDataSO CurrentItem => currentItem;
 
     void Awake()
     {
         type = InteractionType.PickUp;
-        gameObject.tag = "Interactable";
+        gameObject.tag = Tags.Interactable;
 
         gameObject.AddComponent<SphereCollider>().isTrigger = true;
-        if (transform.childCount <= 0) Instantiate((GameObject)Resources.Load("Gatherables/InteractSign"), transform.position, transform.rotation, transform);
+        interactSignPrefab ??= (GameObject)Resources.Load("Gatherables/InteractSign");
+        if (transform.childCount <= 0) Instantiate(interactSignPrefab, transform.position, transform.rotation, transform);
         if (currentItem != null) Instantiate(currentItem.worldObject, transform.position, transform.rotation, transform);
         SetAction("Pick up");
     }

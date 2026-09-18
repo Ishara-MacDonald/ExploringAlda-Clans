@@ -12,10 +12,12 @@ public class Grinder : CraftingGear
     private List<CraftingMaterial> materialList;
     private bool isUsed = false;
     private Transform parent;
+    private Collider gearCollider;
 
     void Start()
     {
         materialList = new();
+        gearCollider = GetComponent<Collider>();
     }
 
     void OnEnable()
@@ -31,7 +33,7 @@ public class Grinder : CraftingGear
     void OnTriggerEnter(Collider other)
     {
         if (!isUsed) return;
-        if (materialList.Count == 0 && other.CompareTag("Drag"))
+        if (materialList.Count == 0 && other.CompareTag(Tags.Drag))
         {
             if (other.transform == null) return;
             if (!other.gameObject.TryGetComponent<CraftingMaterial>(out var material)) return;
@@ -43,7 +45,7 @@ public class Grinder : CraftingGear
 
     private void OnEnableColliders()
     {
-        GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
         Grabber.OnLetGoItem -= OnEnableColliders;
     }
 
@@ -52,7 +54,7 @@ public class Grinder : CraftingGear
         if (materialList.Count > 0)
         {
             Grabber.OnLetGoItem += OnEnableColliders;
-            GetComponent<Collider>().enabled = false;
+            gearCollider.enabled = false;
             CraftingMaterial material = materialList[0];
             materialList.Remove(material);
             TransferItem(material.transform, false);
@@ -65,7 +67,7 @@ public class Grinder : CraftingGear
     {
         if (!pestle.IsBeingUsed)
         {
-            gameObject.GetComponent<Collider>().enabled = false;
+            gearCollider.enabled = false;
             pestle.ToGrinder(this);
             return true;
         }
@@ -76,13 +78,13 @@ public class Grinder : CraftingGear
     public override void OnUse()
     {
         if (materialList.Count == 0) return;
-        if (CraftingSystem.craftingSystem.ProcessItem(materialList))
+        if (CraftingSystem.Instance.ProcessItem(materialList))
         {
             foreach (CraftingMaterial material in materialList)
             {
                 ItemDataSO itemData = material.ItemData;
                 LogicManager.manager.OnRemoveItem(itemData);
-                CraftingSystem.craftingSystem.ReleaseStagedItem(itemData);
+                CraftingSystem.Instance.ReleaseStagedItem(itemData);
                 Destroy(material.gameObject);
             }
             materialList = new();
@@ -93,23 +95,23 @@ public class Grinder : CraftingGear
     {
         parent = locationObj.transform;
 
-        if (locationObj.CompareTag("CraftingBench"))
+        if (locationObj.CompareTag(Tags.CraftingBench))
         {
             isUsed = false;
             MoveOriginalSpot(method, originalSpot);
             OnMaterialReset();
-            CraftingSystem.craftingSystem.SetCurrentMethod(CraftingMethod.Picking);
+            CraftingSystem.Instance.SetCurrentMethod(CraftingMethod.Picking);
         }
         else
         {
             isUsed = true;
             pestle.MoveOriginalSpot();
             transform.parent = parent;
-            CraftingSystem.craftingSystem.SetCurrentMethod(method);
+            CraftingSystem.Instance.SetCurrentMethod(method);
         }
 
         transform.localPosition = new(0, 0, 0);
-        gameObject.GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
     }
 
     public void OnMaterialReset()
@@ -119,7 +121,15 @@ public class Grinder : CraftingGear
             TransferItem(material, false);
         }
         materialList = new();
+    }
 
+    public void DestroyHeldMaterials()
+    {
+        foreach (CraftingMaterial material in materialList)
+        {
+            Destroy(material.gameObject);
+        }
+        materialList = new();
     }
 
     private void TransferItem(Transform item, bool isIncoming)
@@ -130,12 +140,12 @@ public class Grinder : CraftingGear
 
         item.parent = isIncoming ? materials : benchMaterials;
         item.position = isIncoming ? new(materials.position.x, materials.position.y, materials.position.z) : benchMaterials.position;
-        item.tag = isIncoming ? "Untagged" : "Drag";
+        item.tag = isIncoming ? Tags.Untagged : Tags.Drag;
     }
 
     public override void OnPutBack()
     {
-        gameObject.GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
         transform.localPosition = new(0, 0, 0);
     }
 }

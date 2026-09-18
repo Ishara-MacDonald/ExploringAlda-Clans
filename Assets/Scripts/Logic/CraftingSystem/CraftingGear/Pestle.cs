@@ -46,7 +46,7 @@ public class Pestle : MonoBehaviour
 
     public void MoveOriginalSpot()
     {
-        transform.tag = "Pestle";
+        transform.tag = Tags.Pestle;
         transform.parent = pestleLocation;
         transform.SetPositionAndRotation(pestleLocation.position, pestleLocation.rotation);
     }
@@ -55,7 +55,7 @@ public class Pestle : MonoBehaviour
     {
         transform.parent = grinder.gameObject.transform;
         transform.SetPositionAndRotation(grinder.gameObject.transform.position, Quaternion.Euler(-30, 0, 30));
-        transform.tag = "Untagged";
+        transform.tag = Tags.Untagged;
     }
 
     public bool CanMove()

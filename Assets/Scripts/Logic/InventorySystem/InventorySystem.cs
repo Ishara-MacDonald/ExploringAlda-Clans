@@ -17,12 +17,12 @@ public class InventorySystem : MonoBehaviour
 
     public bool HasItem(ItemDataSO item)
     {
-        return slots.Find((slot) => slot.GetItem.Equals(item)) is not null;
+        return slots.Find((slot) => slot.Item.Equals(item)) != null;
     }
 
     public void AddItem(ItemDataSO item, int amount = 1)
     {
-        InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
+        InventorySlot foundSlot = slots.Find(slot => slot.Item == item);
         if (foundSlot == null)
             slots.Add(new InventorySlot(item, amount));
         else
@@ -33,10 +33,10 @@ public class InventorySystem : MonoBehaviour
 
     public void RemoveItem(ItemDataSO item, int amount = 1)
     {
-        InventorySlot foundSlot = slots.Find(slot => slot.GetItem == item);
+        InventorySlot foundSlot = slots.Find(slot => slot.Item == item);
         if (foundSlot == null) return;
 
-        if (foundSlot.GetAmount <= amount) slots.Remove(foundSlot);
+        if (foundSlot.Amount <= amount) slots.Remove(foundSlot);
         else foundSlot.RemoveAmount(amount);
     }
 }

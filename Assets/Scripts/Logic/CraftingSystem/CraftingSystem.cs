@@ -12,7 +12,7 @@ public enum CraftingMethod
 [Serializable]
 public class CraftingSystem
 {
-    public static CraftingSystem craftingSystem;
+    public static CraftingSystem Instance;
 
     private CraftingTable currentTable;
     private List<ItemDataSO> craftingItems;
@@ -22,8 +22,8 @@ public class CraftingSystem
 
     public CraftingSystem()
     {
-        if (craftingSystem != null) return;
-        craftingSystem = this;
+        if (Instance != null) return;
+        Instance = this;
         craftingItems = new();
         currentMethod = CraftingMethod.Picking;
         recipeList = new();
@@ -32,8 +32,8 @@ public class CraftingSystem
     public void OnCraftingTableOpen(CraftingTable craftingTable)
     {
         currentTable = craftingTable;
-        recipeBookRef = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRecipeBook>();
-        recipeList = recipeBookRef.GetRecipes(CraftingMethod.Picking);
+        recipeBookRef = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<PlayerRecipeBook>();
+        recipeList = recipeBookRef.GetRecipes(currentMethod);
     }
 
     public void OnCraftingTableClose()
@@ -69,8 +69,17 @@ public class CraftingSystem
         LogicManager.manager.OnCraftingItemsStaged();
     }
 
-    // How many of this item are staged, but not yet removed from real inventory.
-    public int GetStagedAmount(ItemDataSO item) => craftingItems.Count(i => i.Equals(item));
+    // Tally of staged-but-not-yet-removed-from-inventory amounts, per item.
+    public Dictionary<ItemDataSO, int> GetStagedAmounts()
+    {
+        Dictionary<ItemDataSO, int> tally = new();
+        foreach (ItemDataSO item in craftingItems)
+        {
+            tally.TryGetValue(item, out int count);
+            tally[item] = count + 1;
+        }
+        return tally;
+    }
 
     // Called when a staged item is consumed, so bookkeeping doesn't outlive it.
     public void ReleaseStagedItem(ItemDataSO item)

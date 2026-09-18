@@ -12,7 +12,7 @@ public class LogicManager : MonoBehaviour
     void Awake()
     {
         manager = this;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
         new CraftingSystem();
         playerManager = player.GetComponent<PlayerManager>();
     }
@@ -57,5 +57,5 @@ public class LogicManager : MonoBehaviour
     public void OnCraftingItemClicked(ItemDataSO item, int amount) => CraftingSystemManager.Instance.AddItem(item, amount);
     public void OnCraftingReset() => CraftingSystemManager.Instance.OnResetItems();
     public void OnCraftingTableClosed() => CraftingSystemManager.Instance.OnCraftingTableClose();
-    public int GetCraftingStagedAmount(ItemDataSO item) => CraftingSystemManager.Instance.GetStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => CraftingSystemManager.Instance.GetStagedAmounts();
 }

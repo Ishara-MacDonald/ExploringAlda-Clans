@@ -280,6 +280,7 @@ MonoBehaviour:
   materials: {fileID: 82025282}
   bookPage: {fileID: 684872593}
   craftingStation: {fileID: 694195599}
+  grinder: {fileID: 66640228}
 --- !u!114 &21628273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1980,7 +1981,7 @@ Transform:
   m_GameObject: {fileID: 101044958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7309634, z: -0, w: 0.68241674}
-  m_LocalPosition: {x: -3.5, y: 5.77, z: -11.29}
+  m_LocalPosition: {x: -3.5, y: 5.83, z: -11.29}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2015,6 +2016,7 @@ MonoBehaviour:
   jumpGravity: -18
   jumpPower: 6
   glidingVelocity: -3
+  minGlideHeight: 2
 --- !u!143 &101044966
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2658,6 +2660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cc403ff1c573d42a58e3095768c3c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PopUpBanner
+  displayDuration: 5
   titleTxt: {fileID: 1449871101}
   subtitleTxt: {fileID: 1237157653}
 --- !u!1 &134579420
@@ -4868,7 +4871,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0.029033866, y: 0.6376425, z: 0.024061618, w: 0.76940894}
-  m_LocalPosition: {x: -10.406758, y: 5.9179296, z: -8.540977}
+  m_LocalPosition: {x: -10.406758, y: 5.9779296, z: -8.540977}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11584,7 +11587,7 @@ Transform:
   m_GameObject: {fileID: 1001791199}
   serializedVersion: 2
   m_LocalRotation: {x: -0.02903387, y: 0.6376425, z: 0.024061617, w: 0.769409}
-  m_LocalPosition: {x: -10.406758, y: 5.9179296, z: -8.540977}
+  m_LocalPosition: {x: -10.406758, y: 5.9779296, z: -8.540977}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

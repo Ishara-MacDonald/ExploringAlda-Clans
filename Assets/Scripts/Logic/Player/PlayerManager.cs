@@ -1,16 +1,14 @@
 using UnityEngine;
 
 // Landing point for player input intents pushed from PlayerVisualManager via LogicManager.
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : SingletonManager<PlayerManager>
 {
-    public static PlayerManager Instance;
-
     private PlayerMovement playerMovement;
     private PlayerInventory playerInventory;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         playerMovement = GetComponent<PlayerMovement>();
         playerInventory = GetComponent<PlayerInventory>();
     }

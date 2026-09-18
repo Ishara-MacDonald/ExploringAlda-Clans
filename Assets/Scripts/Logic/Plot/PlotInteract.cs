@@ -21,7 +21,7 @@ public class PlotInteract : Interactable
             }
             else
             {
-                if (!objectRequired) return;
+                if (objectRequired == null) return;
                 LogicManager.manager.ShowNotification("Missing " + objectRequired.itemName);
                 return;
             }

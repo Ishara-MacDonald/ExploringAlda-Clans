@@ -1,16 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Landing point for crafting-table drag intents. Lives on Crafting Table, unlike stateless InteractionSystemManager.
 [RequireComponent(typeof(Grabber))]
-public class CraftingSystemManager : MonoBehaviour
+public class CraftingSystemManager : SingletonManager<CraftingSystemManager>
 {
-    public static CraftingSystemManager Instance;
-
     private Grabber grabber;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         grabber = GetComponent<Grabber>();
     }
 
@@ -22,8 +21,8 @@ public class CraftingSystemManager : MonoBehaviour
     public void SecondaryAction() => grabber.SecondaryAction();
 
     // Bridges the recipe/staging singleton — a different concern, but still Crafting's.
-    public void AddItem(ItemDataSO item, int amount) => CraftingSystem.craftingSystem.AddItem(item, amount);
-    public void OnResetItems() => CraftingSystem.craftingSystem.OnResetItems();
-    public void OnCraftingTableClose() => CraftingSystem.craftingSystem.OnCraftingTableClose();
-    public int GetStagedAmount(ItemDataSO item) => CraftingSystem.craftingSystem.GetStagedAmount(item);
+    public void AddItem(ItemDataSO item, int amount) => CraftingSystem.Instance.AddItem(item, amount);
+    public void OnResetItems() => CraftingSystem.Instance.OnResetItems();
+    public void OnCraftingTableClose() => CraftingSystem.Instance.OnCraftingTableClose();
+    public Dictionary<ItemDataSO, int> GetStagedAmounts() => CraftingSystem.Instance.GetStagedAmounts();
 }

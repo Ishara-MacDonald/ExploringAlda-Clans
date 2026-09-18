@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -24,15 +25,16 @@ public class VisualManager : MonoBehaviour
     void Awake()
     {
         manager = this;
-        mainCamera = GameObject.FindGameObjectWithTag("FreeLookCamera").GetComponent<CinemachineInputAxisController>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerCam = GameObject.FindGameObjectWithTag("FreeLookCamera");
+        InventoryVisualManager.Instance = inventoryVisualManager;
+        QuestVisualManager.Instance = questVisualManager;
+        mainCamera = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera).GetComponent<CinemachineInputAxisController>();
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
+        playerCam = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera);
         interactionVisualManager = player.GetComponent<InteractionVisualManager>();
     }
 
     void Start()
     {
-        // Deferred to Start: Awake() order isn't guaranteed, LogicManager.manager could be null here.
         InMenu();
     }
 
@@ -122,7 +124,7 @@ public class VisualManager : MonoBehaviour
     public void OnCraftingItemClicked(ItemDataSO item, int amount) => LogicManager.manager.OnCraftingItemClicked(item, amount);
     public void OnCraftingReset() => LogicManager.manager.OnCraftingReset();
     public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
-    public int GetCraftingStagedAmount(ItemDataSO item) => LogicManager.manager.GetCraftingStagedAmount(item);
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => LogicManager.manager.GetCraftingStagedAmounts();
 
     public void ShowNotification(string text) => popupsVisualManager.ShowNotification(text);
     public void ShowItemAddedNotification(ItemDataSO item) => popupsVisualManager.ShowItemAddedNotification(item);
