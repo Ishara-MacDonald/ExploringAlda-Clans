@@ -70,6 +70,7 @@ public class InteractionVisualManager : SingletonManager<InteractionVisualManage
 
     private void OnDisable()
     {
+        interactAction.started -= OnInteract;
         interactAction.Disable();
     }
 

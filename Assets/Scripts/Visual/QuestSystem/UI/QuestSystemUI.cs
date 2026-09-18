@@ -7,10 +7,12 @@ public class QuestSystemUI : MonoBehaviour
 
     [SerializeField] private QuestInfoUI questInfoUI;
     private List<QuestProgress> questsProgresses;
+    private static GameObject questPreviewPrefab;
 
     void Awake()
     {
         questsProgresses = new();
+        questPreviewPrefab ??= (GameObject)Resources.Load("UI/QuestPreview");
     }
 
     public void OnOpenQuestList(List<QuestProgress> quests)
@@ -28,7 +30,7 @@ public class QuestSystemUI : MonoBehaviour
                 if (questProgress.IsNew) questLineToShow = questProgress;
                 if (questsProgresses.Contains(questProgress)) continue;
 
-                GameObject questPreview = Instantiate((GameObject)Resources.Load("UI/QuestPreview"), content.position, content.rotation, content);
+                GameObject questPreview = Instantiate(questPreviewPrefab, content.position, content.rotation, content);
                 QuestPreviewUI previewUI = questPreview.GetComponent<QuestPreviewUI>();
                 previewUI.SetQuestPreviewUI(questProgress);
                 questsProgresses.Add(questProgress);

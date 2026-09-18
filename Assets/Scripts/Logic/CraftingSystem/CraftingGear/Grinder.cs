@@ -12,10 +12,12 @@ public class Grinder : CraftingGear
     private List<CraftingMaterial> materialList;
     private bool isUsed = false;
     private Transform parent;
+    private Collider gearCollider;
 
     void Start()
     {
         materialList = new();
+        gearCollider = GetComponent<Collider>();
     }
 
     void OnEnable()
@@ -43,7 +45,7 @@ public class Grinder : CraftingGear
 
     private void OnEnableColliders()
     {
-        GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
         Grabber.OnLetGoItem -= OnEnableColliders;
     }
 
@@ -52,7 +54,7 @@ public class Grinder : CraftingGear
         if (materialList.Count > 0)
         {
             Grabber.OnLetGoItem += OnEnableColliders;
-            GetComponent<Collider>().enabled = false;
+            gearCollider.enabled = false;
             CraftingMaterial material = materialList[0];
             materialList.Remove(material);
             TransferItem(material.transform, false);
@@ -65,7 +67,7 @@ public class Grinder : CraftingGear
     {
         if (!pestle.IsBeingUsed)
         {
-            gameObject.GetComponent<Collider>().enabled = false;
+            gearCollider.enabled = false;
             pestle.ToGrinder(this);
             return true;
         }
@@ -109,7 +111,7 @@ public class Grinder : CraftingGear
         }
 
         transform.localPosition = new(0, 0, 0);
-        gameObject.GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
     }
 
     public void OnMaterialReset()
@@ -143,7 +145,7 @@ public class Grinder : CraftingGear
 
     public override void OnPutBack()
     {
-        gameObject.GetComponent<Collider>().enabled = true;
+        gearCollider.enabled = true;
         transform.localPosition = new(0, 0, 0);
     }
 }

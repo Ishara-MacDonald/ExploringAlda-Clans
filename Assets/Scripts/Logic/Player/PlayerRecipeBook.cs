@@ -13,6 +13,9 @@ public class PlayerRecipeBook : MonoBehaviour
 
     public List<Recipe> GetRecipes(CraftingMethod method)
     {
-        return recipeBook[method];
+        if (recipeBook.TryGetValue(method, out List<Recipe> recipes)) return recipes;
+
+        Debug.LogWarning($"No recipe book entry for {method} — check the recipe book Inspector setup.");
+        return new List<Recipe>();
     }
 }
