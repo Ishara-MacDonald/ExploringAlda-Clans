@@ -16,7 +16,7 @@ public class DebugTPPoint : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
     }
 
     private void OnEnable()

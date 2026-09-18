@@ -1,0 +1,158 @@
+using System.Collections.Generic;
+using Unity.Cinemachine;
+using UnityEngine;
+
+// Visual-side top hub; owns UI/camera refs and menu state. Only class that calls LogicManager.
+public class VisualManager : MonoBehaviour
+{
+    public static VisualManager manager;
+    public static bool questUIOpen = false;
+    public static bool inventoryUIOpen = false;
+    public static bool craftingUIOpen = false;
+
+    private CinemachineInputAxisController mainCamera;
+
+    [SerializeField] private InventoryVisualManager inventoryVisualManager;
+    [SerializeField] private QuestVisualManager questVisualManager;
+    [SerializeField] private PopupsVisualManager popupsVisualManager;
+    [SerializeField] private CraftingVisualManager craftingVisualManager;
+
+    private GameObject player;
+    private GameObject playerCam;
+    private GameObject tempCam;
+    private InteractionVisualManager interactionVisualManager;
+
+    void Awake()
+    {
+        manager = this;
+        InventoryVisualManager.Instance = inventoryVisualManager;
+        QuestVisualManager.Instance = questVisualManager;
+        mainCamera = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera).GetComponent<CinemachineInputAxisController>();
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
+        playerCam = GameObject.FindGameObjectWithTag(Tags.FreeLookCamera);
+        interactionVisualManager = player.GetComponent<InteractionVisualManager>();
+    }
+
+    void Start()
+    {
+        InMenu();
+    }
+
+    private void InMenu()
+    {
+        bool isInMenu = questUIOpen || inventoryUIOpen || craftingUIOpen;
+        Cursor.visible = isInMenu;
+        Cursor.lockState = isInMenu ? CursorLockMode.None : CursorLockMode.Locked;
+        mainCamera.enabled = !isInMenu;
+        LogicManager.manager.SetMovementEnabled(!isInMenu);
+    }
+
+    public void ShowCompletedBanner(QuestLine questLine) => popupsVisualManager.ShowCompletedBanner(questLine);
+
+    public void OnQuestListToggle()
+    {
+        if (craftingUIOpen) return;
+        questUIOpen = !questUIOpen;
+        if (questUIOpen && inventoryUIOpen)
+        {
+            CloseInventory();
+        }
+        questVisualManager.SetPanelActive(questUIOpen);
+        if (questUIOpen)
+            questVisualManager.PopulateQuestList(LogicManager.manager.GetQuests());
+
+        InMenu();
+    }
+
+    public void SetPlayerMoveInput(Vector2 moveInput) => LogicManager.manager.SetPlayerMoveInput(moveInput);
+    public void SetPlayerSprintEnabled(bool enabled) => LogicManager.manager.SetPlayerSprintEnabled(enabled);
+    public void TryPlayerJump() => LogicManager.manager.TryPlayerJump();
+    public void OnInteract(Interactable interactable) => LogicManager.manager.OnInteract(interactable);
+
+    public bool HasCraftingSelection() => LogicManager.manager.HasCraftingSelection();
+    public void OnCraftingQuickGrab(GameObject hit) => LogicManager.manager.OnCraftingQuickGrab(hit);
+    public void OnCraftingLongGrab(GameObject hit) => LogicManager.manager.OnCraftingLongGrab(hit);
+    public void OnCraftingRelease(GameObject putBackHit) => LogicManager.manager.OnCraftingRelease(putBackHit);
+    public void OnCraftingDrag(Vector3 targetPosition) => LogicManager.manager.OnCraftingDrag(targetPosition);
+    public void OnCraftingSecondaryAction() => LogicManager.manager.OnCraftingSecondaryAction();
+
+    public void OnInventoryToggle()
+    {
+        if (craftingUIOpen) return;
+        if (inventoryUIOpen) CloseInventory();
+        else OpenInventory();
+    }
+
+    private void OpenInventory()
+    {
+        if (craftingUIOpen) return;
+        if (questUIOpen)
+        {
+            OnQuestListToggle();
+        }
+        inventoryVisualManager.ShowPanel();
+        inventoryVisualManager.OpenInventory(LogicManager.manager.GetPlayerInventorySystem());
+        inventoryUIOpen = true;
+        InMenu();
+    }
+
+    public void CloseInventory()
+    {
+        if (craftingUIOpen) return;
+        inventoryVisualManager.CloseInventory();
+        inventoryVisualManager.HidePanel();
+        inventoryUIOpen = false;
+        InMenu();
+    }
+
+    public void OnCraftingToggle(CinemachineClearShot craftingCam)
+    {
+        if (!craftingUIOpen)
+        {
+            OnCraftingOpen(craftingCam);
+        }
+        else
+        {
+            OnCraftingClose();
+        }
+    }
+
+    public void OnAddProcessItem(ItemDataSO item) { craftingVisualManager.AddProcessedItem(item); }
+    public void OnRemoveItem(ItemDataSO item) { craftingVisualManager.RemoveItem(item); }
+    public void OnCraftingItemsStaged() => craftingVisualManager.RefreshInventoryDisplay();
+
+    public void OnCraftingItemClicked(ItemDataSO item, int amount) => LogicManager.manager.OnCraftingItemClicked(item, amount);
+    public void OnCraftingReset() => LogicManager.manager.OnCraftingReset();
+    public void OnCraftingTableClosed() => LogicManager.manager.OnCraftingTableClosed();
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => LogicManager.manager.GetCraftingStagedAmounts();
+
+    public void ShowNotification(string text) => popupsVisualManager.ShowNotification(text);
+    public void ShowItemAddedNotification(ItemDataSO item) => popupsVisualManager.ShowItemAddedNotification(item);
+    public void ShowObjectiveCompletedNotification(QuestObjective objective) => popupsVisualManager.ShowObjectiveCompletedNotification(objective);
+    public void ShowObjectiveProgressedNotification(string itemName, int hasAmount, int neededAmount) => popupsVisualManager.ShowObjectiveProgressedNotification(itemName, hasAmount, neededAmount);
+
+    private void OnCraftingOpen(CinemachineClearShot craftingCam)
+    {
+        tempCam = craftingCam.gameObject;
+        craftingUIOpen = true;
+        interactionVisualManager.SetShown(false);
+        craftingVisualManager.SetActive(true);
+        playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 1;
+        craftingCam.Priority = 90;
+        craftingVisualManager.ShowPanel();
+        if (inventoryUIOpen) CloseInventory();
+        if (questUIOpen) OnQuestListToggle();
+        craftingVisualManager.PopulatePanel(LogicManager.manager.GetPlayerInventorySystem());
+        InMenu();
+    }
+
+    public void OnCraftingClose()
+    {
+        craftingUIOpen = false;
+        interactionVisualManager.SetShown(true);
+        craftingVisualManager.SetActive(false);
+        playerCam.GetComponent<CinemachineVirtualCameraBase>().Priority = 90;
+        tempCam.GetComponent<CinemachineClearShot>().Priority = 1;
+        InMenu();
+    }
+}

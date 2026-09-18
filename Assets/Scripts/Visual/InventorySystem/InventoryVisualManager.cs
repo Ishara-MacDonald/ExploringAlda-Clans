@@ -1,0 +1,17 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+// Visual manager for the main inventory UI, on "InventorySystem" (not "SimpleInventorySystem").
+public class InventoryVisualManager : SingletonManager<InventoryVisualManager>
+{
+    // Serialized, not GetComponent: this GameObject starts inactive, so Awake() won't fire.
+    [SerializeField] private InventoryUI inventoryUI;
+
+    public void ShowPanel() => inventoryUI.gameObject.SetActive(true);
+    public void HidePanel() => inventoryUI.gameObject.SetActive(false);
+    public void OpenInventory(InventorySystem system) => inventoryUI.OnOpenInventory(system);
+    public void CloseInventory() => inventoryUI.OnCloseInventory();
+
+    // Cross-system query — routes through the top hub, like Logic-side managers reaching LogicManager.
+    public Dictionary<ItemDataSO, int> GetCraftingStagedAmounts() => VisualManager.manager.GetCraftingStagedAmounts();
+}
